@@ -38,6 +38,7 @@ namespace Kunstharz {
 			}
 
 			float alpha = (flyDuration - remainingFlyDuration) / flyDuration;
+			alpha = Mathf.SmoothStep (0f, 1f, alpha);
 
 			transform.position = Vector3.Lerp (flyStartPosition, flyTargetPosition, alpha);
 			transform.rotation = Quaternion.Lerp (flyStartOrientation, flyTargetOrientation, alpha);
