@@ -7,6 +7,7 @@ namespace Kunstharz {
 
 		public float flyVelocity = 50.0f;
 		public float rotationSensitivity = 10.0f;
+		public float afterFlyIdleTime = 0.2f;
 		public ControlState state = ControlState.DecidingTurn;
 
 		private ControlState flyTargetState;
@@ -32,22 +33,26 @@ namespace Kunstharz {
 		void ExecuteTurn () {
 			remainingFlyDuration -= Time.deltaTime;
 
-			if (remainingFlyDuration < 0.02) {
-				remainingFlyDuration = 0;
-				state = flyTargetState;
+			if (remainingFlyDuration > 0.02) {
+				float alpha = (flyDuration - remainingFlyDuration) / flyDuration;
+				alpha = Mathf.SmoothStep (0f, 1f, alpha);
+
+				transform.position = Vector3.Lerp (flyStartPosition, flyTargetPosition, alpha);
+				transform.rotation = Quaternion.Lerp (flyStartOrientation, flyTargetOrientation, alpha);
+			} else {
+				transform.position = flyTargetPosition;
+				transform.rotation = flyTargetOrientation;
+
+				if (-remainingFlyDuration > afterFlyIdleTime) {
+					state = flyTargetState;
+					SendMessageUpwards ("TurnFinished");
+				}
 			}
-
-			float alpha = (flyDuration - remainingFlyDuration) / flyDuration;
-			alpha = Mathf.SmoothStep (0f, 1f, alpha);
-
-			transform.position = Vector3.Lerp (flyStartPosition, flyTargetPosition, alpha);
-			transform.rotation = Quaternion.Lerp (flyStartOrientation, flyTargetOrientation, alpha);
 		}
 
 		void HandleInput () {
-			HandleRotationInput ();
-
 			if (state == ControlState.DecidingTurn || state == ControlState.Twitch) {
+				HandleRotationInput ();
 				HandleFlyInput ();
 			}
 		}
@@ -60,6 +65,7 @@ namespace Kunstharz {
 			angles.x += -vertical * rotationSensitivity;
 			angles.y += horizontal * rotationSensitivity;
 			angles.z = 0.0f;
+
 			transform.rotation = Quaternion.Euler(angles);
 		}
 
@@ -72,7 +78,7 @@ namespace Kunstharz {
 
 		void Fly () {
 			RaycastHit hit;
-			if (Physics.Raycast (transform.position, transform.forward, out hit)) {
+			if (Physics.Raycast (transform.position + 0.638f*transform.forward, transform.forward, out hit)) {
 				flyStartPosition = transform.position;
 				flyTargetPosition = hit.point;
 
