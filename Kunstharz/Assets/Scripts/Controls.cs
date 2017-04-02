@@ -13,6 +13,7 @@ public class Controls : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cam = GetComponentInChildren<Camera> ();
+		Cursor.visible = false;
 	}
 	
 	// Update is called once per frame
