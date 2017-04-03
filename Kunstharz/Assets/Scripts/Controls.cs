@@ -20,6 +20,9 @@ namespace Kunstharz {
 		private float flyDuration;
 		private float remainingFlyDuration;
 
+		private float leftRightAngle = 0;
+		private float topDownAngle = 0;
+
 		void Start () {
 			Cursor.visible = false;
 		}
@@ -68,15 +71,23 @@ namespace Kunstharz {
 			float horizontal = Input.GetAxis ("Mouse X");
 			float vertical = Input.GetAxis ("Mouse Y");
 
-			Vector3 angles = transform.rotation.eulerAngles;
+			leftRightAngle = Mathf.MoveTowardsAngle (leftRightAngle, leftRightAngle + horizontal * rotationSensitivity, 361.0f);
+			topDownAngle = Mathf.Clamp (topDownAngle - vertical * rotationSensitivity, -10.0f, 90.0f + 45.0f);
+
+			Quaternion leftRightRotation = Quaternion.AngleAxis (leftRightAngle, Vector3.forward);
+			Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);
+
+			transform.localRotation = leftRightRotation * topDownRotation;
+
+			/*Vector3 angles = transform.rotation.eulerAngles;
 			angles.x += -vertical * rotationSensitivity;
 			angles.y += horizontal * rotationSensitivity;
-			angles.z = 0.0f;
+			angles.z = 0.0f;*/
 
 			//angles.x = Mathf.Clamp (angles.x, -92, 0); 
 			//angles.y = Mathf.Clamp (angles.y, -90, 90); 
 
-			transform.rotation = Quaternion.Euler(angles);
+			//transform.rotation = Quaternion.Euler(angles);
 			//GetComponent<Rigidbody> ().MoveRotation(Quaternion.Euler(angles));
 
 			//rotation = Quaternion.Euler(angles);
@@ -99,7 +110,14 @@ namespace Kunstharz {
 				flyTargetOrientation = Quaternion.FromToRotation (Vector3.forward, hit.normal);
 
 				flyStartOrientationCam = transform.localRotation;
-				flyTargetOrientationCam = Quaternion.identity;
+
+				leftRightAngle = 0;
+				topDownAngle = 10;
+
+				Quaternion leftRightRotation = Quaternion.AngleAxis (leftRightAngle, Vector3.forward);
+				Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);
+
+				flyTargetOrientationCam = leftRightRotation * topDownRotation;
 
 				float flyDistance = Vector3.Distance (flyTargetPosition, flyStartPosition);
 				remainingFlyDuration = flyDuration = flyDistance / flyVelocity;
