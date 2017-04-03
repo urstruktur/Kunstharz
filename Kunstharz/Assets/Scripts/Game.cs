@@ -6,50 +6,10 @@ namespace Kunstharz
 {
 	public class Game : MonoBehaviour
 	{
-		public bool playBothPlayers = false;
-		public bool skipSecondPlayer = true;
-
-		private Controls[] playerControls;
-
-		private int lastActivePlayerIdx;
-		private int activePlayerIdx {
-			get {
-				int idx = 0;
-				foreach (Controls controls in playerControls) {
-					if (controls.state == ControlState.DecidingTurn) {
-						return idx;
-					}
-					++idx;
-				}
-				return -1;
-			}
-
-			set {
-				foreach (Controls controls in playerControls) {
-					controls.state = ControlState.FinishedTurn;
-					controls.transform.Find ("Mesh").GetComponent<Renderer> ().enabled = true;
-					controls.transform.Find ("Crosshair").GetComponent<Renderer> ().enabled = false;
-				}
-
-				var activePlayer = playerControls [value];
-
-				activePlayer.state = ControlState.DecidingTurn;
-				activePlayer.transform.Find ("Mesh").GetComponent<Renderer> ().enabled = false;
-				activePlayer.transform.Find ("Crosshair").GetComponent<Renderer> ().enabled = true;
-
-				if (playBothPlayers) {
-					GiveCameraToPlayer (value);
-				}
-
-				lastActivePlayerIdx = value;
-			}
-		}
+		private Player[] playerControls;
 
 		void Start () {
-			playerControls = GetComponentsInChildren<Controls> ();
-			// Its the turn of player 1
-			activePlayerIdx = 0;
-
+			playerControls = GetComponentsInChildren<Player> ();
 			GiveCameraToPlayer (0);
 		}
 
@@ -63,14 +23,11 @@ namespace Kunstharz
 			camTransform.parent = activePlayer.transform;
 			camTransform.localPosition = pos;
 			camTransform.localRotation = orientation;
+
+			camTransform.GetComponent<Controls> ().state = ControlState.Twitch;
 		}
 
 		void TurnFinished () {
-			if (skipSecondPlayer) {
-				activePlayerIdx = 0;
-			} else {
-				activePlayerIdx = (lastActivePlayerIdx + 1) % playerControls.Length;
-			}
 		}
 	}
 }

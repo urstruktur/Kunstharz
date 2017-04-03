@@ -15,6 +15,8 @@ namespace Kunstharz {
 		private Vector3 flyTargetPosition;
 		private Quaternion flyStartOrientation;
 		private Quaternion flyTargetOrientation;
+		private Quaternion flyStartOrientationCam;
+		private Quaternion flyTargetOrientationCam;
 		private float flyDuration;
 		private float remainingFlyDuration;
 
@@ -37,15 +39,20 @@ namespace Kunstharz {
 				float alpha = (flyDuration - remainingFlyDuration) / flyDuration;
 				alpha = Mathf.SmoothStep (0f, 1f, alpha);
 
-				transform.position = Vector3.Lerp (flyStartPosition, flyTargetPosition, alpha);
-				transform.rotation = Quaternion.Lerp (flyStartOrientation, flyTargetOrientation, alpha);
+				transform.parent.position = Vector3.Lerp (flyStartPosition, flyTargetPosition, alpha);
+				transform.parent.rotation = Quaternion.Lerp (flyStartOrientation, flyTargetOrientation, alpha);
+				transform.localRotation = Quaternion.Lerp (flyStartOrientationCam, flyTargetOrientationCam, alpha);
+
+				Input.GetAxis ("Mouse X");
+				Input.GetAxis ("Mouse Y");
 			} else {
-				transform.position = flyTargetPosition;
-				transform.rotation = flyTargetOrientation;
+				//Debug.Break ();
+				//transform.parent.position = flyTargetPosition;
+				//transform.parent.rotation = flyTargetOrientation;
 
 				if (-remainingFlyDuration > afterFlyIdleTime) {
 					state = flyTargetState;
-					SendMessageUpwards ("TurnFinished");
+					//SendMessageUpwards ("TurnFinished");
 				}
 			}
 		}
@@ -66,7 +73,13 @@ namespace Kunstharz {
 			angles.y += horizontal * rotationSensitivity;
 			angles.z = 0.0f;
 
+			//angles.x = Mathf.Clamp (angles.x, -92, 0); 
+			//angles.y = Mathf.Clamp (angles.y, -90, 90); 
+
 			transform.rotation = Quaternion.Euler(angles);
+			//GetComponent<Rigidbody> ().MoveRotation(Quaternion.Euler(angles));
+
+			//rotation = Quaternion.Euler(angles);
 		}
 
 		void HandleFlyInput () {
@@ -78,12 +91,15 @@ namespace Kunstharz {
 
 		void Fly () {
 			RaycastHit hit;
-			if (Physics.Raycast (transform.position + 0.638f*transform.forward, transform.forward, out hit)) {
-				flyStartPosition = transform.position;
+			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
+				flyStartPosition = transform.parent.position;
 				flyTargetPosition = hit.point;
 
-				flyStartOrientation = transform.rotation;
+				flyStartOrientation = transform.parent.rotation;
 				flyTargetOrientation = Quaternion.FromToRotation (Vector3.forward, hit.normal);
+
+				flyStartOrientationCam = transform.localRotation;
+				flyTargetOrientationCam = Quaternion.identity;
 
 				float flyDistance = Vector3.Distance (flyTargetPosition, flyStartPosition);
 				remainingFlyDuration = flyDuration = flyDistance / flyVelocity;
