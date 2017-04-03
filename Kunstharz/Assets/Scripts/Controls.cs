@@ -24,7 +24,7 @@ namespace Kunstharz {
 		private float topDownAngle = 0;
 
 		void Start () {
-			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
 		}
 
 		void Update () {
@@ -49,13 +49,9 @@ namespace Kunstharz {
 				Input.GetAxis ("Mouse X");
 				Input.GetAxis ("Mouse Y");
 			} else {
-				//Debug.Break ();
-				//transform.parent.position = flyTargetPosition;
-				//transform.parent.rotation = flyTargetOrientation;
-
 				if (-remainingFlyDuration > afterFlyIdleTime) {
 					state = flyTargetState;
-					//SendMessageUpwards ("TurnFinished");
+					SendMessageUpwards ("TurnFinished");
 				}
 			}
 		}
@@ -78,19 +74,6 @@ namespace Kunstharz {
 			Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);
 
 			transform.localRotation = leftRightRotation * topDownRotation;
-
-			/*Vector3 angles = transform.rotation.eulerAngles;
-			angles.x += -vertical * rotationSensitivity;
-			angles.y += horizontal * rotationSensitivity;
-			angles.z = 0.0f;*/
-
-			//angles.x = Mathf.Clamp (angles.x, -92, 0); 
-			//angles.y = Mathf.Clamp (angles.y, -90, 90); 
-
-			//transform.rotation = Quaternion.Euler(angles);
-			//GetComponent<Rigidbody> ().MoveRotation(Quaternion.Euler(angles));
-
-			//rotation = Quaternion.Euler(angles);
 		}
 
 		void HandleFlyInput () {
