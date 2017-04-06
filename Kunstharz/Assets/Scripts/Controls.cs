@@ -102,7 +102,7 @@ namespace Kunstharz {
 				flyStartOrientationCam = transform.localRotation;
 
 				//leftRightAngle = -leftRightAngle;
-				//topDownAngle = 10;
+				topDownAngle = 10;
 
 				Quaternion leftRightRotation = Quaternion.AngleAxis (leftRightAngle, Vector3.forward);
 				Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);

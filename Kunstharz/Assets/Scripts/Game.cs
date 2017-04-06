@@ -6,6 +6,7 @@ namespace Kunstharz
 {
 	public class Game : MonoBehaviour
 	{
+		private List<Player> players = new List<Player> ();
 		private List<Transform> availableSpawnLocs = new List<Transform>();
 
 		void Start() {
@@ -18,6 +19,9 @@ namespace Kunstharz
 		}
 
 		void PlayerJoined(Player player) {
+			int newPlayerIdx = players.Count;
+			players.Add (player);
+
 			if (player.isLocalPlayer) {
 				GiveCameraToPlayer (player);
 			}
@@ -43,6 +47,24 @@ namespace Kunstharz
 		}
 
 		void TurnFinished () {
+		}
+
+		bool LineOfSightExists() {
+			if (players.Count != 2) { return false; }
+
+			Player p1 = players [0];
+			Player p2 = players [2];
+			Vector3 dir = p2.transform.position - p1.transform.position;
+			RaycastHit hit;
+
+			if (Physics.Raycast (p1.transform.position, dir, out hit, dir.magnitude)) {
+				if (hit.collider.GetComponent<Player> () == p2) {
+					print ("Other player is in line of sight");
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
