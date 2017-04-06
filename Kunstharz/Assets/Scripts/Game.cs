@@ -6,16 +6,11 @@ namespace Kunstharz
 {
 	public class Game : MonoBehaviour
 	{
-		private Player[] playerControls;
-
-		void Start () {
-			playerControls = GetComponentsInChildren<Player> ();
-			GiveCameraToPlayer (0);
+		void PlayerJoined(Player player) {
+			GiveCameraToPlayer (player);
 		}
 
-		void GiveCameraToPlayer(int idx) {
-			var activePlayer = playerControls [idx];
-
+		void GiveCameraToPlayer(Player activePlayer) {
 			Transform camTransform = Camera.main.transform;
 			Vector3 pos = camTransform.localPosition;
 			Quaternion orientation = camTransform.localRotation;
