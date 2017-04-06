@@ -7,7 +7,9 @@ namespace Kunstharz
 	public class Game : MonoBehaviour
 	{
 		void PlayerJoined(Player player) {
-			GiveCameraToPlayer (player);
+			if (player.isLocalPlayer) {
+				GiveCameraToPlayer (player);
+			}
 		}
 
 		void GiveCameraToPlayer(Player activePlayer) {
