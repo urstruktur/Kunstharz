@@ -57,8 +57,14 @@ namespace Kunstharz {
 		}
 
 		void HandleInput () {
-			if (state == ControlState.DecidingTurn || state == ControlState.Twitch) {
+
+			if (state == ControlState.DecidingTurn ||
+			    state == ControlState.Twitch ||
+			    state == ControlState.FinishedTurn) {
 				HandleRotationInput ();
+			}
+
+			if (state == ControlState.DecidingTurn || state == ControlState.Twitch) {
 				HandleFlyInput ();
 			}
 		}
@@ -94,8 +100,8 @@ namespace Kunstharz {
 
 				flyStartOrientationCam = transform.localRotation;
 
-				leftRightAngle = 0;
-				topDownAngle = 10;
+				//leftRightAngle = -leftRightAngle;
+				//topDownAngle = 10;
 
 				Quaternion leftRightRotation = Quaternion.AngleAxis (leftRightAngle, Vector3.forward);
 				Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);
