@@ -24,8 +24,6 @@ namespace Kunstharz {
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
-		GameObject go;
-
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
 		}
@@ -138,11 +136,13 @@ namespace Kunstharz {
 				}
 			}
 
-			if (go != null) {
-				player.CmdDestroy (go);
-			}
+			/*GameObject destroy = GameObject.Find ("Shot(Clone)");
 
-			go = Instantiate(Resources.Load("Prefabs/Shot")) as GameObject;
+			if (destroy != null) {
+				player.CmdDestroy (destroy);
+			}*/
+				
+			GameObject go = Instantiate(Resources.Load("Prefabs/Shot")) as GameObject;
 
 			LineRenderer lineRenderer = go.GetComponent<LineRenderer> ();
 
