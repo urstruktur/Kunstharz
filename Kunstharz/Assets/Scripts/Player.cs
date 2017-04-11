@@ -28,5 +28,15 @@ namespace Kunstharz {
         {
             gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().materials[1].color = Color.green;
         }
+
+		[Command]
+		public void CmdInstantiate(GameObject go) {
+			NetworkServer.Spawn(go);
+		}
+
+		[Command]
+		public void CmdDestroy(GameObject go) {
+			NetworkServer.Destroy(go);
+		}
     }
 }

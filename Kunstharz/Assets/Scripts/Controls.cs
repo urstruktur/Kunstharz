@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Kunstharz {
-	public class Controls : NetworkBehaviour {
+	public class Controls : MonoBehaviour {
 
 		public float flyVelocity = 50.0f;
 		public float rotationSensitivity = 10.0f;
@@ -127,22 +127,19 @@ namespace Kunstharz {
 			}
 		}
 
-		public Color c1 = Color.yellow;
-		public Color c2 = Color.red;
-
 		void CalculateHit() {
-			
+
 			RaycastHit hit;
+			Player player = transform.parent.GetComponent(typeof(Player)) as Player;
 
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
 				if (hit.collider.transform.parent.CompareTag ("Player")) {
-					Player player = transform.parent.GetComponent(typeof(Player)) as Player;
 					player.CmdShot (hit.collider.transform.parent.name);
 				}
 			}
-				
+
 			if (go != null) {
-				NetworkServer.Destroy (go);
+				player.CmdDestroy (go);
 			}
 
 			go = Instantiate(Resources.Load("Prefabs/Shot")) as GameObject;
@@ -155,9 +152,9 @@ namespace Kunstharz {
 				lineRenderer.SetPosition(1, hit.point);
 			} else {
 				lineRenderer.SetPosition(1, transform.forward * 20 + transform.position);
-			}	
+			}
 
-			NetworkServer.Spawn(go);
+			player.CmdInstantiate (go);
 
 		}
 
