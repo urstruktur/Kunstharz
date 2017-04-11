@@ -128,11 +128,16 @@ namespace Kunstharz {
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
 				if (hit.collider.transform.parent.CompareTag ("Player")) {
 					Debug.Log ("Hit");
+
+					Player player = hit.collider.transform.parent.GetComponent (typeof(Player)) as Player;
+					player.shot ();
+
 				} else {
 					Debug.Log ("Miss");
 				}
 			}
 
 		}
+
 	}
 }

@@ -11,5 +11,9 @@ namespace Kunstharz {
 			transform.parent = game;
 			SendMessageUpwards ("PlayerJoined", this);
 		}
+
+		public void shot() {
+			Debug.Log (transform.name + " has been shot!");
+		}
 	}
 }
