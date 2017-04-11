@@ -87,9 +87,13 @@ namespace Kunstharz {
 			if (Input.GetMouseButton (0)) {
 				Fly ();
 			}
+
+			if (Input.GetMouseButtonDown (1)) {
+				Debug.Log ("Shot fired");
+				CalculateHit ();
+			}
 		}
 			
-
 		void Fly () {
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
@@ -116,6 +120,19 @@ namespace Kunstharz {
 
 				state = ControlState.ExecutingTurn;
 			}
+		}
+
+		void CalculateHit() {
+			RaycastHit hit;
+
+			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
+				if (hit.collider.transform.parent.CompareTag ("Player")) {
+					Debug.Log ("Hit");
+				} else {
+					Debug.Log ("Miss");
+				}
+			}
+
 		}
 	}
 }
