@@ -26,7 +26,7 @@ namespace Kunstharz {
         // only executed locally
         public override void OnStartLocalPlayer()
         {
-            GetComponent<MeshRenderer>().material.color = Color.green;
+            gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().materials[1].color = Color.green;
         }
     }
 }
