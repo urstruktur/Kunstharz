@@ -142,21 +142,17 @@ namespace Kunstharz {
 				lineRenderer = gameObject.AddComponent<LineRenderer>();
 			}
 
-			lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+			lineRenderer.material = Resources.Load("Materials/TestMaterial.mat", typeof(Material)) as Material;
 			lineRenderer.widthMultiplier = 0.2f;
 			lineRenderer.positionCount = 2;
 
-			float alpha = 1.0f;
-			Gradient gradient = new Gradient();
-			gradient.SetKeys(
-				new GradientColorKey[] { new GradientColorKey(c1, 0.0f), new GradientColorKey(c2, 1.0f) },
-				new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
-			);
+			lineRenderer.SetPosition(0, (transform.up * - 0.5f) + transform.position);
 
-			lineRenderer.colorGradient = gradient;
-
-			lineRenderer.SetPosition(0, transform.position);
-			lineRenderer.SetPosition(1, transform.forward * 20 + transform.position);
+			if (hit.collider != null) {
+				lineRenderer.SetPosition(1, hit.point);
+			} else {
+				lineRenderer.SetPosition(1, transform.forward * 20 + transform.position);
+			}	
 
 		}
 
