@@ -7,12 +7,14 @@ namespace Kunstharz {
 	public class Player : NetworkBehaviour {
 
 		void Start() {
-			var game = GameObject.Find ("Game").transform;
+            // set player as child of game
+            var game = GameObject.Find ("Game").transform;
 			transform.parent = game;
 			SendMessageUpwards ("PlayerJoined", this);
 		}
 
-		public void shot() {
+        [Command]
+        public void CmdShot() {
 			Debug.Log (transform.name + " has been shot!");
 		}
 	}
