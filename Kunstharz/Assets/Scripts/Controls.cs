@@ -142,7 +142,7 @@ namespace Kunstharz {
 				player.CmdDestroy (destroy);
 			}*/
 				
-			GameObject go = Instantiate(Resources.Load("Prefabs/Shot")) as GameObject;
+			/*GameObject go = Instantiate(Resources.Load("Prefabs/Shot")) as GameObject;
 
 			LineRenderer lineRenderer = go.GetComponent<LineRenderer> ();
 
@@ -154,7 +154,7 @@ namespace Kunstharz {
 				lineRenderer.SetPosition(1, transform.forward * 20 + transform.position);
 			}
 
-			player.CmdInstantiate (go);
+			player.CmdInstantiate (go);*/
 
 		}
 
