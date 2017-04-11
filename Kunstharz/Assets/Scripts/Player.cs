@@ -13,10 +13,10 @@ namespace Kunstharz {
 			SendMessageUpwards ("PlayerJoined", this);
 		}
 
-		/*[Command]
+		[Command]
 		public void CmdShot(string str) {
-			SendMessage (str + " has been shot!");
-		}*/
+			RpcShot (str);
+		}
 
 		[ClientRpc]
 		public void RpcShot(string str) {
