@@ -129,7 +129,7 @@ namespace Kunstharz {
 				if (hit.collider.transform.parent.CompareTag ("Player")) {
 					Debug.Log ("Hit");
 
-					Player player = hit.collider.transform.parent.GetComponent (typeof(Player)) as Player;
+					Player player = transform.parent.GetComponent(typeof(Player)) as Player;
 					player.CmdShot ();
 
 				} else {

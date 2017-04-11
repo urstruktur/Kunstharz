@@ -13,9 +13,9 @@ namespace Kunstharz {
 			SendMessageUpwards ("PlayerJoined", this);
 		}
 
-        [Command]
-        public void CmdShot() {
-			Debug.Log (transform.name + " has been shot!");
+		[Command]
+		public void CmdShot(string str) {
+			Debug.Log (str + " has been shot!");
 		}
 	}
 }
