@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Kunstharz {
-	public class Controls : MonoBehaviour {
+	public class Controls : NetworkBehaviour {
 
 		public float flyVelocity = 50.0f;
 		public float rotationSensitivity = 10.0f;
