@@ -24,6 +24,8 @@ namespace Kunstharz {
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
+		GameObject go;
+
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
 		}
@@ -138,16 +140,14 @@ namespace Kunstharz {
 					player.CmdShot (hit.collider.transform.parent.name);
 				}
 			}
-
-			LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer> ();
-
-			if (lineRenderer == null) {
-				lineRenderer = gameObject.AddComponent<LineRenderer>();
+				
+			if (go != null) {
+				NetworkServer.Destroy (go);
 			}
 
-			lineRenderer.material = Resources.Load("Materials/TestMaterial.mat", typeof(Material)) as Material;
-			lineRenderer.widthMultiplier = 0.2f;
-			lineRenderer.positionCount = 2;
+			go = Instantiate(Resources.Load("Prefabs/Shot")) as GameObject;
+
+			LineRenderer lineRenderer = go.GetComponent<LineRenderer> ();
 
 			lineRenderer.SetPosition(0, (transform.up * - 0.5f) + transform.position);
 
@@ -156,6 +156,8 @@ namespace Kunstharz {
 			} else {
 				lineRenderer.SetPosition(1, transform.forward * 20 + transform.position);
 			}	
+
+			NetworkServer.Spawn(go);
 
 		}
 
