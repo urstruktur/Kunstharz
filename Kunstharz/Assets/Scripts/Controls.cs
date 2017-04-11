@@ -122,20 +122,41 @@ namespace Kunstharz {
 			}
 		}
 
+		public Color c1 = Color.yellow;
+		public Color c2 = Color.red;
+
 		void CalculateHit() {
+			
 			RaycastHit hit;
 
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
 				if (hit.collider.transform.parent.CompareTag ("Player")) {
-					//Debug.Log ("Hit");
-
 					Player player = transform.parent.GetComponent(typeof(Player)) as Player;
 					player.CmdShot (hit.collider.transform.parent.name);
-
-				} else {
-					//Debug.Log ("Miss");
 				}
 			}
+
+			LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer> ();
+
+			if (lineRenderer == null) {
+				lineRenderer = gameObject.AddComponent<LineRenderer>();
+			}
+
+			lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+			lineRenderer.widthMultiplier = 0.2f;
+			lineRenderer.positionCount = 2;
+
+			float alpha = 1.0f;
+			Gradient gradient = new Gradient();
+			gradient.SetKeys(
+				new GradientColorKey[] { new GradientColorKey(c1, 0.0f), new GradientColorKey(c2, 1.0f) },
+				new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
+			);
+
+			lineRenderer.colorGradient = gradient;
+
+			lineRenderer.SetPosition(0, transform.position);
+			lineRenderer.SetPosition(1, transform.forward * 20 + transform.position);
 
 		}
 
