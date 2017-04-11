@@ -13,25 +13,15 @@ namespace Kunstharz {
 			SendMessageUpwards ("PlayerJoined", this);
 		}
 
-		[Command]
+		/*[Command]
 		public void CmdShot(string str) {
-			Debug.Log ("Debug: " + str + " has been shot!");
 			SendMessage (str + " has been shot!");
+		}*/
+
+		[ClientRpc]
+		public void RpcShot(string str) {
+			Debug.Log ("Debug: " + str + " has been shot!");
 		}
 
-		public class MyMsgType {
-			public static short Message = MsgType.Highest + 1;
-		};
-
-		public class ScoreMessage : MessageBase {
-			public string message;
-		}
-
-		public void SendMessage(string strg) {
-			ScoreMessage msg = new ScoreMessage();
-			msg.message = strg;
-
-			NetworkServer.SendToAll(MyMsgType.Message, msg);
-		}
 	}
 }
