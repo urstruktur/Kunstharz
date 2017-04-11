@@ -97,28 +97,31 @@ namespace Kunstharz {
 		void Fly () {
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
-				flyStartPosition = transform.parent.position;
-				flyTargetPosition = hit.point;
+                if (!hit.collider.transform.parent.CompareTag("Player")) // cant fly onto another player
+                {
+                    flyStartPosition = transform.parent.position;
+                    flyTargetPosition = hit.point;
 
-				flyStartOrientation = transform.parent.rotation;
-				flyTargetOrientation = Quaternion.FromToRotation (Vector3.forward, hit.normal);
+                    flyStartOrientation = transform.parent.rotation;
+                    flyTargetOrientation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
 
-				flyStartOrientationCam = transform.localRotation;
+                    flyStartOrientationCam = transform.localRotation;
 
-				//leftRightAngle = -leftRightAngle;
-				topDownAngle = 10;
+                    //leftRightAngle = -leftRightAngle;
+                    topDownAngle = 10;
 
-				Quaternion leftRightRotation = Quaternion.AngleAxis (leftRightAngle, Vector3.forward);
-				Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);
+                    Quaternion leftRightRotation = Quaternion.AngleAxis(leftRightAngle, Vector3.forward);
+                    Quaternion topDownRotation = Quaternion.AngleAxis(topDownAngle, Vector3.right);
 
-				flyTargetOrientationCam = leftRightRotation * topDownRotation;
+                    flyTargetOrientationCam = leftRightRotation * topDownRotation;
 
-				float flyDistance = Vector3.Distance (flyTargetPosition, flyStartPosition);
-				remainingFlyDuration = flyDuration = flyDistance / flyVelocity;
+                    float flyDistance = Vector3.Distance(flyTargetPosition, flyStartPosition);
+                    remainingFlyDuration = flyDuration = flyDistance / flyVelocity;
 
-				flyTargetState = (state == ControlState.DecidingTurn) ? ControlState.FinishedTurn : state;
+                    flyTargetState = (state == ControlState.DecidingTurn) ? ControlState.FinishedTurn : state;
 
-				state = ControlState.ExecutingTurn;
+                    state = ControlState.ExecutingTurn;
+                }
 			}
 		}
 

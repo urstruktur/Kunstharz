@@ -22,6 +22,11 @@ namespace Kunstharz {
 		public void RpcShot(string str) {
 			Debug.Log ("Debug: " + str + " has been shot!");
 		}
-
-	}
+        
+        // only executed locally
+        public override void OnStartLocalPlayer()
+        {
+            GetComponent<MeshRenderer>().material.color = Color.green;
+        }
+    }
 }
