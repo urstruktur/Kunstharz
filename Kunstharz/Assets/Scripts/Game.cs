@@ -53,7 +53,7 @@ namespace Kunstharz
 			if (players.Count != 2) { return false; }
 
 			Player p1 = players [0];
-			Player p2 = players [2];
+			Player p2 = players [1];
 			Vector3 dir = p2.transform.position - p1.transform.position;
 			RaycastHit hit;
 
