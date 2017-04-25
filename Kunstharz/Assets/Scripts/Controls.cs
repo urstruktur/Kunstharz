@@ -5,21 +5,10 @@ using UnityEngine.Networking;
 
 namespace Kunstharz {
 	public class Controls : MonoBehaviour {
-
-		public float flyVelocity = 50.0f;
+		
 		public float rotationSensitivity = 10.0f;
-		public float afterFlyIdleTime = 0.2f;
-		public ControlState state = ControlState.DecidingTurn;
-
-		private ControlState flyTargetState;
-		private Vector3 flyStartPosition;
-		private Vector3 flyTargetPosition;
-		private Quaternion flyStartOrientation;
-		private Quaternion flyTargetOrientation;
-		private Quaternion flyStartOrientationCam;
-		private Quaternion flyTargetOrientationCam;
-		private float flyDuration;
-		private float remainingFlyDuration;
+		// If true, will send SetShootTarget instead of SetFlyTarget
+		public bool isShootingMode = false;
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
@@ -29,45 +18,8 @@ namespace Kunstharz {
 		}
 
 		void Update () {
-			if (state == ControlState.ExecutingTurn) {
-				ExecuteTurn ();
-			} else {
-				HandleInput ();
-			}
-		}
-
-		void ExecuteTurn () {
-			remainingFlyDuration -= Time.deltaTime;
-
-			if (remainingFlyDuration > 0.02) {
-				float alpha = (flyDuration - remainingFlyDuration) / flyDuration;
-				alpha = Mathf.SmoothStep (0f, 1f, alpha);
-
-				transform.parent.position = Vector3.Lerp (flyStartPosition, flyTargetPosition, alpha);
-				transform.parent.rotation = Quaternion.Lerp (flyStartOrientation, flyTargetOrientation, alpha);
-				transform.localRotation = Quaternion.Lerp (flyStartOrientationCam, flyTargetOrientationCam, alpha);
-
-				Input.GetAxis ("Mouse X");
-				Input.GetAxis ("Mouse Y");
-			} else {
-				if (-remainingFlyDuration > afterFlyIdleTime) {
-					state = flyTargetState;
-					SendMessageUpwards ("TurnFinished");
-				}
-			}
-		}
-
-		void HandleInput () {
-
-			if (state == ControlState.DecidingTurn ||
-			    state == ControlState.Twitch ||
-			    state == ControlState.FinishedTurn) {
-				HandleRotationInput ();
-			}
-
-			if (state == ControlState.DecidingTurn || state == ControlState.Twitch) {
-				HandleFlyInput ();
-			}
+			HandleRotationInput ();
+			HandleFlyInput ();
 		}
 
 		void HandleRotationInput () {
@@ -93,35 +45,19 @@ namespace Kunstharz {
 				CalculateHit ();
 			}
 		}
-			
+
 		void Fly () {
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
-                if (!hit.collider.transform.parent.CompareTag("Player")) // cant fly onto another player
-                {
-                    flyStartPosition = transform.parent.position;
-                    flyTargetPosition = hit.point;
+				if (!hit.collider.transform.parent.CompareTag("Player")) // cant fly onto another player
+				{
+					Target target;
+					target.position = hit.point;
+					target.normal = hit.normal;
 
-                    flyStartOrientation = transform.parent.rotation;
-                    flyTargetOrientation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
-
-                    flyStartOrientationCam = transform.localRotation;
-
-                    //leftRightAngle = -leftRightAngle;
-                    topDownAngle = 10;
-
-                    Quaternion leftRightRotation = Quaternion.AngleAxis(leftRightAngle, Vector3.forward);
-                    Quaternion topDownRotation = Quaternion.AngleAxis(topDownAngle, Vector3.right);
-
-                    flyTargetOrientationCam = leftRightRotation * topDownRotation;
-
-                    float flyDistance = Vector3.Distance(flyTargetPosition, flyStartPosition);
-                    remainingFlyDuration = flyDuration = flyDistance / flyVelocity;
-
-                    flyTargetState = (state == ControlState.DecidingTurn) ? ControlState.FinishedTurn : state;
-
-                    state = ControlState.ExecutingTurn;
-                }
+					SendMessageUpwards (isShootingMode ? "SetShootTarget" : "SetFlyTarget", target);
+					enabled = false;
+				}
 			}
 		}
 

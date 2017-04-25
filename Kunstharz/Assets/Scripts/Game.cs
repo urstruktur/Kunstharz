@@ -9,6 +9,17 @@ namespace Kunstharz
 		private List<Player> players = new List<Player> ();
 		private List<Transform> availableSpawnLocs = new List<Transform>();
 
+		private Player localPlayer {
+			get {
+				foreach (var player in players) {
+					if (player.isLocalPlayer) {
+						return player;
+					}
+				}
+				return null;
+			}
+		}
+
 		void Start() {
 			var spawnLocs = GameObject.Find ("SpawnLocations").transform;
 			foreach (Transform spawnLocTransform in spawnLocs) {
@@ -43,10 +54,11 @@ namespace Kunstharz
 			camTransform.localPosition = pos;
 			camTransform.localRotation = orientation;
 
-			camTransform.GetComponent<Controls> ().state = ControlState.Twitch;
+			//camTransform.GetComponent<Controls> ().state = ControlState.Twitch;
 		}
 
-		void TurnFinished () {
+		void MotionFinished () {
+			localPlayer.GetComponentInChildren<Controls> ().enabled = true;
 		}
 
 		bool LineOfSightExists() {
