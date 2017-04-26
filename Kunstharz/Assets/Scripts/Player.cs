@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace Kunstharz {
 	public class Player : NetworkBehaviour {
-		[SyncVar]
+		[SyncVar(hook = "OnStateChange")]
 		public PlayerState state = PlayerState.SelectingMotion;
 
 		void Start() {
@@ -18,6 +18,12 @@ namespace Kunstharz {
 		void SelectedTarget(Target target) {
 			state = PlayerState.SelectedMotion;
 			SendMessage ("SetFlyTarget", target);
+		}
+
+		void OnStateChange(PlayerState state) {
+			PlayerState oldState = this.state;
+			this.state = state;
+			Debug.Log ("Changed from " + oldState + " to " + state);
 		}
 
 		[Command]
