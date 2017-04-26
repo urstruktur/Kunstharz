@@ -16,8 +16,13 @@ namespace Kunstharz {
 		}
 
 		void SelectedTarget(Target target) {
-			state = PlayerState.SelectedMotion;
 			SendMessage ("SetFlyTarget", target);
+			CmdSetState (PlayerState.SelectedMotion);
+		}
+
+		[Command]
+		void CmdSetState(PlayerState state) {
+			this.state = state;
 		}
 
 		void OnStateChange(PlayerState state) {

@@ -55,7 +55,8 @@ namespace Kunstharz
 			}
 		}
 
-		void SetFlyTarget(Target target) {
+		[Command]
+		void CmdSetFlyTarget(Target target) {
 			flyStartPosition = transform.position;
 			flyTargetPosition = target.position;
 
@@ -64,6 +65,10 @@ namespace Kunstharz
 
 			float flyDistance = Vector3.Distance(flyTargetPosition, flyStartPosition);
 			flyDuration = flyDistance / flyVelocity;
+		}
+
+		void SetFlyTarget(Target target) {
+			CmdSetFlyTarget (target);
 		}
 
 	}
