@@ -27,6 +27,24 @@ namespace Kunstharz
 			}
 				
 			availableSpawnLocs.Shuffle ();
+			enabled = false;
+		}
+
+		void Update() {
+			if (players [0].state == PlayerState.SelectedMotion &&
+			    players [1].state == PlayerState.SelectedMotion) {
+
+				players [0].state = PlayerState.ExecutingMotion;
+				players [1].state = PlayerState.ExecutingMotion;
+
+				players [0].GetComponent<Motion> ().enabled = true;
+				players [1].GetComponent<Motion> ().enabled = true;
+			}
+		}
+
+		void StartGame() {
+			print ("All players here, starting game.");
+			enabled = true;
 		}
 
 		void PlayerJoined(Player player) {
@@ -43,6 +61,11 @@ namespace Kunstharz
 
 			player.transform.position = spawnLoc;
 			player.transform.rotation = spawnRot;
+
+			if (players.Count == 2) {
+				// All players are spawned, start the actual game
+				StartGame ();
+			}
 		}
 
 		void GiveCameraToPlayer(Player activePlayer) {
@@ -54,11 +77,29 @@ namespace Kunstharz
 			camTransform.localPosition = pos;
 			camTransform.localRotation = orientation;
 
-			//camTransform.GetComponent<Controls> ().state = ControlState.Twitch;
+			camTransform.GetComponent<Controls> ().enabled = true;
 		}
 
-		void MotionFinished () {
-			localPlayer.GetComponentInChildren<Controls> ().enabled = true;
+		void MotionFinished (Player movedPlayer) {
+			if (players.Count == 1) {
+				// If only one player yet, move about as you like and skip round logic
+				localPlayer.GetComponentInChildren<Controls> ().enabled = true;
+				return;
+			}
+
+			movedPlayer.state = PlayerState.ExecutedMotion;
+
+			if (players [0].state == PlayerState.ExecutedMotion && players [1].state == PlayerState.ExecutedMotion) {
+				if (LineOfSightExists ()) {
+					// Action mode!
+					players [0].state = PlayerState.SelectingShot;
+					players [1].state = PlayerState.SelectingShot;
+				} else {
+					// Next turn!
+					players [0].state = PlayerState.SelectingMotion;
+					players [1].state = PlayerState.SelectingMotion;
+				}
+			}
 		}
 
 		bool LineOfSightExists() {

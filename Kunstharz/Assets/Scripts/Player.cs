@@ -5,12 +5,19 @@ using UnityEngine.Networking;
 
 namespace Kunstharz {
 	public class Player : NetworkBehaviour {
+		[SyncVar]
+		public PlayerState state = PlayerState.SelectingMotion;
 
 		void Start() {
             // set player as child of game
             var game = GameObject.Find ("Game").transform;
 			transform.parent = game;
 			SendMessageUpwards ("PlayerJoined", this);
+		}
+
+		void SelectedTarget(Target target) {
+			state = PlayerState.SelectedMotion;
+			SendMessage ("SetFlyTarget", target);
 		}
 
 		[Command]

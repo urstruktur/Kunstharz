@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Kunstharz
 {
@@ -8,23 +9,32 @@ namespace Kunstharz
 		public Vector3 normal;
 	}
 
-	public class Motion : MonoBehaviour
+	public class Motion : NetworkBehaviour
 	{
 		public float flyVelocity = 3.0f;
 		public float afterFlyIdleTime = 0.2f;
 
+		[SyncVar]
 		private Vector3 flyStartPosition;
+		[SyncVar]
 		private Vector3 flyTargetPosition;
+		[SyncVar]
 		private Quaternion flyStartOrientation;
+		[SyncVar]
 		private Quaternion flyTargetOrientation;
+		[SyncVar]
 		private float flyDuration;
-		private float remainingFlyDuration;
+		private float remainingFlyDuration = float.MinValue;
 
 		void Start() {
 			enabled = false;
 		}
 
 		void Update () {
+			if (remainingFlyDuration == float.MinValue) {
+				remainingFlyDuration = flyDuration;
+			}
+
 			remainingFlyDuration -= Time.deltaTime;
 
 			if (remainingFlyDuration > 0.02) {
@@ -38,8 +48,9 @@ namespace Kunstharz
 				transform.rotation = flyTargetOrientation;
 
 				if (-remainingFlyDuration > afterFlyIdleTime) {
+					remainingFlyDuration = float.MinValue;
 					enabled = false;
-					SendMessageUpwards ("MotionFinished");
+					SendMessageUpwards ("MotionFinished", GetComponent<Player> ());
 				}
 			}
 		}
@@ -52,9 +63,7 @@ namespace Kunstharz
 			flyTargetOrientation = Quaternion.FromToRotation(Vector3.forward, target.normal);
 
 			float flyDistance = Vector3.Distance(flyTargetPosition, flyStartPosition);
-			remainingFlyDuration = flyDuration = flyDistance / flyVelocity;
-
-			enabled = true;
+			flyDuration = flyDistance / flyVelocity;
 		}
 
 	}

@@ -7,19 +7,22 @@ namespace Kunstharz {
 	public class Controls : MonoBehaviour {
 		
 		public float rotationSensitivity = 10.0f;
-		// If true, will send SetShootTarget instead of SetFlyTarget
-		public bool isShootingMode = false;
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
+			enabled = false;
 		}
 
 		void Update () {
-			HandleRotationInput ();
-			HandleFlyInput ();
+			Player player = transform.parent.GetComponent<Player> ();
+
+			if (player.state == PlayerState.SelectingMotion || player.state == PlayerState.SelectedMotion) {
+				HandleRotationInput ();
+				HandleFlyInput ();
+			}
 		}
 
 		void HandleRotationInput () {
@@ -37,16 +40,11 @@ namespace Kunstharz {
 
 		void HandleFlyInput () {
 			if (Input.GetMouseButton (0)) {
-				Fly ();
-			}
-
-			if (Input.GetMouseButtonDown (1)) {
-				Debug.Log ("Shot fired");
-				CalculateHit ();
+				TrySelectTarget ();
 			}
 		}
 
-		void Fly () {
+		void TrySelectTarget () {
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
 				if (!hit.collider.transform.parent.CompareTag("Player")) // cant fly onto another player
@@ -55,7 +53,7 @@ namespace Kunstharz {
 					target.position = hit.point;
 					target.normal = hit.normal;
 
-					SendMessageUpwards (isShootingMode ? "SetShootTarget" : "SetFlyTarget", target);
+					SendMessageUpwards ("SelectedTarget", target);
 					enabled = false;
 				}
 			}
