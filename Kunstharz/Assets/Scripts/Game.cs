@@ -19,22 +19,30 @@ namespace Kunstharz
 			}
 		}
 
+		private Player nonLocalPlayer {
+			get {
+				foreach (var player in players) {
+					if (!player.isLocalPlayer) {
+						return player;
+					}
+				}
+				return null;
+			}
+		}
+
 		void PlayerStateChanged(Player changedPlayer) {
-			if (players [0].state == PlayerState.SelectedMotion &&
-				players [1].state == PlayerState.SelectedMotion) {
+			if (localPlayer.state == PlayerState.SelectedMotion &&
+				(nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
 
 				Debug.Log ("Both selected motion");
 
 				// Set executing without syncing
-				players [0].state = PlayerState.ExecutingMotion;
-				players [1].state = PlayerState.ExecutingMotion;
+				localPlayer.CmdSetState(PlayerState.ExecutingMotion);
 
 				players [0].GetComponent<Motion> ().enabled = true;
 				players [1].GetComponent<Motion> ().enabled = true;
 
-			} else if (players [0].state == PlayerState.ExecutedMotion &&
-				       players [1].state == PlayerState.ExecutedMotion) {
-
+			} else if (localPlayer.state == PlayerState.ExecutedMotion && nonLocalPlayer.state != PlayerState.ExecutingMotion) {
 				if (LineOfSightExists ()) {
 					// Action mode!
 					localPlayer.CmdSetState(PlayerState.SelectingShot);
