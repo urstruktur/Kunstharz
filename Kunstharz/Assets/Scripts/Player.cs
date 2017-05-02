@@ -20,8 +20,14 @@ namespace Kunstharz {
 			CmdSetState (PlayerState.SelectedMotion);
 		}
 
+		void MotionFinished (Player movedPlayer) {
+			if (isLocalPlayer) {
+				CmdSetState (PlayerState.ExecutedMotion);
+			}
+		}
+
 		[Command]
-		void CmdSetState(PlayerState state) {
+		public void CmdSetState(PlayerState state) {
 			this.state = state;
 		}
 
@@ -29,6 +35,7 @@ namespace Kunstharz {
 			PlayerState oldState = this.state;
 			this.state = state;
 			Debug.Log ("Changed from " + oldState + " to " + state);
+			SendMessageUpwards ("PlayerStateChanged", this);
 		}
 
 		[Command]

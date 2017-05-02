@@ -54,7 +54,6 @@ namespace Kunstharz {
 					target.normal = hit.normal;
 
 					SendMessageUpwards ("SelectedTarget", target);
-					enabled = false;
 				}
 			}
 		}
