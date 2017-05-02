@@ -13,12 +13,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 114036255006441094}
-  - {fileID: 114466957180568700}
+  - {fileID: 114894620774401156}
   EditorEvents:
   - {fileID: 114303139411052326}
-  MasterBankRef: {fileID: 114466957180568700}
+  MasterBankRef: {fileID: 114894620774401156}
   StringsBankRef: {fileID: 114036255006441094}
-  stringsBankWriteTime: 636293209774330911
+  stringsBankWriteTime: 636293255520000000
   cacheVersion: 2
 --- !u!114 &114036255006441094
 MonoBehaviour:
@@ -31,8 +31,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Path: Audio\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636293209774330911
+  Path: Audio/Build/Desktop/Master Bank.strings.bank
+  lastModified: 636293255520000000
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -52,7 +52,7 @@ MonoBehaviour:
   Path: event:/click
   guid: a7e77c0843d3764295cf86c7db46925d
   Banks:
-  - {fileID: 114466957180568700}
+  - {fileID: 114894620774401156}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -72,6 +72,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: C:\Users\tom p\Documents\Kunstharz\Kunstharz\Audio\Build\Desktop\Master Bank.bank
   lastModified: 636293209774280926
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 13056
+  Exists: 1
+--- !u!114 &114894620774401156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: /Users/andreashaslinger/Documents/FH Workspace/Kunstharz/Kunstharz/Audio/Build/Desktop/Master
+    Bank.bank
+  lastModified: 636293255520000000
   LoadResult: 0
   FileSizes:
   - Name: Desktop
