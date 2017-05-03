@@ -29,11 +29,9 @@ namespace Kunstharz
             FMODUnity.RuntimeManager.PlayOneShot(ambient);
         }
 
-
-        PlayerState previousState;
+        
         void PlayerStateChanged(Player changedPlayer)
         {
-            if(previousState != changedPlayer.state)
                 if (changedPlayer.isLocalPlayer)
                 {
                     switch (changedPlayer.state)
@@ -51,10 +49,7 @@ namespace Kunstharz
                             FMODUnity.RuntimeManager.PlayOneShot(flying, changedPlayer.transform.position);
                             break;
                     }
-                    Debug.Log("State:" + changedPlayer.state);
                 }
-
-                previousState = changedPlayer.state;
         }
     
         // Update is called once per frame
