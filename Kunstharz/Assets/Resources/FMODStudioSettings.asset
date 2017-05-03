@@ -14,7 +14,7 @@ MonoBehaviour:
   HasSourceProject: 1
   HasPlatforms: 1
   SourceProjectPath: Audio/Audio.fspro
-  SourceBankPath: Audio\Build
+  SourceBankPath: Audio/Build
   AutomaticEventLoading: 1
   AutomaticSampleLoading: 0
   ImportType: 0
