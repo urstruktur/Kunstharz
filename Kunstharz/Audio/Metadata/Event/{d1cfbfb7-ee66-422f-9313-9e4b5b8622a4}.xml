@@ -5,7 +5,7 @@
             <value>timeRunningOut</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>0</value>
         </property>
         <relationship name="mixer">
             <destination>{9b64d7bf-1a62-46d4-ab97-962bf2c8b943}</destination>
@@ -142,7 +142,6 @@
     <object class="MixerBusEffectChain" id="{4e80b013-74f7-4037-b033-78b86a0ec00c}">
         <relationship name="effects">
             <destination>{02803cbd-f794-4b81-a226-77c3401b797b}</destination>
-            <destination>{103a71ec-e566-489d-a30b-e22adfaeeccc}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{85eea157-4823-45db-8792-799eba6039ac}"/>
@@ -154,6 +153,5 @@
     </object>
     <object class="MixerBusPanner" id="{47d66ece-16f2-464a-ae5e-eee32e343be1}"/>
     <object class="MixerBusFader" id="{02803cbd-f794-4b81-a226-77c3401b797b}"/>
-    <object class="SpatialiserEffect" id="{103a71ec-e566-489d-a30b-e22adfaeeccc}"/>
     <object class="MixerBusFader" id="{f0bbbc46-99db-401d-b0ff-ed4142580b67}"/>
 </objects>

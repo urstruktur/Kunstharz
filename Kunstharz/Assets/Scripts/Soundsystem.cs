@@ -10,6 +10,10 @@ namespace Kunstharz
         FMODUnity.StudioEventEmitter eventEmitterRef;
         FMOD.Studio.EventInstance[] playerState;
 
+
+        [FMODUnity.EventRef]
+        public string ambient = "event:/ambient";
+
         [FMODUnity.EventRef]
         public string landing = "event:/click";
         [FMODUnity.EventRef]
@@ -22,29 +26,35 @@ namespace Kunstharz
         // Use this for initialization
         void Start () {
             eventEmitterRef = GetComponent<FMODUnity.StudioEventEmitter>();
+            FMODUnity.RuntimeManager.PlayOneShot(ambient);
         }
 
+
+        PlayerState previousState;
         void PlayerStateChanged(Player changedPlayer)
         {
+            if(previousState != changedPlayer.state)
                 if (changedPlayer.isLocalPlayer)
                 {
                     switch (changedPlayer.state)
                     {
                         case PlayerState.SelectedMotion:
-                            FMODUnity.RuntimeManager.PlayOneShot(landing);
+                            FMODUnity.RuntimeManager.PlayOneShot(landing, changedPlayer.transform.position);
                             break;
                         case PlayerState.Victorious:
-                            FMODUnity.RuntimeManager.PlayOneShot(victory);
+                            FMODUnity.RuntimeManager.PlayOneShot(victory, changedPlayer.transform.position);
                             break;
                         case PlayerState.Dead:
-                            FMODUnity.RuntimeManager.PlayOneShot(defeat);
+                            FMODUnity.RuntimeManager.PlayOneShot(defeat, changedPlayer.transform.position);
                             break;
                         case PlayerState.ExecutingMotion:
-                            FMODUnity.RuntimeManager.PlayOneShot(flying);
+                            FMODUnity.RuntimeManager.PlayOneShot(flying, changedPlayer.transform.position);
                             break;
                     }
-                    Debug.Log("eventually playing sound");
+                    Debug.Log("State:" + changedPlayer.state);
                 }
+
+                previousState = changedPlayer.state;
         }
     
         // Update is called once per frame

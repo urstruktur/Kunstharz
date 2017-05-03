@@ -5,7 +5,7 @@
             <value>newGameInLobby</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>0</value>
         </property>
         <relationship name="mixer">
             <destination>{8c8bed41-2a05-43c4-80af-0654e22521fd}</destination>
@@ -116,7 +116,6 @@
     <object class="MixerBusEffectChain" id="{dc31e092-55fc-4414-aa11-d153f9c2d3bb}">
         <relationship name="effects">
             <destination>{e1b8c247-5f1c-4af5-843e-066334233452}</destination>
-            <destination>{9ebbc9ca-b4b4-46b0-8b3c-05546af9049d}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{d3450565-e929-49a7-bbfa-8456f10be6a0}"/>
@@ -128,6 +127,5 @@
     </object>
     <object class="MixerBusPanner" id="{8ae97402-e59b-4e22-9f22-b2df0ba0d0b3}"/>
     <object class="MixerBusFader" id="{e1b8c247-5f1c-4af5-843e-066334233452}"/>
-    <object class="SpatialiserEffect" id="{9ebbc9ca-b4b4-46b0-8b3c-05546af9049d}"/>
     <object class="MixerBusFader" id="{cf1e40c1-78ff-44b0-8a4f-68fe6a9abc8a}"/>
 </objects>

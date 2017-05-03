@@ -5,7 +5,7 @@
             <value>gameHosted</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>0</value>
         </property>
         <relationship name="mixer">
             <destination>{ac899a32-4836-4e4b-9206-f1cf388a2b6d}</destination>
@@ -129,7 +129,6 @@
     <object class="MixerBusEffectChain" id="{76276613-9eff-477d-94f4-a0e307542e4e}">
         <relationship name="effects">
             <destination>{d989e5c7-6c5b-4107-9923-2800b648a9d4}</destination>
-            <destination>{b4042c98-eaa0-4823-b9e6-66706f5c4525}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{12630878-1b58-433f-9d66-ad9d3d0bef28}"/>
@@ -141,6 +140,5 @@
     </object>
     <object class="MixerBusPanner" id="{f3f54a2d-acc4-4fb3-b4f7-4aba8bb65ff4}"/>
     <object class="MixerBusFader" id="{d989e5c7-6c5b-4107-9923-2800b648a9d4}"/>
-    <object class="SpatialiserEffect" id="{b4042c98-eaa0-4823-b9e6-66706f5c4525}"/>
     <object class="MixerBusFader" id="{b030ee37-d7e8-49c7-a055-28a8598aafc4}"/>
 </objects>
