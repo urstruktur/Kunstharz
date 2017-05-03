@@ -34,9 +34,6 @@ namespace Kunstharz
 			if (localPlayer.state == PlayerState.SelectedMotion &&
 				(nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
 
-				Debug.Log ("Both selected motion");
-
-				// Set executing without syncing
 				localPlayer.CmdSetState(PlayerState.ExecutingMotion);
 
 				players [0].GetComponent<Motion> ().enabled = true;
@@ -57,19 +54,14 @@ namespace Kunstharz
 			enabled = false;
 		}
 
-		/*void Update() {
-			if (players [0].state == PlayerState.SelectedMotion &&
-			    players [1].state == PlayerState.SelectedMotion) {
-
-				Debug.Log ("Both selected motion");
-
-				players [0].CmdSetState(PlayerState.ExecutingMotion);
-				players [1].CmdSetState(PlayerState.ExecutingMotion);
-
-				players [0].GetComponent<Motion> ().enabled = true;
-				players [1].GetComponent<Motion> ().enabled = true;
-			}
-		}*/
+		void Update() {
+			/*if (LineOfSightExists ()) {
+				Debug.DrawLine (players [0].transform.position, players [1].transform.position, Color.red);
+			} else {
+				Debug.DrawLine (players [0].transform.position, players [1].transform.position, Color.blue);
+			}*/
+			LineOfSightExists ();
+		}
 
 		void StartGame() {
 			print ("All players here, starting game.");
@@ -119,17 +111,22 @@ namespace Kunstharz
 
 			Player p1 = players [0];
 			Player p2 = players [1];
-			Vector3 dir = p2.transform.position - p1.transform.position;
+
+			Vector3 p1Pos = p1.transform.position + p1.transform.forward * p1.GetComponent<BoxCollider> ().size.z * 0.7f;
+			Vector3 p2Pos = p2.transform.position + p2.transform.forward * p2.GetComponent<BoxCollider> ().size.z * 0.7f;
+
+			Vector3 dir = p2Pos - p1Pos;
+			Vector3 start = p1Pos;
 			RaycastHit hit;
 
-			if (Physics.Raycast (p1.transform.position, dir, out hit, dir.magnitude)) {
-				if (hit.collider.GetComponent<Player> () == p2) {
-					print ("Other player is in line of sight");
-					return true;
-				}
+			if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
+				print ("Other player is in line of sight");
+				Debug.DrawRay (start, dir, Color.red);
+				return true;
+			} else {
+				Debug.DrawRay (start, dir, Color.blue);
+				return false;
 			}
-
-			return false;
 		}
 	}
 }
