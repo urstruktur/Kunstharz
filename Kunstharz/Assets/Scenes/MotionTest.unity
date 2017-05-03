@@ -966,7 +966,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a1a9e7c20c55746bfccf6c42fe3110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  landing: event:/DysonConvolution
+  landing: event:/click
+  victory: event:/win
+  defeat: event:/lose
+  flying: event:/fly
 --- !u!114 &1806375696
 MonoBehaviour:
   m_ObjectHideFlags: 0
