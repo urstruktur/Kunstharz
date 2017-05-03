@@ -30,6 +30,10 @@ namespace Kunstharz {
 			}
 		}
 
+		void HitPlayer(Player player) {
+			CmdSetState (PlayerState.Victorious);
+		}
+
 		[Command]
 		public void CmdSetState(PlayerState state) {
 			this.state = state;

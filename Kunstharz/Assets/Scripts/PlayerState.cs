@@ -9,7 +9,9 @@ namespace Kunstharz
 		ExecutingMotion,
 		ExecutedMotion,
 		SelectingShot,
-		ExecutingShot
+		ExecutingShot,
+		Dead,
+		Victorious
 	}
 }
 

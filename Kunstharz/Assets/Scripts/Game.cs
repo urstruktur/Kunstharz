@@ -32,9 +32,9 @@ namespace Kunstharz
 
 		void PlayerStateChanged(Player changedPlayer) {
 			if (localPlayer.state == PlayerState.SelectedMotion &&
-				(nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
+			    (nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
 
-				localPlayer.CmdSetState(PlayerState.ExecutingMotion);
+				localPlayer.CmdSetState (PlayerState.ExecutingMotion);
 
 				players [0].GetComponent<Motion> ().enabled = true;
 				players [1].GetComponent<Motion> ().enabled = true;
@@ -42,11 +42,13 @@ namespace Kunstharz
 			} else if (localPlayer.state == PlayerState.ExecutedMotion && nonLocalPlayer.state != PlayerState.ExecutingMotion) {
 				if (LineOfSightExists ()) {
 					// Action mode!
-					localPlayer.CmdSetState(PlayerState.SelectingShot);
+					localPlayer.CmdSetState (PlayerState.SelectingShot);
 				} else {
 					// Next turn!
-					localPlayer.CmdSetState(PlayerState.SelectingMotion);
+					localPlayer.CmdSetState (PlayerState.SelectingMotion);
 				}
+			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
+				localPlayer.CmdSetState (PlayerState.Dead);
 			}
 		}
 

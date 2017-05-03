@@ -47,13 +47,14 @@ namespace Kunstharz {
 		void TrySelectTarget () {
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
-				if (!hit.collider.transform.parent.CompareTag("Player")) // cant fly onto another player
-				{
-					Target target;
-					target.position = hit.point;
-					target.normal = hit.normal;
+				Target target;
+				target.position = hit.point;
+				target.normal = hit.normal;
 
-					SendMessageUpwards ("SelectedTarget", target);
+				SendMessageUpwards ("SelectedTarget", target);
+
+				if (hit.collider.CompareTag ("Player")) {
+					SendMessageUpwards ("HitPlayer", hit.collider.GetComponent<Player> ());
 				}
 			}
 		}
