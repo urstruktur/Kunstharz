@@ -43,7 +43,7 @@ namespace Kunstharz {
 		}
 
 		void HandleTargetInput () {
-			if (Input.GetMouseButton (0)) {
+			if (Input.GetMouseButtonDown (0)) {
 				TrySelectTarget ();
 			}
 		}
