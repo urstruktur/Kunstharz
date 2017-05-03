@@ -19,9 +19,9 @@ namespace Kunstharz {
 		void Update () {
 			Player player = transform.parent.GetComponent<Player> ();
 
-			if (player.state == PlayerState.SelectingMotion || player.state == PlayerState.SelectedMotion) {
+			if (player.state == PlayerState.SelectingMotion || player.state == PlayerState.SelectedMotion || player.state == PlayerState.SelectingShot) {
 				HandleRotationInput ();
-				HandleFlyInput ();
+				HandleTargetInput ();
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace Kunstharz {
 			transform.localRotation = leftRightRotation * topDownRotation;
 		}
 
-		void HandleFlyInput () {
+		void HandleTargetInput () {
 			if (Input.GetMouseButton (0)) {
 				TrySelectTarget ();
 			}

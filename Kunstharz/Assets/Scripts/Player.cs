@@ -16,8 +16,12 @@ namespace Kunstharz {
 		}
 
 		void SelectedTarget(Target target) {
-			SendMessage ("SetFlyTarget", target);
-			CmdSetState (PlayerState.SelectedMotion);
+			if (state == PlayerState.SelectingShot) {
+				SendMessage ("SetShootTarget", target);
+			} else {
+				SendMessage ("SetFlyTarget", target);
+				CmdSetState (PlayerState.SelectedMotion);
+			}
 		}
 
 		void MotionFinished (Player movedPlayer) {
