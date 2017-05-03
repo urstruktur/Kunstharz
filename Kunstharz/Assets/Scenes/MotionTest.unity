@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6691099, g: 0.95321447, b: 0.7490579, a: 1}
+  m_IndirectSpecularColor: {r: 0.66910493, g: 0.9532135, b: 0.74905956, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -922,6 +922,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1806375693}
   - component: {fileID: 1806375694}
+  - component: {fileID: 1806375696}
+  - component: {fileID: 1806375695}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -953,6 +955,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fe25f122c3947a0a414d6c996c2323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1806375695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1806375692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a1a9e7c20c55746bfccf6c42fe3110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landing: event:/DysonConvolution
+--- !u!114 &1806375696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1806375692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  CollisionTag: 
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
 --- !u!1 &1907179372
 GameObject:
   m_ObjectHideFlags: 0
