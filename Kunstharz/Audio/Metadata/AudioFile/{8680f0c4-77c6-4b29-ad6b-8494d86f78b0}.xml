@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.08.00">
+    <object class="AudioFile" id="{8680f0c4-77c6-4b29-ad6b-8494d86f78b0}">
+        <property name="assetPath">
+            <value>Zap Synth 03.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>1</value>
+        </property>
+        <property name="length">
+            <value>6.1721541950113377</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{75031d24-6d4b-411c-aa9c-b185903deb19}</destination>
+        </relationship>
+    </object>
+</objects>
