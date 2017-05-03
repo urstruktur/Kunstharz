@@ -11,8 +11,12 @@ namespace Kunstharz {
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
+		private Transform ghostTransform;
+
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
+			ghostTransform = GameObject.Find ("GhostPlayer").transform;
+			ghostTransform.gameObject.SetActive (false);
 			enabled = false;
 		}
 
@@ -55,6 +59,10 @@ namespace Kunstharz {
 
 				if (hit.collider.CompareTag ("Player")) {
 					SendMessageUpwards ("HitPlayer", hit.collider.GetComponent<Player> ());
+				} else {
+					ghostTransform.gameObject.SetActive (true);
+					ghostTransform.transform.position = hit.point;
+					ghostTransform.transform.up = hit.normal;
 				}
 			}
 		}
