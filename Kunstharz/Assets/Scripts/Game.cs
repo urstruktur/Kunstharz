@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Kunstharz
 {
@@ -49,6 +50,13 @@ namespace Kunstharz
 				}
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
+			}
+
+			if (changedPlayer.isLocalPlayer) {
+				var go = GameObject.Find ("OwnState");
+				if (go) {
+					go.GetComponent<Text> ().text = ""+changedPlayer.state;
+				}
 			}
 		}
 
