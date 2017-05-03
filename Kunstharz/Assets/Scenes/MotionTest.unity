@@ -981,8 +981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: 
-  PlayEvent: 0
+  Event: event:/ambient
+  PlayEvent: 1
   StopEvent: 0
   CollisionTag: 
   AllowFadeout: 1
@@ -990,8 +990,8 @@ MonoBehaviour:
   Preload: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1907179372
 GameObject:
   m_ObjectHideFlags: 0
