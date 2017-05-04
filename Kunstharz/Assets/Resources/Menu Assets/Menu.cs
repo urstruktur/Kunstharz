@@ -18,7 +18,25 @@ public class Menu : MonoBehaviour {
 	public GameObject gameWorld;
 	public GameObject canvas;
 
-	Vector3 [] textPosition = new Vector3 [3];
+    [FMODUnity.EventRef]
+    public string hover = "event:/ui/hover";
+
+    [FMODUnity.EventRef]
+    public string click = "event:/ui/click";
+
+    [FMODUnity.EventRef]
+    public string select = "event:/ui/click";
+
+    [FMODUnity.EventRef]
+    public string typing = "event:/ui/click";
+
+    [FMODUnity.EventRef]
+    public string zoomIn = "event:/ui/click";
+
+    [FMODUnity.EventRef]
+    public string zoomOut = "event:/ui/click";
+
+    Vector3 [] textPosition = new Vector3 [3];
 	GameObject [] textObjects = new GameObject[3];
 	GameObject [] blurObjects = new GameObject[3];
 	float [] textWidth = new float[3];
@@ -52,7 +70,7 @@ public class Menu : MonoBehaviour {
 		cameras[1] = new Vector4(0.26f, 0.405f, 0.48f, 0.19f);
 		cameras[2] = new Vector4(0.74f, 0.405f, 0.2f, 0.19f);
 
-	}
+    }
 
 	void Update() {
 		turnGameWorld ();
@@ -71,7 +89,7 @@ public class Menu : MonoBehaviour {
 	}
 
 	public void Enter(int i) {
-
+        
 		for (int j = 0; j < 3; j++) {
 			textObjects [j].GetComponent<Text> ().fontSize = 43;
 			blurObjects [j].GetComponent<RawImage>().enabled = false;
@@ -93,22 +111,30 @@ public class Menu : MonoBehaviour {
 			0.25f).setEase(LeanTweenType.easeInOutQuint);
 
 		phasePolarity *= -1;
-	}
+
+        FMODUnity.RuntimeManager.PlayOneShot(hover, Camera.main.transform.position);
+    }
 
 	public void ExitGame () {
 		Application.Quit();
 		UnityEditor.EditorApplication.isPlaying = false;
-	}
+
+        FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
+    }
 
 	public void JoinGame () {
 		//TODO: Go to join scene
 		Debug.Log("TODO: Start Join Game Menu");
-	}
+
+        FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
+    }
 
 	public void StartGame () {
 		//TODO: Go to start scene
 		Debug.Log("TODO: Start Start Game Menu");
-	}
+
+        FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
+    }
 
 	private float mouseXN() {
 		return Input.mousePosition.x / (float) Screen.width * 2f - 1f;

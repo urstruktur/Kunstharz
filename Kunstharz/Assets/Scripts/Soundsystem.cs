@@ -10,17 +10,17 @@ namespace Kunstharz
         FMODUnity.StudioEventEmitter eventEmitterRef;
 
         [FMODUnity.EventRef]
-        public string ambient = "event:/ambient";
+        private string ambient = "event:/ambient";
         [FMODUnity.EventRef]
-        public string landing = "event:/click";
+        private string landing = "event:/ui/click";
         [FMODUnity.EventRef]
-        public string victory = "event:/win";
+        private string victory = "event:/ui/win";
         [FMODUnity.EventRef]
-        public string defeat = "event:/lose";
+        private string defeat = "event:/ui/lose";
         [FMODUnity.EventRef]
-        public string flying = "event:/fly";
+        private string flying = "event:/fly";
         [FMODUnity.EventRef]
-        public string shoot = "event:/shoot";
+        private string shoot = "event:/shoot";
 
         // Use this for initialization
         void Start () {

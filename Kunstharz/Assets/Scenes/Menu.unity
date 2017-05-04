@@ -117,6 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 14886393}
   - component: {fileID: 14886394}
+  - component: {fileID: 14886395}
   m_Layer: 0
   m_Name: Menu Script
   m_TagString: Untagged
@@ -157,6 +158,34 @@ MonoBehaviour:
   EffectsCamera: {fileID: 2012621440}
   gameWorld: {fileID: 1808696188}
   canvas: {fileID: 1168450553}
+  hover: event:/ui/hover
+  click: event:/ui/click
+  select: event:/ui/click
+  typing: event:/ui/click
+  zoomIn: event:/ui/click
+  zoomOut: event:/ui/click
+--- !u!114 &14886395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 14886392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: event:/ambient
+  PlayEvent: 1
+  StopEvent: 0
+  CollisionTag: 
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
 --- !u!4 &74375576 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 701dee9216450434d9cca8d5bb814ae7, type: 3}
