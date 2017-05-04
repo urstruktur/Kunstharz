@@ -7,6 +7,8 @@ namespace Kunstharz
 {
 	public class Game : MonoBehaviour
 	{
+		public int numRounds = 3;
+
 		private List<Player> players = new List<Player> ();
 
 		private Player localPlayer {
@@ -69,6 +71,8 @@ namespace Kunstharz
 
 		IEnumerator StartNextRoundLater() {
 			yield return new WaitForSeconds (5.0f);
+
+			enabled = true;
 			localPlayer.CmdRespawn ();
 			GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.MotionSelection;
 		}
@@ -81,7 +85,18 @@ namespace Kunstharz
 			if ((localPlayer.state == PlayerState.Victorious || localPlayer.state == PlayerState.Dead) &&
 				(nonLocalPlayer.state == PlayerState.Victorious || nonLocalPlayer.state == PlayerState.Dead)) {
 
-				StartCoroutine ("StartNextRoundLater");
+				enabled = false;
+
+				int playedRounds = localPlayer.wins + nonLocalPlayer.wins;
+
+				if (playedRounds < numRounds) {
+					StartCoroutine ("StartNextRoundLater");
+				} else {
+					var go = GameObject.Find ("OwnState");
+					if (go) {
+						go.GetComponent<Text> ().text = "Game is over:   Local wins: " + localPlayer.wins + " Other wins: " + nonLocalPlayer.wins;
+					}
+				}
 			}
 		}
 
