@@ -70,6 +70,7 @@ namespace Kunstharz
 		IEnumerator StartNextRoundLater() {
 			yield return new WaitForSeconds (5.0f);
 			localPlayer.CmdRespawn ();
+			GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.MotionSelection;
 		}
 
 		void Update() {
