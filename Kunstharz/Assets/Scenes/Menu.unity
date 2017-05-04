@@ -155,7 +155,6 @@ MonoBehaviour:
   blurJoin: {fileID: 1113326587}
   blurStart: {fileID: 2142979058}
   blurExit: {fileID: 1494079390}
-  EffectsCamera: {fileID: 2012621440}
   gameWorld: {fileID: 1808696188}
   canvas: {fileID: 1168450553}
   hover: event:/ui/hover
@@ -1132,8 +1131,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 166.6, y: 0}
-  m_SizeDelta: {x: 222, y: 120}
+  m_AnchoredPosition: {x: 156.6, y: 0}
+  m_SizeDelta: {x: 232, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113326589
 MonoBehaviour:
@@ -1408,8 +1407,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -169, y: 0}
-  m_SizeDelta: {x: 209, y: 120}
+  m_AnchoredPosition: {x: -159, y: 0}
+  m_SizeDelta: {x: 219, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1494079392
 MonoBehaviour:

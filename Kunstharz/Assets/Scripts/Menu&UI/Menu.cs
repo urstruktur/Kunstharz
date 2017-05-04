@@ -14,7 +14,6 @@ public class Menu : MonoBehaviour {
 	public GameObject blurStart;
 	public GameObject blurExit;
 
-	public GameObject EffectsCamera;
 	public GameObject gameWorld;
 	public GameObject canvas;
 
@@ -36,23 +35,14 @@ public class Menu : MonoBehaviour {
     [FMODUnity.EventRef]
     public string zoomOut = "event:/ui/click";
 
-    Vector3 [] textPosition = new Vector3 [3];
 	GameObject [] textObjects = new GameObject[3];
 	GameObject [] blurObjects = new GameObject[3];
-	float [] textWidth = new float[3];
+	float [] blurObjectLength = {232f, 499f, 219f};
 
 	float turnXOld = 0;
 	float turnYOld = 0;
 
-	float phasePolarity = 1; 
-
-	Vector4 [] cameras = new Vector4[3];
-
 	void Start () {
-		
-		textPosition[0] = textJoin.GetComponent<RectTransform>().localPosition;
-		textPosition[1] = textStart.GetComponent<RectTransform>().localPosition;
-		textPosition[2] = textExit.GetComponent<RectTransform>().localPosition;
 
 		textObjects [0] = textJoin;
 		textObjects [1] = textStart;
@@ -62,19 +52,10 @@ public class Menu : MonoBehaviour {
 		blurObjects [1] = blurStart;
 		blurObjects [2] = blurExit;
 
-		textWidth[0] = textJoin.GetComponent<RectTransform> ().rect.width;
-		textWidth[1] = textJoin.GetComponent<RectTransform> ().rect.width;
-		textWidth[2] = textJoin.GetComponent<RectTransform> ().rect.width;
-
-		cameras[0] = new Vector4(0.055f, 0.405f, 0.2f, 0.19f);
-		cameras[1] = new Vector4(0.26f, 0.405f, 0.48f, 0.19f);
-		cameras[2] = new Vector4(0.74f, 0.405f, 0.2f, 0.19f);
-
     }
 
 	void Update() {
 		turnGameWorld ();
-		EffectsCamera.GetComponent<AnalogTV> ().Phase += 0.01f * phasePolarity;
 	}
 
 	private void turnGameWorld() {
@@ -95,22 +76,13 @@ public class Menu : MonoBehaviour {
 			blurObjects [j].GetComponent<RawImage>().enabled = false;
 		}
 			
-		EffectsCamera.GetComponent<Camera> ().rect = new Rect (cameras[i].x, cameras[i].y, cameras[i].z, cameras[i].w);
-
 		textObjects [i].GetComponent<Text> ().fontSize = 122;
+
+		//Set blur
 		blurObjects [i].GetComponent<RawImage>().enabled = true;
-
-		float width = blurObjects [i].GetComponent<RectTransform> ().rect.width;
 		float height = blurObjects [i].GetComponent<RectTransform> ().rect.height;
-
 		blurObjects [i].GetComponent<RectTransform> ().sizeDelta = new Vector2(0, height);
-
-		LeanTween.size (
-			blurObjects [i].GetComponent<RectTransform> (),
-			new Vector2(width,height),
-			0.25f).setEase(LeanTweenType.easeInOutQuint);
-
-		phasePolarity *= -1;
+		LeanTween.size (blurObjects [i].GetComponent<RectTransform> (), new Vector2(blurObjectLength [i],height), 0.25f).setEase(LeanTweenType.easeInOutQuint);
 
         FMODUnity.RuntimeManager.PlayOneShot(hover, Camera.main.transform.position);
     }
