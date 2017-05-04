@@ -12,7 +12,8 @@ namespace Kunstharz
 		SelectingShot,
 		ExecutingShot,
 		Dead,
-		Victorious
+		Victorious,
+		TimedOut
 	}
 }
 
