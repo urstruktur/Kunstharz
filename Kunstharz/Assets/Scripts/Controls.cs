@@ -7,24 +7,50 @@ namespace Kunstharz {
 	public class Controls : MonoBehaviour {
 		
 		public float rotationSensitivity = 10.0f;
+		public float shotCooldown = 0.5f;
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
+		private float remainingShotCooldown = 0.0f;
 
 		private Transform ghostTransform;
+		private Crosshair crosshair;
+		private PlayerState state;
 
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
 			ghostTransform = GameObject.Find ("GhostPlayer").transform;
 			ghostTransform.gameObject.SetActive (false);
+
+			crosshair = GameObject.Find ("Crosshair").GetComponent<Crosshair> ();
+
 			enabled = false;
 		}
 
 		void Update () {
-			Player player = transform.parent.GetComponent<Player> ();
+			if (remainingShotCooldown > 0) {
+				remainingShotCooldown -= Time.deltaTime;
 
-			if (player.state == PlayerState.SelectingMotion || player.state == PlayerState.SelectedMotion || player.state == PlayerState.SelectingShot) {
+				if (remainingShotCooldown <= 0) {
+					crosshair.mode = Crosshair.CrosshairMode.ShotSelection;
+				}
+			}
+
+
+			Player player = transform.parent.GetComponent<Player> ();
+			state = player.state;
+
+			bool canChooseRotation = state == PlayerState.SelectingMotion ||
+			                         state == PlayerState.SelectedMotion ||
+			                         state == PlayerState.SelectingShot;
+
+			bool canSelectTarget = canChooseRotation && remainingShotCooldown <= 0;
+
+			if (canChooseRotation) {
 				HandleRotationInput ();
+			}
+
+			if (canSelectTarget) {
 				HandleTargetInput ();
 			}
 		}
@@ -49,6 +75,11 @@ namespace Kunstharz {
 		}
 
 		void TrySelectTarget () {
+			if (state == PlayerState.SelectingShot) {
+				remainingShotCooldown = shotCooldown;
+				crosshair.mode = Crosshair.CrosshairMode.ShotCooldown;
+			}
+
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
 				Target target;
@@ -60,9 +91,11 @@ namespace Kunstharz {
 				if (hit.collider.CompareTag ("Player")) {
 					SendMessageUpwards ("HitPlayer", hit.collider.GetComponent<Player> ());
 				} else {
-					ghostTransform.gameObject.SetActive (true);
-					ghostTransform.transform.position = hit.point;
-					ghostTransform.transform.up = hit.normal;
+					if (state == PlayerState.SelectingMotion || state == PlayerState.SelectedMotion) {
+						ghostTransform.gameObject.SetActive (true);
+						ghostTransform.transform.position = hit.point;
+						ghostTransform.transform.up = hit.normal;
+					}
 				}
 			}
 		}

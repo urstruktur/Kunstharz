@@ -44,12 +44,17 @@ namespace Kunstharz
 				if (LineOfSightExists ()) {
 					// Action mode!
 					localPlayer.CmdSetState (PlayerState.SelectingShot);
+					GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.ShotSelection;
 				} else {
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
 				}
+			} else if (localPlayer.state == PlayerState.ExecutingShot) {
+				localPlayer.CmdSetState (PlayerState.SelectingShot);
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
+			} else if (nonLocalPlayer.state == PlayerState.Dead) {
+				localPlayer.CmdSetState (PlayerState.Victorious);
 			}
 
 			if (changedPlayer.isLocalPlayer) {
