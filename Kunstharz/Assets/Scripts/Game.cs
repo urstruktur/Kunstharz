@@ -49,6 +49,8 @@ namespace Kunstharz
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
 				}
+			} else if (localPlayer.state == PlayerState.ExecutingShot) {
+				localPlayer.CmdSetState (PlayerState.SelectingShot);
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
 			} else if (nonLocalPlayer.state == PlayerState.Dead) {
