@@ -9,10 +9,14 @@ namespace Kunstharz {
 		public PlayerState state = PlayerState.SelectingMotion;
 		[SyncVar]
 		public int wins = 0;
+
 		private Vector3 spawnPosition;
+		private Quaternion spawnRotation;
 
 		void Start() {
 			spawnPosition = transform.position;
+			spawnRotation = transform.rotation;
+
 			print ("intializing spawn position to " + spawnPosition);
             // set player as child of game
             var game = GameObject.Find ("Game").transform;
@@ -30,6 +34,7 @@ namespace Kunstharz {
 		public void RpcResetPosition() {
 			print ("Resetting position to " + spawnPosition);
 			transform.position = spawnPosition;
+			transform.rotation = spawnRotation;
 		}
 
 		void SelectedTarget(Target target) {
