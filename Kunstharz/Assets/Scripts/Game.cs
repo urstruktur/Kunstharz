@@ -56,13 +56,6 @@ namespace Kunstharz
 			} else if (nonLocalPlayer.state == PlayerState.Dead) {
 				localPlayer.CmdSetState (PlayerState.Victorious);
 			}
-
-			if (changedPlayer.isLocalPlayer) {
-				var go = GameObject.Find ("OwnState");
-				if (go) {
-					go.GetComponent<Text> ().text = ""+changedPlayer.state;
-				}
-			}
 		}
 
 		void Start() {
@@ -81,29 +74,11 @@ namespace Kunstharz
 			if (localPlayer.state == PlayerState.ExecutingShot) {
 				localPlayer.CmdSetState (PlayerState.SelectingShot);
 			}
-
-			if ((localPlayer.state == PlayerState.Victorious || localPlayer.state == PlayerState.Dead) &&
-				(nonLocalPlayer.state == PlayerState.Victorious || nonLocalPlayer.state == PlayerState.Dead)) {
-
-				enabled = false;
-
-				int playedRounds = localPlayer.wins + nonLocalPlayer.wins;
-
-				if (playedRounds < numRounds) {
-					StartCoroutine ("StartNextRoundLater");
-				} else {
-					var go = GameObject.Find ("OwnState");
-					if (go) {
-						go.GetComponent<Text> ().text = "Game is over:   Local wins: " + localPlayer.wins + " Other wins: " + nonLocalPlayer.wins;
-					}
-				}
-			}
 		}
 
 		// Called once when all players first in scene together
 		void StartGame() {
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
-			enabled = true;
 		}
 
 		void PlayerJoined(Player player) {
@@ -117,6 +92,20 @@ namespace Kunstharz
 			if (players.Count == 2) {
 				// All players are spawned, start the actual game
 				StartGame ();
+			}
+		}
+
+		void PlayerWon() {
+			int playedRounds = localPlayer.wins + nonLocalPlayer.wins;
+
+			if (playedRounds < numRounds) {
+				StartCoroutine ("StartNextRoundLater");
+			}
+				
+			var go = GameObject.Find ("OwnState");
+			if (go) {
+				string txt = ((playedRounds < numRounds) ? "Round over " : "Game over ") +  "My wins: " + localPlayer.wins + " Opponent wins: " + nonLocalPlayer.wins;
+				go.GetComponent<Text> ().text = txt;
 			}
 		}
 

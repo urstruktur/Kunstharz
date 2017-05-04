@@ -7,7 +7,7 @@ namespace Kunstharz {
 	public class Player : NetworkBehaviour {
 		[SyncVar(hook = "OnStateChange")]
 		public PlayerState state = PlayerState.SelectingMotion;
-		[SyncVar]
+		[SyncVar(hook = "OnWinsChange")]
 		public int wins = 0;
 
 		private Vector3 spawnPosition;
@@ -73,6 +73,11 @@ namespace Kunstharz {
 			this.state = state;
 			Debug.Log ("Changed from " + oldState + " to " + state);
 			SendMessageUpwards ("PlayerStateChanged", this);
+		}
+
+		void OnWinsChange(int wins) {
+			this.wins = wins;
+			SendMessageUpwards ("PlayerWon", this);
 		}
 
 		[Command]
