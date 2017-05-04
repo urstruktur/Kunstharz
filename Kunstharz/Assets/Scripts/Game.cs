@@ -30,7 +30,7 @@ namespace Kunstharz
 				return null;
 			}
 		}
-
+			
 		void PlayerStateChanged(Player changedPlayer) {
 			if (localPlayer.state == PlayerState.SelectedMotion &&
 			    (nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
@@ -49,8 +49,6 @@ namespace Kunstharz
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
 				}
-			} else if (localPlayer.state == PlayerState.ExecutingShot) {
-				localPlayer.CmdSetState (PlayerState.SelectingShot);
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
 			} else if (nonLocalPlayer.state == PlayerState.Dead) {
@@ -70,12 +68,9 @@ namespace Kunstharz
 		}
 
 		void Update() {
-			/*if (LineOfSightExists ()) {
-				Debug.DrawLine (players [0].transform.position, players [1].transform.position, Color.red);
-			} else {
-				Debug.DrawLine (players [0].transform.position, players [1].transform.position, Color.blue);
-			}*/
-			LineOfSightExists ();
+			if (localPlayer.state == PlayerState.ExecutingShot) {
+				localPlayer.CmdSetState (PlayerState.SelectingShot);
+			}
 		}
 
 		void StartGame() {
