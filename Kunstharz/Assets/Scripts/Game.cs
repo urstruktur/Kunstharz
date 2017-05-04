@@ -53,8 +53,21 @@ namespace Kunstharz
 				}
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
-			} else if (nonLocalPlayer.state == PlayerState.Dead) {
-				localPlayer.CmdSetState (PlayerState.Victorious);
+			} else if (nonLocalPlayer.state == PlayerState.TimedOut) {
+				if (localPlayer.state == PlayerState.SelectingMotion || localPlayer.state == PlayerState.TimedOut) {
+					// Both timed out
+					print("Both timed out");
+					StartCoroutine ("StartNextRoundLater");
+				} else {
+					// Only opponent timed out
+					print("Only opponent timed out");
+
+					if (localPlayer.state != PlayerState.Victorious) {
+						localPlayer.CmdSetState (PlayerState.Victorious);
+						localPlayer.CmdWon ();
+						StartCoroutine ("StartNextRoundLater");
+					}
+				}
 			}
 		}
 
@@ -66,6 +79,7 @@ namespace Kunstharz
 			yield return new WaitForSeconds (5.0f);
 
 			enabled = true;
+			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			localPlayer.CmdRespawn ();
 			GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.MotionSelection;
 		}
@@ -121,18 +135,6 @@ namespace Kunstharz
 			camTransform.GetComponent<Controls> ().enabled = true;
 		}
 
-		/*void MotionFinished (Player movedPlayer) {
-			if (players.Count == 1) {
-				// If only one player yet, move about as you like and skip round logic
-				localPlayer.GetComponentInChildren<Controls> ().enabled = true;
-				return;
-			}
-
-			if (movedPlayer.isLocalPlayer) {
-				movedPlayer.CmdSetState(PlayerState.ExecutedMotion);
-			}
-		}*/
-
 		bool LineOfSightExists() {
 			if (players.Count != 2) { return false; }
 
@@ -147,7 +149,6 @@ namespace Kunstharz
 			RaycastHit hit;
 
 			if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
-				print ("Other player is in line of sight");
 				Debug.DrawRay (start, dir, Color.red);
 				return true;
 			} else {
