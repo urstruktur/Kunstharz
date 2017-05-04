@@ -5,23 +5,36 @@ using UnityEngine.Networking;
 
 namespace Kunstharz {
 	public class Player : NetworkBehaviour {
+		public float deathTimeout = 8.0f;
+
 		[SyncVar(hook = "OnStateChange")]
 		public PlayerState state = PlayerState.SelectingMotion;
-		[SyncVar]
+		[SyncVar(hook = "OnWinsChange")]
 		public int wins = 0;
 
 		private Vector3 spawnPosition;
 		private Quaternion spawnRotation;
+		private float remainingDeathTimeout = float.MaxValue;
 
 		void Start() {
 			spawnPosition = transform.position;
 			spawnRotation = transform.rotation;
-
-			print ("intializing spawn position to " + spawnPosition);
+		
             // set player as child of game
             var game = GameObject.Find ("Game").transform;
 			transform.parent = game;
 			SendMessageUpwards ("PlayerJoined", this);
+		}
+
+		void Update() {
+			if (remainingDeathTimeout != float.MaxValue) {
+				remainingDeathTimeout -= Time.deltaTime;
+
+				if (remainingDeathTimeout <= 0) {
+					print ("Died after timing out");
+					CmdSetState (PlayerState.TimedOut);
+				}
+			}
 		}
 
 		[Command]
@@ -44,6 +57,12 @@ namespace Kunstharz {
 			} else {
 				SendMessage ("SetFlyTarget", target);
 				CmdSetState (PlayerState.SelectedMotion);
+
+                ImageEffectShockwave i = Camera.main.GetComponent<ImageEffectShockwave>();
+                if(i != null)
+                {
+                    i.Shock(target.position);
+                }
 			}
 		}
 
@@ -69,10 +88,21 @@ namespace Kunstharz {
 		}
 
 		void OnStateChange(PlayerState state) {
+			if (state == PlayerState.SelectingMotion && isLocalPlayer) {
+				remainingDeathTimeout = deathTimeout;
+			} else {
+				remainingDeathTimeout = float.MaxValue;
+			}
+
 			PlayerState oldState = this.state;
 			this.state = state;
 			Debug.Log ("Changed from " + oldState + " to " + state);
 			SendMessageUpwards ("PlayerStateChanged", this);
+		}
+
+		void OnWinsChange(int wins) {
+			this.wins = wins;
+			SendMessageUpwards ("PlayerWon", this);
 		}
 
 		[Command]

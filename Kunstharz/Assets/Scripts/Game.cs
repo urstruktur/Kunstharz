@@ -53,14 +53,20 @@ namespace Kunstharz
 				}
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
-			} else if (nonLocalPlayer.state == PlayerState.Dead) {
-				localPlayer.CmdSetState (PlayerState.Victorious);
-			}
+			} else if (nonLocalPlayer.state == PlayerState.TimedOut) {
+				if (localPlayer.state == PlayerState.SelectingMotion || localPlayer.state == PlayerState.TimedOut) {
+					// Both timed out
+					print("Both timed out");
+					StartCoroutine ("StartNextRoundLater");
+				} else {
+					// Only opponent timed out
+					print("Only opponent timed out");
 
-			if (changedPlayer.isLocalPlayer) {
-				var go = GameObject.Find ("OwnState");
-				if (go) {
-					go.GetComponent<Text> ().text = ""+changedPlayer.state;
+					if (localPlayer.state != PlayerState.Victorious) {
+						localPlayer.CmdSetState (PlayerState.Victorious);
+						localPlayer.CmdWon ();
+						StartCoroutine ("StartNextRoundLater");
+					}
 				}
 			}
 		}
@@ -73,6 +79,7 @@ namespace Kunstharz
 			yield return new WaitForSeconds (5.0f);
 
 			enabled = true;
+			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			localPlayer.CmdRespawn ();
 			GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.MotionSelection;
 		}
@@ -81,29 +88,11 @@ namespace Kunstharz
 			if (localPlayer.state == PlayerState.ExecutingShot) {
 				localPlayer.CmdSetState (PlayerState.SelectingShot);
 			}
-
-			if ((localPlayer.state == PlayerState.Victorious || localPlayer.state == PlayerState.Dead) &&
-				(nonLocalPlayer.state == PlayerState.Victorious || nonLocalPlayer.state == PlayerState.Dead)) {
-
-				enabled = false;
-
-				int playedRounds = localPlayer.wins + nonLocalPlayer.wins;
-
-				if (playedRounds < numRounds) {
-					StartCoroutine ("StartNextRoundLater");
-				} else {
-					var go = GameObject.Find ("OwnState");
-					if (go) {
-						go.GetComponent<Text> ().text = "Game is over:   Local wins: " + localPlayer.wins + " Other wins: " + nonLocalPlayer.wins;
-					}
-				}
-			}
 		}
 
 		// Called once when all players first in scene together
 		void StartGame() {
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
-			enabled = true;
 		}
 
 		void PlayerJoined(Player player) {
@@ -120,6 +109,20 @@ namespace Kunstharz
 			}
 		}
 
+		void PlayerWon() {
+			int playedRounds = localPlayer.wins + nonLocalPlayer.wins;
+
+			if (playedRounds < numRounds) {
+				StartCoroutine ("StartNextRoundLater");
+			}
+				
+			var go = GameObject.Find ("OwnState");
+			if (go) {
+				string txt = ((playedRounds < numRounds) ? "Round over " : "Game over ") +  "My wins: " + localPlayer.wins + " Opponent wins: " + nonLocalPlayer.wins;
+				go.GetComponent<Text> ().text = txt;
+			}
+		}
+
 		void GiveCameraToPlayer(Player activePlayer) {
 			Transform camTransform = Camera.main.transform;
 			Vector3 pos = camTransform.localPosition;
@@ -131,18 +134,6 @@ namespace Kunstharz
 
 			camTransform.GetComponent<Controls> ().enabled = true;
 		}
-
-		/*void MotionFinished (Player movedPlayer) {
-			if (players.Count == 1) {
-				// If only one player yet, move about as you like and skip round logic
-				localPlayer.GetComponentInChildren<Controls> ().enabled = true;
-				return;
-			}
-
-			if (movedPlayer.isLocalPlayer) {
-				movedPlayer.CmdSetState(PlayerState.ExecutedMotion);
-			}
-		}*/
 
 		bool LineOfSightExists() {
 			if (players.Count != 2) { return false; }
@@ -158,7 +149,6 @@ namespace Kunstharz
 			RaycastHit hit;
 
 			if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
-				print ("Other player is in line of sight");
 				Debug.DrawRay (start, dir, Color.red);
 				return true;
 			} else {
