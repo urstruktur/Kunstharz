@@ -14,22 +14,31 @@ namespace Kunstharz {
 		private float remainingShotCooldown = 0.0f;
 
 		private Transform ghostTransform;
+		private Crosshair crosshair;
+		private PlayerState state;
 
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
 			ghostTransform = GameObject.Find ("GhostPlayer").transform;
 			ghostTransform.gameObject.SetActive (false);
+
+			crosshair = GameObject.Find ("Crosshair").GetComponent<Crosshair> ();
+
 			enabled = false;
 		}
 
 		void Update () {
 			if (remainingShotCooldown > 0) {
 				remainingShotCooldown -= Time.deltaTime;
+
+				if (remainingShotCooldown <= 0) {
+					crosshair.mode = Crosshair.CrosshairMode.ShotSelection;
+				}
 			}
 
 
 			Player player = transform.parent.GetComponent<Player> ();
-			PlayerState state = player.state;
+			state = player.state;
 
 			bool canChooseRotation = state == PlayerState.SelectingMotion ||
 			                         state == PlayerState.SelectedMotion ||
@@ -43,10 +52,6 @@ namespace Kunstharz {
 
 			if (canSelectTarget) {
 				HandleTargetInput ();
-
-				if (state == PlayerState.SelectingShot) {
-					remainingShotCooldown = shotCooldown;
-				}
 			}
 		}
 
@@ -70,6 +75,11 @@ namespace Kunstharz {
 		}
 
 		void TrySelectTarget () {
+			if (state == PlayerState.SelectingShot) {
+				remainingShotCooldown = shotCooldown;
+				crosshair.mode = Crosshair.CrosshairMode.ShotCooldown;
+			}
+
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
 				Target target;
@@ -81,9 +91,11 @@ namespace Kunstharz {
 				if (hit.collider.CompareTag ("Player")) {
 					SendMessageUpwards ("HitPlayer", hit.collider.GetComponent<Player> ());
 				} else {
-					ghostTransform.gameObject.SetActive (true);
-					ghostTransform.transform.position = hit.point;
-					ghostTransform.transform.up = hit.normal;
+					if (state == PlayerState.SelectingMotion || state == PlayerState.SelectedMotion) {
+						ghostTransform.gameObject.SetActive (true);
+						ghostTransform.transform.position = hit.point;
+						ghostTransform.transform.up = hit.normal;
+					}
 				}
 			}
 		}

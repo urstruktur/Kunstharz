@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.66910493, g: 0.9532135, b: 0.74905956, a: 1}
+  m_IndirectSpecularColor: {r: 0.6691099, g: 0.95321447, b: 0.7490579, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -222,8 +222,9 @@ GameObject:
   - component: {fileID: 420117040}
   - component: {fileID: 420117043}
   - component: {fileID: 420117041}
+  - component: {fileID: 420117042}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,6 +275,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &420117042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 420117039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08bce915ae04245e9ab7218e49d159d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motionSelectionColor: {r: 0, g: 1, b: 1, a: 1}
+  shotSelectionColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  shotCooldownColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!33 &420117043
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -564,6 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSensitivity: 10
+  shotCooldown: 0.5
 --- !u!120 &1056737339
 LineRenderer:
   m_ObjectHideFlags: 0
