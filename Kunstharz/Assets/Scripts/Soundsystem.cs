@@ -8,12 +8,9 @@ namespace Kunstharz
     public class Soundsystem : MonoBehaviour {
 
         FMODUnity.StudioEventEmitter eventEmitterRef;
-        FMOD.Studio.EventInstance[] playerState;
-
 
         [FMODUnity.EventRef]
         public string ambient = "event:/ambient";
-
         [FMODUnity.EventRef]
         public string landing = "event:/click";
         [FMODUnity.EventRef]
@@ -22,6 +19,8 @@ namespace Kunstharz
         public string defeat = "event:/lose";
         [FMODUnity.EventRef]
         public string flying = "event:/fly";
+        [FMODUnity.EventRef]
+        public string shoot = "event:/shoot";
 
         // Use this for initialization
         void Start () {
@@ -48,7 +47,10 @@ namespace Kunstharz
                         case PlayerState.ExecutingMotion:
                             FMODUnity.RuntimeManager.PlayOneShot(flying, changedPlayer.transform.position);
                             break;
-                    }
+                        case PlayerState.ExecutingShot:
+                            FMODUnity.RuntimeManager.PlayOneShot(shoot, changedPlayer.transform.position);
+                            break;
+                }
                 }
         }
     
