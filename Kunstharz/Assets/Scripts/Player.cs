@@ -96,23 +96,13 @@ namespace Kunstharz {
 
 			PlayerState oldState = this.state;
 			this.state = state;
-			Debug.Log ("Changed from " + oldState + " to " + state);
+
 			SendMessageUpwards ("PlayerStateChanged", this);
 		}
 
 		void OnWinsChange(int wins) {
 			this.wins = wins;
 			SendMessageUpwards ("PlayerWon", this);
-		}
-
-		[Command]
-		public void CmdShot(string str) {
-			RpcShot (str);
-		}
-
-		[ClientRpc]
-		public void RpcShot(string str) {
-			Debug.Log ("Debug: " + str + " has been shot!");
 		}
         
         // only executed locally
