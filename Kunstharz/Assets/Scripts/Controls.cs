@@ -7,9 +7,11 @@ namespace Kunstharz {
 	public class Controls : MonoBehaviour {
 		
 		public float rotationSensitivity = 10.0f;
+		public float shotCooldown = 0.5f;
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
+		private float remainingShotCooldown = 0.0f;
 
 		private Transform ghostTransform;
 
@@ -21,11 +23,30 @@ namespace Kunstharz {
 		}
 
 		void Update () {
-			Player player = transform.parent.GetComponent<Player> ();
+			if (remainingShotCooldown > 0) {
+				remainingShotCooldown -= Time.deltaTime;
+			}
 
-			if (player.state == PlayerState.SelectingMotion || player.state == PlayerState.SelectedMotion || player.state == PlayerState.SelectingShot) {
+
+			Player player = transform.parent.GetComponent<Player> ();
+			PlayerState state = player.state;
+
+			bool canChooseRotation = state == PlayerState.SelectingMotion ||
+			                         state == PlayerState.SelectedMotion ||
+			                         state == PlayerState.SelectingShot;
+
+			bool canSelectTarget = canChooseRotation && remainingShotCooldown <= 0;
+
+			if (canChooseRotation) {
 				HandleRotationInput ();
+			}
+
+			if (canSelectTarget) {
 				HandleTargetInput ();
+
+				if (state == PlayerState.SelectingShot) {
+					remainingShotCooldown = shotCooldown;
+				}
 			}
 		}
 

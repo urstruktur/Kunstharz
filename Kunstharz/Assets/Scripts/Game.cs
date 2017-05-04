@@ -50,6 +50,8 @@ namespace Kunstharz
 				}
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
+			} else if (nonLocalPlayer.state == PlayerState.Dead) {
+				localPlayer.CmdSetState (PlayerState.Victorious);
 			}
 
 			if (changedPlayer.isLocalPlayer) {
