@@ -7,12 +7,29 @@ namespace Kunstharz {
 	public class Player : NetworkBehaviour {
 		[SyncVar(hook = "OnStateChange")]
 		public PlayerState state = PlayerState.SelectingMotion;
+		[SyncVar]
+		public int wins = 0;
+		private Vector3 spawnPosition;
 
 		void Start() {
+			spawnPosition = transform.position;
+			print ("intializing spawn position to " + spawnPosition);
             // set player as child of game
             var game = GameObject.Find ("Game").transform;
 			transform.parent = game;
 			SendMessageUpwards ("PlayerJoined", this);
+		}
+
+		[Command]
+		public void CmdRespawn() {
+			state = PlayerState.SelectingMotion;
+			RpcResetPosition ();
+		}
+
+		[ClientRpc]
+		public void RpcResetPosition() {
+			print ("Resetting position to " + spawnPosition);
+			transform.position = spawnPosition;
 		}
 
 		void SelectedTarget(Target target) {
@@ -33,6 +50,12 @@ namespace Kunstharz {
 
 		void HitPlayer(Player player) {
 			CmdSetState (PlayerState.Victorious);
+			CmdWon ();
+		}
+
+		[Command]
+		public void CmdWon() {
+			++wins;
 		}
 
 		[Command]

@@ -4,6 +4,7 @@ namespace Kunstharz
 {
 	public enum PlayerState
 	{
+		AwaitingRoundStart,
 		SelectingMotion,
 		SelectedMotion,
 		ExecutingMotion,

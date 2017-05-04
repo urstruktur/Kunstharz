@@ -53,6 +53,9 @@ namespace Kunstharz {
 			if (canSelectTarget) {
 				HandleTargetInput ();
 			}
+
+			ghostTransform.gameObject.SetActive (state == PlayerState.SelectedMotion ||
+			                                     state == PlayerState.ExecutingMotion);
 		}
 
 		void HandleRotationInput () {
@@ -92,45 +95,11 @@ namespace Kunstharz {
 					SendMessageUpwards ("HitPlayer", hit.collider.GetComponent<Player> ());
 				} else {
 					if (state == PlayerState.SelectingMotion || state == PlayerState.SelectedMotion) {
-						ghostTransform.gameObject.SetActive (true);
 						ghostTransform.transform.position = hit.point;
 						ghostTransform.transform.up = hit.normal;
 					}
 				}
 			}
-		}
-
-		void CalculateHit() {
-
-			RaycastHit hit;
-			Player player = transform.parent.GetComponent(typeof(Player)) as Player;
-
-			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
-				if (hit.collider.transform.parent.CompareTag ("Player")) {
-					player.CmdShot (hit.collider.transform.parent.name);
-				}
-			}
-
-			/*GameObject destroy = GameObject.Find ("Shot(Clone)");
-
-			if (destroy != null) {
-				player.CmdDestroy (destroy);
-			}*/
-				
-			/*GameObject go = Instantiate(Resources.Load("Prefabs/Shot")) as GameObject;
-
-			LineRenderer lineRenderer = go.GetComponent<LineRenderer> ();
-
-			lineRenderer.SetPosition(0, (transform.up * - 0.5f) + transform.position);
-
-			if (hit.collider != null) {
-				lineRenderer.SetPosition(1, hit.point);
-			} else {
-				lineRenderer.SetPosition(1, transform.forward * 20 + transform.position);
-			}
-
-			player.CmdInstantiate (go);*/
-
 		}
 
 	}

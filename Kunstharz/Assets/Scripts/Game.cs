@@ -67,14 +67,26 @@ namespace Kunstharz
 			enabled = false;
 		}
 
+		IEnumerator StartNextRoundLater() {
+			yield return new WaitForSeconds (5.0f);
+			localPlayer.CmdRespawn ();
+		}
+
 		void Update() {
 			if (localPlayer.state == PlayerState.ExecutingShot) {
 				localPlayer.CmdSetState (PlayerState.SelectingShot);
 			}
+
+			if ((localPlayer.state == PlayerState.Victorious || localPlayer.state == PlayerState.Dead) &&
+				(nonLocalPlayer.state == PlayerState.Victorious || nonLocalPlayer.state == PlayerState.Dead)) {
+
+				StartCoroutine ("StartNextRoundLater");
+			}
 		}
 
+		// Called once when all players first in scene together
 		void StartGame() {
-			print ("All players here, starting game.");
+			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			enabled = true;
 		}
 
