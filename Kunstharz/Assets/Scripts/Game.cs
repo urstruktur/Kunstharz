@@ -48,7 +48,6 @@ namespace Kunstharz
 				if (LineOfSightExists ()) {
 					// Action mode!
 					localPlayer.CmdSetState (PlayerState.SelectingShot);
-					GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.ShotSelection;
 				} else {
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
@@ -88,7 +87,6 @@ namespace Kunstharz
 			enabled = true;
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			localPlayer.CmdRespawn ();
-			GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.MotionSelection;
 
 			state = GameState.PlayingRound;
 		}

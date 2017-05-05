@@ -14,7 +14,6 @@ namespace Kunstharz {
 		private float remainingShotCooldown = 0.0f;
 
 		private Transform ghostTransform;
-		private Crosshair crosshair;
 		private PlayerState state;
 
 		void Start () {
@@ -22,18 +21,12 @@ namespace Kunstharz {
 			ghostTransform = GameObject.Find ("GhostPlayer").transform;
 			ghostTransform.gameObject.SetActive (false);
 
-			crosshair = GameObject.Find ("Crosshair").GetComponent<Crosshair> ();
-
 			enabled = false;
 		}
 
 		void Update () {
 			if (remainingShotCooldown > 0) {
 				remainingShotCooldown -= Time.deltaTime;
-
-				if (remainingShotCooldown <= 0) {
-					crosshair.mode = Crosshair.CrosshairMode.ShotSelection;
-				}
 			}
 
 
@@ -63,7 +56,7 @@ namespace Kunstharz {
 			float vertical = Input.GetAxis ("Mouse Y");
 
 			leftRightAngle = Mathf.MoveTowardsAngle (leftRightAngle, leftRightAngle + horizontal * rotationSensitivity, 361.0f);
-			topDownAngle = Mathf.Clamp (topDownAngle - vertical * rotationSensitivity, -10.0f, 90.0f + 45.0f);
+			topDownAngle = Mathf.Clamp (topDownAngle - vertical * rotationSensitivity, -10.0f, 170.0f);
 
 			Quaternion leftRightRotation = Quaternion.AngleAxis (leftRightAngle, Vector3.forward);
 			Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);
@@ -80,7 +73,6 @@ namespace Kunstharz {
 		void TrySelectTarget () {
 			if (state == PlayerState.SelectingShot) {
 				remainingShotCooldown = shotCooldown;
-				crosshair.mode = Crosshair.CrosshairMode.ShotCooldown;
 			}
 
 			RaycastHit hit;
