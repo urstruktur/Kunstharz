@@ -6,17 +6,26 @@ using Colorful;
 
 public class Menu : MonoBehaviour {
 
-	public GameObject textJoin;
-	public GameObject textStart;
-	public GameObject textExit;
+	[Header("Menu Text Objects")]
+	public GameObject [] textObjects = new GameObject[3];
 
-	public GameObject blurJoin;
-	public GameObject blurStart;
-	public GameObject blurExit;
+	[Header("Menu Blur Objects")]
+	public GameObject [] blurObjects = new GameObject[3];
 
-	public GameObject gameWorld;
-	public GameObject canvas;
+	[Header("Other Parameters")]
+	public GameObject generalCanvas;
 
+	float [] blurObjectLength = {232f, 499f, 219f};
+	float turnXOld = 0;
+	float turnYOld = 0;
+
+	[ContextMenu("Reset The Value")]
+	private void resetTheValue()  
+	{
+		turnXOld = 42;
+	}
+
+	[Header("FMOD Events")]
     [FMODUnity.EventRef]
     public string hover = "event:/ui/hover";
 
@@ -35,25 +44,6 @@ public class Menu : MonoBehaviour {
     [FMODUnity.EventRef]
     public string zoomOut = "event:/ui/click";
 
-	GameObject [] textObjects = new GameObject[3];
-	GameObject [] blurObjects = new GameObject[3];
-	float [] blurObjectLength = {232f, 499f, 219f};
-
-	float turnXOld = 0;
-	float turnYOld = 0;
-
-	void Start () {
-
-		textObjects [0] = textJoin;
-		textObjects [1] = textStart;
-		textObjects [2] = textExit;
-
-		blurObjects [0] = blurJoin;
-		blurObjects [1] = blurStart;
-		blurObjects [2] = blurExit;
-
-    }
-
 	void Update() {
 		turnGameWorld ();
 	}
@@ -62,8 +52,7 @@ public class Menu : MonoBehaviour {
 		float turnX = mouseXN () - turnXOld;
 		float turnY = mouseYN () - turnYOld;
 
-		//gameWorld.transform.eulerAngles += new Vector3(turnY * 8, turnX * 8, 0);
-		canvas.transform.eulerAngles += new Vector3(turnY * 8, turnX * 8, 0);
+		generalCanvas.transform.eulerAngles += new Vector3(turnY * 8, turnX * 8, 0);
 
 		turnXOld = mouseXN ();
 		turnYOld = mouseYN ();

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114994842594926008}
   - component: {fileID: 114820645940665528}
   - component: {fileID: 114184163501077006}
+  - component: {fileID: 95870311527925704}
   m_Layer: 5
   m_Name: Crosshair
   m_TagString: Untagged
@@ -115,6 +116,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95870311527925704
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1277423285062306}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 06a2e046468f84a50af56268b5938ccc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114058829126798420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,6 +171,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce2345719a13f4e5297e59c79c6c7787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crosshairParts:
+  - {fileID: 1602707522539080}
+  - {fileID: 1634411545303876}
+  - {fileID: 1332107289711678}
+  - {fileID: 1760111353039970}
+  - {fileID: 1583005202706426}
+  crosshairMode: 0
 --- !u!114 &114310180264555556
 MonoBehaviour:
   m_ObjectHideFlags: 1
