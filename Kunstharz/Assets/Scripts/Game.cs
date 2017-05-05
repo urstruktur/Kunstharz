@@ -7,11 +7,13 @@ namespace Kunstharz
 {
 	public class Game : MonoBehaviour
 	{
+		public GameState state = GameState.Preparing;
 		public int numRounds = 3;
 
 		private List<Player> players = new List<Player> ();
+		private Gui gui;
 
-		private Player localPlayer {
+		public Player localPlayer {
 			get {
 				foreach (var player in players) {
 					if (player.isLocalPlayer) {
@@ -22,7 +24,7 @@ namespace Kunstharz
 			}
 		}
 
-		private Player nonLocalPlayer {
+		public Player nonLocalPlayer {
 			get {
 				foreach (var player in players) {
 					if (!player.isLocalPlayer) {
@@ -69,19 +71,26 @@ namespace Kunstharz
 					}
 				}
 			}
+
+			gui.UpdatePlayerStates (this);
 		}
 
 		void Start() {
 			enabled = false;
+			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 		}
 
 		IEnumerator StartNextRoundLater() {
+			state = GameState.BetweenRounds;
+
 			yield return new WaitForSeconds (5.0f);
 
 			enabled = true;
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			localPlayer.CmdRespawn ();
 			GameObject.Find ("Crosshair").GetComponent<Crosshair> ().mode = Crosshair.CrosshairMode.MotionSelection;
+
+			state = GameState.PlayingRound;
 		}
 
 		void Update() {
@@ -93,6 +102,7 @@ namespace Kunstharz
 		// Called once when all players first in scene together
 		void StartGame() {
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
+			state = GameState.PlayingRound;
 		}
 
 		void PlayerJoined(Player player) {
@@ -114,13 +124,11 @@ namespace Kunstharz
 
 			if (playedRounds < numRounds) {
 				StartCoroutine ("StartNextRoundLater");
+			} else {
+				state = GameState.Finished;
 			}
 				
-			var go = GameObject.Find ("OwnState");
-			if (go) {
-				string txt = ((playedRounds < numRounds) ? "Round over " : "Game over ") +  "My wins: " + localPlayer.wins + " Opponent wins: " + nonLocalPlayer.wins;
-				go.GetComponent<Text> ().text = txt;
-			}
+			gui.UpdateScore (this);
 		}
 
 		void GiveCameraToPlayer(Player activePlayer) {
