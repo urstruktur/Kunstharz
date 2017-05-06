@@ -8,7 +8,7 @@ public class UICrosshair : MonoBehaviour {
 	public GameObject [] crosshairParts = new GameObject[5];
 
 
-	public enum CrosshairModes {Move, Shoot};
+	public enum CrosshairModes {Move, Shoot, MoveIdle, ShootIdle, MoveDenied, ShotFired};
 
 	[Header("General")]
 	public CrosshairModes crosshairMode = CrosshairModes.Move;
@@ -21,8 +21,16 @@ public class UICrosshair : MonoBehaviour {
 			currentCrosshairMode = crosshairMode;
 			if (crosshairMode == CrosshairModes.Move) {
 				showMoveCrosshair ();
-			} else {
+			} else if (crosshairMode == CrosshairModes.Shoot) {
 				showShootCrosshair ();
+			} else if (crosshairMode == CrosshairModes.MoveIdle) {
+				showMoveIdleCrosshair ();
+			} else if (crosshairMode == CrosshairModes.ShootIdle) {
+				showShootIdleCrosshair ();
+			} else if (crosshairMode == CrosshairModes.MoveDenied) {
+				showMoveDeniedCrosshair ();
+			}  else if (crosshairMode == CrosshairModes.ShotFired) {
+				showShotFiredCrosshair ();
 			}
 		}
 	}
@@ -35,5 +43,25 @@ public class UICrosshair : MonoBehaviour {
 	void showMoveCrosshair() {
 		Debug.Log ("Move Crosshair Activated");
 		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveAnimation");
+	}
+
+	void showMoveIdleCrosshair() {
+		Debug.Log ("Move Idle Crosshair Activated");
+		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveIdleAnimation");
+	}
+
+	void showShootIdleCrosshair() {
+		Debug.Log ("Shoot Idle Crosshair Activated");
+		gameObject.GetComponent<Animator> ().Play ("CrosshairShootIdleAnimation");
+	}
+
+	void showMoveDeniedCrosshair() {
+		Debug.Log ("Move Denied Crosshair Activated");
+		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveDeniedAnimation");
+	}
+
+	void showShotFiredCrosshair() {
+		Debug.Log ("Shot Fired Crosshair Activated");
+		gameObject.GetComponent<Animator> ().Play ("CrosshairShootFiredAnimation");
 	}
 }
