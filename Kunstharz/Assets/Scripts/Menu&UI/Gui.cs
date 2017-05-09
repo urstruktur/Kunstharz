@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.PostProcessing;
 
 namespace Kunstharz
 {
@@ -42,13 +43,30 @@ namespace Kunstharz
 
 			delta = new Vector2 (Input.GetAxis ("Mouse X"), Input.GetAxis ("Mouse Y"));
 
-			panels.transform.localPosition += new Vector3(- (delta.x * delta.magnitude * 30f), -(delta.y * delta.magnitude * 30f), 0f);
+			if (delta.magnitude > 0.0) {
+				Vector3 newUiPosition = panels.transform.localPosition + new Vector3 (-delta.x * 2f, -delta.y * 2f, 0f);
 
-			panels.transform.localPosition = Vector3.ClampMagnitude (panels.transform.localPosition, 30f);
+				float x = Mathf.Clamp (newUiPosition.x, -150f, 150f);
+				float y = Mathf.Clamp (newUiPosition.y, -30f, 30f);
 
-			Vector3 damp = new Vector3 (0.5f, 0.5f, 0.5f);
+				panels.transform.localPosition = new Vector3 (x, y, 0f);
 
-			panels.transform.localPosition = Vector3.Scale (panels.transform.localPosition, damp);
+				/*ChromaticAberrationModel.Settings chromaticAbberation = mainCamera.GetComponent<PostProcessingBehaviour> ().profile.chromaticAberration.settings;
+
+				chromaticAbberation.intensity = Mathf.Clamp (delta.magnitude * 0.5f, 0.25f, 0.8f);
+
+				Debug.Log (Mathf.Clamp (delta.magnitude * 0.5f, 0f, 0.8f));
+
+				mainCamera.GetComponent<PostProcessingBehaviour> ().profile.chromaticAberration.settings = chromaticAbberation;*/
+
+
+			} else if (panels.transform.localPosition.x > 0.01f || panels.transform.localPosition.y > 0.01f) {
+				
+				Vector3 damp = new Vector3 (0.8f, 0.8f, 0.8f);
+				panels.transform.localPosition = Vector3.Scale (panels.transform.localPosition, damp);
+			} else {
+				panels.transform.localPosition = Vector3.zero;
+			}
 
 		}
 
