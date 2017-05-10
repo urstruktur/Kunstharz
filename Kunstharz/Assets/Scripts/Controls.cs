@@ -6,8 +6,13 @@ using UnityEngine.Networking;
 namespace Kunstharz {
 	public class Controls : MonoBehaviour {
 		
-		public float rotationSensitivity = 10.0f;
 		public float shotCooldown = 0.5f;
+
+		Vector2 mouseAbsolute;
+		Vector2 smoothMouse;
+
+		public Vector2 sensitivity = new Vector2(3, 3);
+		public Vector2 smoothing = new Vector2(3, 3);
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
@@ -22,6 +27,7 @@ namespace Kunstharz {
 			ghostTransform.gameObject.SetActive (false);
 
 			enabled = false;
+
 		}
 
 		void Update () {
@@ -39,8 +45,10 @@ namespace Kunstharz {
 
 			bool canSelectTarget = canChooseRotation && remainingShotCooldown <= 0;
 
-			if (canChooseRotation) {
-				HandleRotationInput ();
+
+			//canChoose Rotation
+			if (true) {
+				SmoothMove ();
 			}
 
 			if (canSelectTarget) {
@@ -49,19 +57,6 @@ namespace Kunstharz {
 
 			ghostTransform.gameObject.SetActive (state == PlayerState.SelectedMotion ||
 			                                     state == PlayerState.ExecutingMotion);
-		}
-
-		void HandleRotationInput () {
-			float horizontal = Input.GetAxis ("Mouse X");
-			float vertical = Input.GetAxis ("Mouse Y");
-
-			leftRightAngle = Mathf.MoveTowardsAngle (leftRightAngle, leftRightAngle + horizontal * rotationSensitivity, 361.0f);
-			topDownAngle = Mathf.Clamp (topDownAngle - vertical * rotationSensitivity, -10.0f, 170.0f);
-
-			Quaternion leftRightRotation = Quaternion.AngleAxis (leftRightAngle, Vector3.forward);
-			Quaternion topDownRotation = Quaternion.AngleAxis (topDownAngle, Vector3.right);
-
-			transform.localRotation = leftRightRotation * topDownRotation;
 		}
 
 		void HandleTargetInput () {
@@ -92,6 +87,30 @@ namespace Kunstharz {
 					}
 				}
 			}
+		}
+
+		void SmoothMove () {
+
+			Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+
+			// Scale input against the sensitivity setting and multiply that against the smoothing value.
+			mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
+
+			// Interpolate mouse movement over time to apply smoothing delta.
+			smoothMouse.x = Mathf.Lerp(smoothMouse.x, mouseDelta.x, 1f / smoothing.x);
+			smoothMouse.y = Mathf.Lerp(smoothMouse.y, mouseDelta.y, 1f / smoothing.y);
+
+			mouseAbsolute += smoothMouse;
+
+			mouseAbsolute.y = Mathf.Clamp (-mouseAbsolute.y, -20.0f, 170.0f);
+
+			Quaternion leftRightRotation = Quaternion.AngleAxis (mouseAbsolute.x, Vector3.forward);
+			Quaternion topDownRotation = Quaternion.AngleAxis (mouseAbsolute.y, Vector3.right);
+
+			transform.localRotation = leftRightRotation * topDownRotation;
+
+			mouseAbsolute.y = -mouseAbsolute.y;
+
 		}
 
 	}

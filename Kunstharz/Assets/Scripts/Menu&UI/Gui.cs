@@ -14,10 +14,13 @@ namespace Kunstharz
 		public Text p1Action;
 		public Text p2Action;
 
-		Vector2 delta = Vector2.zero;
+		public GameObject GUIAnchor;
 
-		public Camera mainCamera;
-		public GameObject panels;
+		public float speed = 5f;
+
+		private Vector3 currentAngle;
+
+		private float velocity = 0f;
 
 		public void UpdateScore(Game game) {
 			Player local = game.localPlayer;
@@ -33,40 +36,27 @@ namespace Kunstharz
 		}
 
 		void Start() {
+			currentAngle = GUIAnchor.transform.eulerAngles;
+
+			GUIAnchor.transform.position = Camera.main.transform.position;
+			GUIAnchor.transform.eulerAngles = Camera.main.transform.eulerAngles;
 		}
 
 		void Update() {
-			UISlug ();
+			UISlug();
 		}
 
 		private void UISlug() {
 
-			delta = new Vector2 (Input.GetAxis ("Mouse X"), Input.GetAxis ("Mouse Y"));
+			GUIAnchor.transform.position = Camera.main.transform.position;
 
-			if (delta.magnitude > 0.0) {
-				Vector3 newUiPosition = panels.transform.localPosition + new Vector3 (-delta.x * 2f, -delta.y * 2f, 0f);
+			currentAngle = new Vector3(
 
-				float x = Mathf.Clamp (newUiPosition.x, -150f, 150f);
-				float y = Mathf.Clamp (newUiPosition.y, -30f, 30f);
+				Mathf.LerpAngle(currentAngle.x, Camera.main.transform.eulerAngles.x, Time.deltaTime * speed),
+				Mathf.LerpAngle(currentAngle.y, Camera.main.transform.eulerAngles.y, Time.deltaTime * speed),
+				Mathf.LerpAngle(currentAngle.z, Camera.main.transform.eulerAngles.z, Time.deltaTime * speed));
 
-				panels.transform.localPosition = new Vector3 (x, y, 0f);
-
-				/*ChromaticAberrationModel.Settings chromaticAbberation = mainCamera.GetComponent<PostProcessingBehaviour> ().profile.chromaticAberration.settings;
-
-				chromaticAbberation.intensity = Mathf.Clamp (delta.magnitude * 0.5f, 0.25f, 0.8f);
-
-				Debug.Log (Mathf.Clamp (delta.magnitude * 0.5f, 0f, 0.8f));
-
-				mainCamera.GetComponent<PostProcessingBehaviour> ().profile.chromaticAberration.settings = chromaticAbberation;*/
-
-
-			} else if (panels.transform.localPosition.x > 0.01f || panels.transform.localPosition.y > 0.01f) {
-				
-				Vector3 damp = new Vector3 (0.8f, 0.8f, 0.8f);
-				panels.transform.localPosition = Vector3.Scale (panels.transform.localPosition, damp);
-			} else {
-				panels.transform.localPosition = Vector3.zero;
-			}
+			GUIAnchor.transform.eulerAngles = currentAngle;
 
 		}
 
