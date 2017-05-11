@@ -47,7 +47,7 @@ namespace Kunstharz {
 
 
 			//true
-			if (canChooseRotation) {
+			if (true) {
 				SmoothMove ();
 			}
 
