@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.PostProcessing;
 
 namespace Kunstharz
 {
@@ -14,26 +13,14 @@ namespace Kunstharz
 		public Text p1Action;
 		public Text p2Action;
 
-		public GameObject GUIAnchor;
+		public Text p1Name;
+		public Text p2Name;
 
+		public GameObject GUIAnchor;
 		public float speed = 5f;
 
 		private Vector3 currentAngle;
-
-		private float velocity = 0f;
-
-		public void UpdateScore(Game game) {
-			Player local = game.localPlayer;
-			Player other = game.nonLocalPlayer;
-
-			p1ScoreText.text = ""+local.wins;
-			p2ScoreText.text = ""+other.wins;
-		}
-
-		public void UpdatePlayerStates(Game game) {
-			p1Action.text = ""+game.localPlayer.state;
-			p2Action.text = ""+game.nonLocalPlayer.state;
-		}
+		private float currentVelocity;
 
 		void Start() {
 			currentAngle = GUIAnchor.transform.eulerAngles;
@@ -42,20 +29,40 @@ namespace Kunstharz
 			GUIAnchor.transform.eulerAngles = Camera.main.transform.eulerAngles;
 		}
 
-		void Update() {
+		public void UpdateScore(Game game) {
+			Player local = game.localPlayer;
+			Player other = game.nonLocalPlayer;
+
+			p1ScoreText.text = ""+local.wins;
+			p2ScoreText.text = ""+other.wins;
+
+		}
+
+		public void UpdatePlayerStates(Game game) {
+			p1Action.text = ""+game.localPlayer.state;
+			p2Action.text = ""+game.nonLocalPlayer.state;
+		}
+
+		public void UpdatePlayerNames(Game game) {
+			p1Action.text = ""+game.localPlayer.name;
+			p2Action.text = ""+game.nonLocalPlayer.name;	
+		}
+
+		void LateUpdate() {
 			UISlug();
 		}
 
 		private void UISlug() {
 
+			Vector3 currentCameraAngle = Camera.main.transform.eulerAngles;
+
 			GUIAnchor.transform.position = Camera.main.transform.position;
 
-			currentAngle = new Vector3(
-
-				Mathf.LerpAngle(currentAngle.x, Camera.main.transform.eulerAngles.x, Time.deltaTime * speed),
-				Mathf.LerpAngle(currentAngle.y, Camera.main.transform.eulerAngles.y, Time.deltaTime * speed),
-				Mathf.LerpAngle(currentAngle.z, Camera.main.transform.eulerAngles.z, Time.deltaTime * speed));
-
+			currentAngle = new Vector3 (
+				Mathf.SmoothDampAngle (currentAngle.x, currentCameraAngle.x, ref currentVelocity, Time.deltaTime * speed),
+				Mathf.SmoothDampAngle (currentAngle.y, currentCameraAngle.y, ref currentVelocity, Time.deltaTime * speed * 1.5f),
+				Mathf.SmoothDampAngle (currentAngle.z, currentCameraAngle.z, ref currentVelocity, Time.deltaTime * speed));
+	
 			GUIAnchor.transform.eulerAngles = currentAngle;
 
 		}

@@ -12,6 +12,7 @@ namespace Kunstharz
 
 		private List<Player> players = new List<Player> ();
 		private Gui gui;
+		private ModularCrosshair crosshair;
 
 		public Player localPlayer {
 			get {
@@ -77,6 +78,7 @@ namespace Kunstharz
 		void Start() {
 			enabled = false;
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
+			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 		}
 
 		IEnumerator StartNextRoundLater() {
@@ -101,6 +103,7 @@ namespace Kunstharz
 		void StartGame() {
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			state = GameState.PlayingRound;
+			gui.UpdatePlayerNames(this);
 		}
 
 		void PlayerJoined(Player player) {

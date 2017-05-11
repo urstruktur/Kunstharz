@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UICrosshair : MonoBehaviour {
+public class ModularCrosshair : MonoBehaviour {
 
 	[Header("Crosshair Parts")]
 	public GameObject [] crosshairParts = new GameObject[5];
-
 
 	public enum CrosshairModes {Move, Shoot, MoveIdle, ShootIdle, MoveDenied, ShotFired};
 
@@ -20,48 +19,63 @@ public class UICrosshair : MonoBehaviour {
 		if (crosshairMode != currentCrosshairMode) {
 			currentCrosshairMode = crosshairMode;
 			if (crosshairMode == CrosshairModes.Move) {
-				showMoveCrosshair ();
+				ShowMoveCrosshair ();
 			} else if (crosshairMode == CrosshairModes.Shoot) {
-				showShootCrosshair ();
+				ShowShootCrosshair ();
 			} else if (crosshairMode == CrosshairModes.MoveIdle) {
-				showMoveIdleCrosshair ();
+				ShowMoveIdleCrosshair ();
 			} else if (crosshairMode == CrosshairModes.ShootIdle) {
-				showShootIdleCrosshair ();
+				ShowShootIdleCrosshair ();
 			} else if (crosshairMode == CrosshairModes.MoveDenied) {
-				showMoveDeniedCrosshair ();
+				ShowMoveDeniedCrosshair ();
 			}  else if (crosshairMode == CrosshairModes.ShotFired) {
-				showShotFiredCrosshair ();
+				ShowShotFiredCrosshair ();
 			}
 		}
 	}
 
-	void showShootCrosshair() {
+	public void ShowShootCrosshair() {
 		Debug.Log ("Shoot Crosshair Activated");
+		ChangeCrosshairMode(CrosshairModes.Shoot);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairShootAnimation");
 	}
 
-	void showMoveCrosshair() {
+	public void ShowMoveCrosshair() {
 		Debug.Log ("Move Crosshair Activated");
+		ChangeCrosshairMode(CrosshairModes.Move);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveAnimation");
 	}
 
-	void showMoveIdleCrosshair() {
+	public void ShowMoveIdleCrosshair() {
 		Debug.Log ("Move Idle Crosshair Activated");
+		ChangeCrosshairMode(CrosshairModes.MoveIdle);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveIdleAnimation");
 	}
 
-	void showShootIdleCrosshair() {
+	public void ShowShootIdleCrosshair() {
 		Debug.Log ("Shoot Idle Crosshair Activated");
+		ChangeCrosshairMode(CrosshairModes.ShootIdle);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairShootIdleAnimation");
 	}
 
-	void showMoveDeniedCrosshair() {
+	public void ShowMoveDeniedCrosshair() {
 		Debug.Log ("Move Denied Crosshair Activated");
+		ChangeCrosshairMode(CrosshairModes.MoveDenied);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveDeniedAnimation");
 	}
 
-	void showShotFiredCrosshair() {
+	public void ShowShotFiredCrosshair() {
 		Debug.Log ("Shot Fired Crosshair Activated");
+		ChangeCrosshairMode(CrosshairModes.ShotFired);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairShootFiredAnimation");
+	}
+
+	public void ChangeCrosshairMode (CrosshairModes mode) {
+		currentCrosshairMode = mode;
+		crosshairMode = mode;
+	}
+
+	public void UpdateCrosshair (Kunstharz.Game game) {
+		//game.localPlayer.cmd
 	}
 }
