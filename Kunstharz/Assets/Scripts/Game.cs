@@ -41,6 +41,7 @@ namespace Kunstharz
 			    (nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
 
 				localPlayer.CmdSetState (PlayerState.ExecutingMotion);
+				crosshair.ShowMoveIdleCrosshair();
 
 				players [0].GetComponent<Motion> ().enabled = true;
 				players [1].GetComponent<Motion> ().enabled = true;
@@ -49,9 +50,11 @@ namespace Kunstharz
 				if (LineOfSightExists ()) {
 					// Action mode!
 					localPlayer.CmdSetState (PlayerState.SelectingShot);
+					crosshair.ShowShootCrosshair();
 				} else {
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
+					crosshair.ShowMoveCrosshair();
 				}
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);

@@ -46,8 +46,8 @@ namespace Kunstharz {
 			bool canSelectTarget = canChooseRotation && remainingShotCooldown <= 0;
 
 
-			//canChoose Rotation
-			if (true) {
+			//true
+			if (canChooseRotation) {
 				SmoothMove ();
 			}
 

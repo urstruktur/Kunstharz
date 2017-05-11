@@ -74,8 +74,5 @@ public class ModularCrosshair : MonoBehaviour {
 		currentCrosshairMode = mode;
 		crosshairMode = mode;
 	}
-
-	public void UpdateCrosshair (Kunstharz.Game game) {
-		//game.localPlayer.cmd
-	}
+	
 }

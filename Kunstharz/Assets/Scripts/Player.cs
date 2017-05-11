@@ -15,6 +15,7 @@ namespace Kunstharz {
 		private Vector3 spawnPosition;
 		private Quaternion spawnRotation;
 		private float remainingDeathTimeout = float.MaxValue;
+		private ModularCrosshair crosshair;
 
 		void Start() {
 			spawnPosition = transform.position;
@@ -24,6 +25,8 @@ namespace Kunstharz {
             var game = GameObject.Find ("Game").transform;
 			transform.parent = game;
 			SendMessageUpwards ("PlayerJoined", this);
+
+			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 		}
 
 		void Update() {
@@ -60,6 +63,8 @@ namespace Kunstharz {
                 {
                     i.Shoot();
                 }
+
+				crosshair.ShowShootCrosshair();
             } else {
 				SendMessage ("SetFlyTarget", target);
 				CmdSetState (PlayerState.SelectedMotion);
@@ -69,6 +74,7 @@ namespace Kunstharz {
                 {
                     i.Shock(target.position);
                 }
+
 			}
 		}
 
