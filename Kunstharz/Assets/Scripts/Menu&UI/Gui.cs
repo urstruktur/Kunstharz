@@ -9,12 +9,15 @@ namespace Kunstharz
 
 		public Text p1ScoreText;
 		public Text p2ScoreText;
+		public Text generalScore;
 
 		public Text p1Action;
 		public Text p2Action;
 
 		public Text p1Name;
 		public Text p2Name;
+
+		public Image[] scoreImages = new Image [6];
 
 		public GameObject GUIAnchor;
 		public float speed = 5f;
@@ -36,6 +39,24 @@ namespace Kunstharz
 			p1ScoreText.text = ""+local.wins;
 			p2ScoreText.text = ""+other.wins;
 
+			generalScore.text = local.wins + ":" + other.wins;
+
+			for (int i = 0; i < 3; i++) {
+				if (i < local.wins) {
+					scoreImages[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+				} else {
+					scoreImages[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
+				}
+			}
+
+			for (int i = 0; i < 3; i++) {
+				if (i < other.wins) {
+					scoreImages[i + 3].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+				} else {
+					scoreImages[i + 3].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
+				}
+			}
+			
 		}
 
 		public void UpdatePlayerStates(Game game) {
