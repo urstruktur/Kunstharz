@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 1056737339}
   - component: {fileID: 1056737340}
   - component: {fileID: 1056737333}
+  - component: {fileID: 1056737344}
   - component: {fileID: 1056737341}
   - component: {fileID: 1056737342}
   - component: {fileID: 1056737343}
@@ -628,6 +629,7 @@ Animation:
   m_Animation: {fileID: 7400000, guid: 0193714999864614fa67ae4a0fa3e9bf, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 0193714999864614fa67ae4a0fa3e9bf, type: 2}
+  - {fileID: 7400000, guid: b306c6fd28bdb034699388bf47121e13, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -643,6 +645,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf3326f4f5cd4c8eaab028990303b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1056737344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056737332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e745705fe7d48d43b76b08e7b9a4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentShader: {fileID: 4800000, guid: b5522d596928c15408f7e76c70a1ce9a, type: 3}
+  intensity: 0
+  m: 1.5
+  n1: 5
+  n2: 18
+  n3: 18
 --- !u!1 &1107974836
 GameObject:
   m_ObjectHideFlags: 0

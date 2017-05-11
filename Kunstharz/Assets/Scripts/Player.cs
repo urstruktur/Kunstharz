@@ -54,7 +54,13 @@ namespace Kunstharz {
 			if (state == PlayerState.SelectingShot) {
 				SendMessage ("SetShootTarget", target);
 				CmdSetState (PlayerState.ExecutingShot);
-			} else {
+
+                ImageEffectSuperformula i = Camera.main.GetComponent<ImageEffectSuperformula>();
+                if (i != null)
+                {
+                    i.Shoot();
+                }
+            } else {
 				SendMessage ("SetFlyTarget", target);
 				CmdSetState (PlayerState.SelectedMotion);
 
