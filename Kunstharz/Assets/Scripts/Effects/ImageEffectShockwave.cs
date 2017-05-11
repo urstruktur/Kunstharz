@@ -44,11 +44,10 @@ public class ImageEffectShockwave : MonoBehaviour
     public void Shock(Vector3 origin)
     {
         this.origin = origin;
-        Animation animation = GetComponent<Animation>();
-        if (animation != null)
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
         {
-            animation.Stop();
-            animation.Play();
+            animator.Play("Shockwave");
         }
     }
 

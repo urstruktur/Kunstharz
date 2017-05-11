@@ -68,11 +68,11 @@ public class ImageEffectSuperformula : MonoBehaviour
 
     public void Shoot()
     {
-        Animation animation = GetComponent<Animation>();
-        if (animation != null)
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
         {
-            animation.Stop();
-            animation.Play("Lasershot");
+            //animator.StopPlayback();
+            animator.Play("Lasershot");
         }
     }
 }
