@@ -25,6 +25,8 @@ namespace Kunstharz
 		private Vector3 currentAngle;
 		private float currentVelocity;
 
+		bool slug = true;
+
 		void Start() {
 			currentAngle = GUIAnchor.transform.eulerAngles;
 
@@ -87,6 +89,5 @@ namespace Kunstharz
 			GUIAnchor.transform.eulerAngles = currentAngle;
 
 		}
-
 	}
 }

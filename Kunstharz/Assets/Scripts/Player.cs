@@ -16,6 +16,7 @@ namespace Kunstharz {
 		private Quaternion spawnRotation;
 		private float remainingDeathTimeout = float.MaxValue;
 		private ModularCrosshair crosshair;
+		private Gui gui;
 
 		void Start() {
 			spawnPosition = transform.position;
@@ -27,6 +28,7 @@ namespace Kunstharz {
 			SendMessageUpwards ("PlayerJoined", this);
 
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
+			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 		}
 
 		void Update() {
