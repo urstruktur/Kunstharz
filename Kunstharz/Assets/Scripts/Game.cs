@@ -54,7 +54,6 @@ namespace Kunstharz
 				} else {
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
-					crosshair.ShowMoveCrosshair();
 				}
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
@@ -92,6 +91,8 @@ namespace Kunstharz
 			enabled = true;
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			localPlayer.CmdRespawn ();
+
+			crosshair.ShowMoveCrosshair();
 
 			state = GameState.PlayingRound;
 		}

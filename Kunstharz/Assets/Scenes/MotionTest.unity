@@ -498,8 +498,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotCooldown: 0.5
-  sensitivity: {x: 2, y: 2}
-  smoothing: {x: 3, y: 3}
+  sensitivity: {x: 4, y: 4}
+  smoothing: {x: 2, y: 2}
 --- !u!120 &1056737339
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ namespace Kunstharz {
 		Vector2 smoothMouse;
 
 		public Vector2 sensitivity = new Vector2(3, 3);
-		public Vector2 smoothing = new Vector2(3, 3);
+		public Vector2 smoothing = new Vector2(2, 2);
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
@@ -46,8 +46,8 @@ namespace Kunstharz {
 			bool canSelectTarget = canChooseRotation && remainingShotCooldown <= 0;
 
 
-			//true
-			if (canChooseRotation) {
+			//canChooseRotation
+			if (true) {
 				SmoothMove ();
 			}
 
