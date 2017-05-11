@@ -22,7 +22,6 @@ public class PostProcessingCamera : MonoBehaviour {
 	private void SetChromaticAberration(float value) {
 		ChromaticAberrationModel.Settings chromaticAbberation = profile.chromaticAberration.settings;
 		chromaticAbberation.intensity = Mathf.Clamp (value, 0.2f, 0.6f);
-		Debug.Log(chromaticAbberation.intensity);
 		profile.chromaticAberration.settings = chromaticAbberation;
 	}
 
