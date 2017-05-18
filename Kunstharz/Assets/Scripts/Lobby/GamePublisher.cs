@@ -25,11 +25,18 @@ namespace Kunstharz
             PING = 1
         }
 
-        private UdpClient pingSocket = new UdpClient();
+        private UdpClient pingSocket;
 
         // Use this for initialization
         void Start()
         {
+           
+        }
+
+        void OnEnable()
+        {
+            Debug.Log("Enable server...");
+            pingSocket = new UdpClient();
             pingSocket = SocketHelper.CreateUDPServer((int)PORTS.PING_REQUEST, (endPoint, receivedBytes) =>
             {
                 if (SocketHelper.CheckVersion(ref receivedBytes, (int)VERSION.PING))
@@ -39,20 +46,18 @@ namespace Kunstharz
             });
         }
 
-        void OnEnable()
-        {
-
-        }
-
         void OnDisable()
         {
-
+            Debug.Log("Disable server...");
+            pingSocket.Close();
         }
 
         // ---------------- private methods ------------------------
 
         private void HandlePingConnection(IPEndPoint endPoint)
         {
+            Debug.Log("Handle incoming request & send back game name...");
+
             string gameName = "Kunstharz Testname";
 
             byte[] gameNameData = UTF8Encoding.UTF8.GetBytes(gameName);

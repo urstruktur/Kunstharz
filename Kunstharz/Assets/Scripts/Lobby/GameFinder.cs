@@ -56,11 +56,14 @@ namespace Kunstharz
         private volatile Dictionary<string, KunstharzGame> games = new Dictionary<string, KunstharzGame>();
         private const string NO_GAMES = "NO GAME FOUND SO FAR!";
 
-        private UdpClient pingListener = new UdpClient();
+        private UdpClient pingListener;
         private IPAddress ipAddress;
 
         [SerializeField]
         private bool searchingForGames;
+
+        private Thread searchThread;
+        private Thread checkThread;
 
         void Awake()
         {
@@ -70,22 +73,28 @@ namespace Kunstharz
         // Use this for initialization
         void Start()
         {
+        }
+
+        void OnEnable()
+        {
+            Debug.Log("Enable finder...");
+            pingListener = new UdpClient();
+
             pingListener = SocketHelper.CreateUDPServer((int)PORTS.PING_RESPONSE, (endPoint, receivedBytes) =>
             {
                 FoundGame(endPoint, receivedBytes);
             });
 
             SearchForGames();
-        }
-
-        void OnEnable()
-        {
-
+            CheckExistingGames();
         }
 
         void OnDisable()
         {
-
+            Debug.Log("Disable finder...");
+            searchThread.Abort();
+            checkThread.Abort();
+            pingListener.Close();
         }
 
         // -------------------  private methods  -----------------------
@@ -93,89 +102,104 @@ namespace Kunstharz
 
         private void SearchForGames()
         {
-            // TODO: handle with own thread
-            while (searchingForGames)
-            {
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                string ipAddressString = this.ipAddress.ToString();
-                string[] ipAddressSubStrings = ipAddressString.Split('.');
+            Debug.Log("Searching for games...");
+            searchThread = new Thread(() =>
+             {
+                 while (searchingForGames)
+                 {
+                     Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                     string ipAddressString = this.ipAddress.ToString();
+                     string[] ipAddressSubStrings = ipAddressString.Split('.');
 
-                Debug.Log(ipAddress);
+                     Debug.Log(ipAddress);
 
-                if (ipAddressSubStrings.Length != 4)
-                {
-                    Debug.Log("Wrong IP-Address");
-                }
+                     if (ipAddressSubStrings.Length != 4)
+                     {
+                         Debug.Log("Wrong IP-Address");
+                     }
 
-                string newIpAddress = ipAddressSubStrings[0] + "." + ipAddressSubStrings[1] + "." + ipAddressSubStrings[2] + ".";
+                     string newIpAddress = ipAddressSubStrings[0] + "." + ipAddressSubStrings[1] + "." + ipAddressSubStrings[2] + ".";
 
-                for (int i = 0; i < 256; i++)
-                {
-                    IPAddress ipAddress = IPAddress.Parse(newIpAddress + i);
-                    try
-                    {
-                        socket.EnableBroadcast = true;
-                        socket.SendTo(new byte[] { (byte)VERSION.PING }, new IPEndPoint(ipAddress, (int)PORTS.PING_REQUEST));
-                    }
-                    catch (SocketException e)
-                    {
-                        Debug.Log(e);
-                    }
-                }
+                     for (int i = 0; i < 256; i++)
+                     {
+                         IPAddress ipAddress = IPAddress.Parse(newIpAddress + i);
+                         try
+                         {
+                             socket.EnableBroadcast = true;
+                             socket.SendTo(new byte[] { (byte)VERSION.PING }, new IPEndPoint(ipAddress, (int)PORTS.PING_REQUEST));
+                         }
+                         catch (SocketException e)
+                         {
+                             Debug.Log(e);
+                         }
+                     }
 
-                socket.Close();
-                Thread.Sleep((int)INTERVALES.SEARCH_FOR_GAMES);
-            }
+                     socket.Close();
+                     Thread.Sleep((int)INTERVALES.SEARCH_FOR_GAMES);
+                 }
+             });
+
+             searchThread.IsBackground = true;
+             searchThread.Start();
         }
 
         private void CheckExistingGames()
         {
-            // TODO: handle with own thread
-            lock (games)
+            Debug.Log("Check existing games...");
+            checkThread = new Thread(() => 
             {
-                Dictionary<string, KunstharzGame> gamesCopy = new Dictionary<string, KunstharzGame>(games);
-                foreach (KeyValuePair<string, KunstharzGame> game in gamesCopy)
+                lock (games)
                 {
-                    if (!game.Value.isAlive)
+                    Dictionary<string, KunstharzGame> gamesCopy = new Dictionary<string, KunstharzGame>(games);
+                    foreach (KeyValuePair<string, KunstharzGame> game in gamesCopy)
                     {
-                        KunstharzGame kunstgame = games[game.Key];
-                        games.Remove(game.Key);
+                        if (!game.Value.isAlive)
+                        {
+                            KunstharzGame kunstgame = games[game.Key];
+                            games.Remove(game.Key);
+                        }
                     }
                 }
-            }
+            });
+
+            checkThread.IsBackground = true;
+            checkThread.Start();
         }
 
-        private void FoundGame(IPEndPoint endPoint, byte[] receivedBytes)
+    private void FoundGame(IPEndPoint endPoint, byte[] receivedBytes)
+    {
+        
+        byte[] gameNameLengthBuffer = new byte[2];
+        Array.Copy(receivedBytes, 0, gameNameLengthBuffer, 0, 2);
+        UInt16 gameNameLength = BitConverter.ToUInt16(gameNameLengthBuffer, 0);
+
+        byte[] gameNameBuffer = new byte[gameNameLength];
+        Array.Copy(receivedBytes, 2, gameNameBuffer, 0, gameNameLength);
+        string gameName = System.Text.Encoding.UTF8.GetString(gameNameBuffer);
+
+        Debug.Log("Found game: " + gameName);
+
+        lock (games)
         {
-            byte[] gameNameLengthBuffer = new byte[2];
-            Array.Copy(receivedBytes, 0, gameNameLengthBuffer, 0, 2);
-            UInt16 gameNameLength = BitConverter.ToUInt16(gameNameLengthBuffer, 0);
-
-            byte[] gameNameBuffer = new byte[gameNameLength];
-            Array.Copy(receivedBytes, 2, gameNameBuffer, 0, gameNameLength);
-            string gameName = System.Text.Encoding.UTF8.GetString(gameNameBuffer);
-
-            lock (games)
+            if (!games.ContainsKey(gameName))
             {
-                if (!games.ContainsKey(gameName))
-                {
-                    games.Add(gameName, new KunstharzGame(endPoint.Address));
-                }
-                else
-                {
-                    KunstharzGame kunstharzGame = games[gameName];
-                    kunstharzGame.isAlive = true;
-                }
+                games.Add(gameName, new KunstharzGame(endPoint.Address));
+            }
+            else
+            {
+                KunstharzGame kunstharzGame = games[gameName];
+                kunstharzGame.isAlive = true;
             }
         }
-
-        private bool CheckVersion(Socket handler, int version)
-        {
-            byte[] versionBuffer = new byte[1];
-            handler.Receive(versionBuffer);
-            return (versionBuffer[0] == version);
-        }
-
-
     }
+
+    private bool CheckVersion(Socket handler, int version)
+    {
+        byte[] versionBuffer = new byte[1];
+        handler.Receive(versionBuffer);
+        return (versionBuffer[0] == version);
+    }
+
+
+}
 }

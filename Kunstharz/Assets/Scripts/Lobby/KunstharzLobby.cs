@@ -50,12 +50,18 @@ namespace Kunstharz
 
         private void StartGameBtnClickHandler()
         {
-
+            gameFinder.SetActive(false);
+            gameFinder.GetComponent<GameFinder>().enabled = false;
+            gamePublisher.SetActive(true);
+            gamePublisher.GetComponent<GamePublisher>().enabled = true;
         }
 
         private void JoinGameBtnClickHandler()
         {
-
+            gamePublisher.SetActive(false);
+            gamePublisher.GetComponent<GamePublisher>().enabled = false;
+            gameFinder.SetActive(true);
+            gameFinder.GetComponent<GameFinder>().enabled = true;
         }
     }
 
