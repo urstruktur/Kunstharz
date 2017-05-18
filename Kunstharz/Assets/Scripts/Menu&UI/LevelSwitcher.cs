@@ -54,7 +54,7 @@ public class LevelSwitcher : MonoBehaviour {
 
 	void NextLevel() {
 		int nextLevelIdx = (selectedLevelIdx + 1) % transform.childCount;
-		StartLevelSwitchTo (nextLevelIdx, false);
+		StartLevelSwitchTo (nextLevelIdx, true);
 	}
 
 	void PrevLevel() {
@@ -64,7 +64,7 @@ public class LevelSwitcher : MonoBehaviour {
 			prevLevelIdx = transform.childCount - 1;
 		}
 
-		StartLevelSwitchTo (prevLevelIdx, true);
+		StartLevelSwitchTo (prevLevelIdx, false);
 	}
 	
 	// Update is called once per frame
