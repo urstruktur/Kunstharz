@@ -2,48 +2,65 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
-public static class SocketHelper {
-	
-	public static UdpClient CreateUDPServer(int port, Action<IPEndPoint, byte[]> messageReceived){
+public static class SocketHelper
+{
 
-		UdpClient listener = new UdpClient(port);
-		IPEndPoint groupEndPoint = new IPEndPoint(IPAddress.Any, port);
+    public static UdpClient CreateUDPServer(int port, Action<IPEndPoint, byte[]> messageReceived)
+    {
+        UdpClient listener = new UdpClient(port);
+        IPEndPoint groupEndPoint = new IPEndPoint(IPAddress.Any, port);
 
-		UnityThreadHelper.CreateThread(() => {
-			try{
-				while(true){
+        Thread listenThread = new Thread(() =>
+		{
+			while (true)
+			{
+				try
+				{
 					byte[] receivedBytes = listener.Receive(ref groupEndPoint);
-					messageReceived(groupEndPoint, receivedBytes);
+                	messageReceived(groupEndPoint, receivedBytes);
 				}
-			} catch (Exception e) {
-				UnityThreadHelper.Dispatcher.Dispatch(() => {
-					Debug.Log(e);
-				});
-			}
-			finally {
-				try{
-					listener.Close();
-				} catch (Exception e){
-					UnityThreadHelper.Dispatcher.Dispatch(() => {
+				catch (ThreadInterruptedException)
+				{
+					break; 
+				}
+				catch (SocketException)
+				{
+					break; 
+				}
+				// TODO: is this possible?
+				finally
+				{
+					try
+					{
+						listener.Close();
+					}
+					catch (Exception e)
+					{
 						Debug.Log(e);
-					});
+					}
 				}
 			}
-
 		});
 
-		return listener;
-	}
+        listenThread.IsBackground = true;
+        listenThread.Start();
 
-	public static bool CheckVersion(Socket handler, int version) {
+        return listener;
+    }
+
+    public static bool CheckVersion(Socket handler, int version)
+    {
         byte[] versionBuffer = new byte[1];
         handler.Receive(versionBuffer);
         return CheckVersion(ref versionBuffer, version);
     }
 
-    public static bool CheckVersion(ref byte[] message, int version) {
-        if (message.Length < 1) {
+    public static bool CheckVersion(ref byte[] message, int version)
+    {
+        if (message.Length < 1)
+        {
             return false;
         }
 
