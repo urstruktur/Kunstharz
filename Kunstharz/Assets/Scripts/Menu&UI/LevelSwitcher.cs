@@ -5,8 +5,8 @@ using UnityEngine;
 public class LevelSwitcher : MonoBehaviour {
 
 	public int selectedLevelIdx = 0;
-	public float switchLevelOffset = 10.0f;
-	public float levelSwitchTime = 0.8f;
+	public float switchLevelOffset = 5.0f;
+	public float levelSwitchTime = 0.6f;
 
 	private float remainingLevelSwitchTime = 0.0f;
 
@@ -26,7 +26,7 @@ public class LevelSwitcher : MonoBehaviour {
 		}
 	}
 
-	void StartLevelSwitchTo(int idx) {
+	void StartLevelSwitchTo(int idx, bool moveUp) {
 		if (!isSwitchingLevel && idx != selectedLevelIdx) {
 			futureSelectedLevelIdx = idx;
 
@@ -35,7 +35,7 @@ public class LevelSwitcher : MonoBehaviour {
 
 			newLevel.gameObject.SetActive (true);
 
-			Vector3 offset = Vector3.up * switchLevelOffset;
+			Vector3 offset = (moveUp ? Vector3.up : Vector3.down) * switchLevelOffset;
 
 			Vector3 oldLevelStartPos = transform.GetChild (selectedLevelIdx).position;
 			Vector3 oldLevelEndPos = oldLevelStartPos + offset;
@@ -44,8 +44,8 @@ public class LevelSwitcher : MonoBehaviour {
 
 
 			newLevel.position = newLevelStartPos;
-			LeanTween.move (newLevel.gameObject, newLevelEndPos, levelSwitchTime);
-			LeanTween.move (oldLevel.gameObject, oldLevelEndPos, levelSwitchTime).setOnComplete(() => {
+			LeanTween.move (newLevel.gameObject, newLevelEndPos, levelSwitchTime).setEaseOutExpo();
+			LeanTween.move (oldLevel.gameObject, oldLevelEndPos, levelSwitchTime).setEaseOutExpo().setOnComplete(() => {
 				selectedLevelIdx = idx;
 				oldLevel.gameObject.SetActive(false);
 			});
@@ -54,7 +54,7 @@ public class LevelSwitcher : MonoBehaviour {
 
 	void NextLevel() {
 		int nextLevelIdx = (selectedLevelIdx + 1) % transform.childCount;
-		StartLevelSwitchTo (nextLevelIdx);
+		StartLevelSwitchTo (nextLevelIdx, false);
 	}
 
 	void PrevLevel() {
@@ -64,7 +64,7 @@ public class LevelSwitcher : MonoBehaviour {
 			prevLevelIdx = transform.childCount - 1;
 		}
 
-		StartLevelSwitchTo (prevLevelIdx);
+		StartLevelSwitchTo (prevLevelIdx, true);
 	}
 	
 	// Update is called once per frame
@@ -72,9 +72,9 @@ public class LevelSwitcher : MonoBehaviour {
 		if (isSwitchingLevel) {
 
 		} else {
-			if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			if (Input.GetKey (KeyCode.UpArrow)) {
 				PrevLevel ();
-			} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
+			} else if (Input.GetKey (KeyCode.DownArrow)) {
 				NextLevel ();
 			}
 		}
