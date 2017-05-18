@@ -14,6 +14,8 @@ public class Menu : MonoBehaviour {
 
 	[Header("Other Parameters")]
 	public GameObject generalCanvas;
+	public GameObject topLevelMenu;
+	public GameObject pickNameMenu;
 
 	float [] blurObjectLength = {232f, 499f, 219f};
 	float turnXOld = 0;
@@ -90,12 +92,17 @@ public class Menu : MonoBehaviour {
 		//TODO: Go to join scene
 		Debug.Log("TODO: Start Join Game Menu");
 
+
+
         FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
     }
 
 	public void StartGame () {
 		//TODO: Go to start scene
 		Debug.Log("TODO: Start Start Game Menu");
+
+		topLevelMenu.SetActive (false);
+		pickNameMenu.SetActive (true);
 
         FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
     }
