@@ -158,6 +158,8 @@ MonoBehaviour:
   - {fileID: 2142979058}
   - {fileID: 1494079390}
   generalCanvas: {fileID: 1589419647}
+  topLevelMenu: {fileID: 303813355}
+  pickNameMenu: {fileID: 1569962135}
   hover: event:/ui/hover
   click: event:/ui/click
   select: event:/ui/click
