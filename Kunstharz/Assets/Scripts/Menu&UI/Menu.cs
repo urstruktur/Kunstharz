@@ -46,8 +46,20 @@ public class Menu : MonoBehaviour {
     [FMODUnity.EventRef]
     public string zoomOut = "event:/ui/click";
 
+	public Kunstharz.Publisher publisher;
+	public Kunstharz.Finder finder;
+
 	void Update() {
 		turnGameWorld ();
+		UpdateBeacon ();
+	}
+
+	private void UpdateBeacon() {
+		// Updates the beacon to be sent when publishing game on the network
+		if (publisher.enabled) {
+			string beacon = pickNameMenu.GetComponentInChildren<InputField> ().text;
+			publisher.beacon = beacon;
+		}
 	}
 
 	private void turnGameWorld() {
@@ -92,7 +104,8 @@ public class Menu : MonoBehaviour {
 		//TODO: Go to join scene
 		Debug.Log("TODO: Start Join Game Menu");
 
-
+		finder.enabled = true;
+		publisher.enabled = false;
 
         FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
     }
@@ -103,6 +116,9 @@ public class Menu : MonoBehaviour {
 
 		topLevelMenu.SetActive (false);
 		pickNameMenu.SetActive (true);
+
+		publisher.enabled = true;
+		finder.enabled = false;
 
         FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
     }
