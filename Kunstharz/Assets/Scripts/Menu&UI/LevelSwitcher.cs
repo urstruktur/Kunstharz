@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelSwitcher : MonoBehaviour {
 
 	public int selectedLevelIdx = 0;
-	public float switchLevelOffset = 5.0f;
+	public float switchLevelOffset = 10.0f;
 	public float levelSwitchTime = 0.6f;
 
 	private float remainingLevelSwitchTime = 0.0f;
@@ -35,7 +35,7 @@ public class LevelSwitcher : MonoBehaviour {
 
 			newLevel.gameObject.SetActive (true);
 
-			Vector3 offset = (moveUp ? Vector3.up : Vector3.down) * switchLevelOffset;
+			Vector3 offset = (moveUp ? Vector3.left : Vector3.right) * switchLevelOffset;
 
 			Vector3 oldLevelStartPos = transform.GetChild (selectedLevelIdx).position;
 			Vector3 oldLevelEndPos = oldLevelStartPos + offset;
@@ -52,12 +52,12 @@ public class LevelSwitcher : MonoBehaviour {
 		}
 	}
 
-	void NextLevel() {
+	public void NextLevel() {
 		int nextLevelIdx = (selectedLevelIdx + 1) % transform.childCount;
 		StartLevelSwitchTo (nextLevelIdx, true);
 	}
 
-	void PrevLevel() {
+	public void PrevLevel() {
 		int prevLevelIdx = selectedLevelIdx - 1;
 
 		if (prevLevelIdx < 0) {
