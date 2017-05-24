@@ -19,18 +19,21 @@ public class Menu : MonoBehaviour {
 	public GameObject startGameInputFieldText;
 	public GameObject startGameInputFieldPlaceholder;
 	public GameObject startGameStartGameButton;
+	public GameObject levelSwitcher;
 	public Kunstharz.Publisher publisher;
 	public Kunstharz.Finder finder;
 
-
-	float turnXOld = 0;
-	float turnYOld = 0;
+	private float turnXOld = 0;
+	private float turnYOld = 0;
 
 	[ContextMenu("Reset The Value")]
 	private void resetTheValue()  
 	{
 		turnXOld = 42;
 	}
+
+	private bool pointerInsideLevelChangeButton = false;
+	private GameObject levelChangeButtonSide;
 
 	[Header("FMOD Events")]
     [FMODUnity.EventRef]
@@ -57,11 +60,17 @@ public class Menu : MonoBehaviour {
 			blurObjects[i] = effectCanvas.transform.GetChild(i).gameObject;
 		}
 
+		LevelSwitcher.onLevelSwitch += PlayClickSound;
+	}
+
+	private void PlayClickSound() {
+		FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
 	}
 
 	void Update() {
 		turnGameWorld ();
 		UpdateBeacon ();
+		ChangeGameWorlds();
 	}
 
 	private void UpdateBeacon() {
@@ -139,14 +148,29 @@ public class Menu : MonoBehaviour {
 		for (int j = 0; j < imageObjects.Length; j++) {
 			imageObjects [j].GetComponent<RectTransform>().localScale = new Vector3(0.3f, 0.3f, 0.3f);
 		}
-		
+
+		pointerInsideLevelChangeButton = true;
+		levelChangeButtonSide = obj;
+
 		obj.GetComponent<RectTransform>().localScale = new Vector3(0.7f, 0.7f, 0.7f);
+	}
+
+	private void ChangeGameWorlds() {
+		if (pointerInsideLevelChangeButton) {
+			if (levelChangeButtonSide.name == "SGCL Image Left") {
+
+				levelSwitcher.GetComponent<LevelSwitcher>().PrevLevel();
+			} else {
+				levelSwitcher.GetComponent<LevelSwitcher>().NextLevel();
+			}
+		}
 	}
 
 	public void _EnterImage() {
 		for (int j = 0; j < imageObjects.Length; j++) {
 			imageObjects [j].GetComponent<RectTransform>().localScale = new Vector3(0.3f, 0.3f, 0.3f);
 		}
+		pointerInsideLevelChangeButton = false;
 	}
 
 	private float mouseXN() {
@@ -171,6 +195,7 @@ public class Menu : MonoBehaviour {
 
 		startGameInputFieldBlur.GetComponent<RectTransform> ().sizeDelta = new Vector2 (width, height);
 		LeanTween.size (startGameInputFieldBlur.GetComponent<RectTransform> (), new Vector2(width,height), 0.25f).setEase(LeanTweenType.easeInOutQuint);
+		FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
 	}
 
 	private void SetMenusInactive() {
@@ -189,6 +214,7 @@ public class Menu : MonoBehaviour {
 
 		SetMenusInactive();
 		menus[0].SetActive (true);
+		FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
 	}
 
 	public void ExitGame () {
@@ -219,6 +245,10 @@ public class Menu : MonoBehaviour {
 		SetMenusInactive();
 		menus[2].SetActive (true);
 		FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
+	}
+
+	void OnDestroy() {
+		LevelSwitcher.onLevelSwitch -= PlayClickSound;
 	}
 
 }

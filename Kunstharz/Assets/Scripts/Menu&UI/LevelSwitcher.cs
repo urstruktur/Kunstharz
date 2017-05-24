@@ -18,6 +18,10 @@ public class LevelSwitcher : MonoBehaviour {
 		}
 	}
 
+	public delegate void LevelSwitchDelegate();
+	public static LevelSwitchDelegate onLevelSwitch;
+
+
 	// Use this for initialization
 	void Start () {
 		futureSelectedLevelIdx = selectedLevelIdx;
@@ -49,6 +53,9 @@ public class LevelSwitcher : MonoBehaviour {
 				selectedLevelIdx = idx;
 				oldLevel.gameObject.SetActive(false);
 			});
+
+			onLevelSwitch();
+			
 		}
 	}
 
