@@ -11,9 +11,16 @@ public class LevelLoader : MonoBehaviour {
     private Camera cam;
 
     public GameObject gameEssentialsPrefab;
+    private GameObject currentLevel;
+
+    public GameObject[] toDeactivate;
 
     void Start()
     {
+        cam = Camera.main;
+
+        Debug.Log("amen");
+
         // initialize projection matrices
         orthographic = Matrix4x4.Ortho(-cam.orthographicSize * cam.aspect, cam.orthographicSize * cam.aspect,
             -cam.orthographicSize, cam.orthographicSize, -15, cam.farClipPlane);
@@ -23,9 +30,21 @@ public class LevelLoader : MonoBehaviour {
     /// <summary>
     /// Parameter being the level geometry to be prepared for playing.
     /// </summary>
-    void LoadLevel(GameObject level) {
-        cam = GetComponent<Camera>();
+    public void LoadLevel(GameObject level) {
+        foreach(GameObject o in toDeactivate){
+            o.SetActive(false);
+        }
+        currentLevel = Instantiate(level, level.transform.position, level.transform.rotation);
+        currentLevel.SetActive(true);
+        currentLevel.transform.parent = null; // set to top hierarchy
         Instantiate(gameEssentialsPrefab);
+
+        Camera.main.transform.position = cam.transform.position;
+        Camera.main.transform.rotation = cam.transform.rotation;
+        //Camera.main.orthographic = true;
+        //Camera.main.projectionMatrix = orthographic;
+
+        StartLevel(level);
     }
 
     /// <summary>

@@ -12,5 +12,5 @@ EditorBuildSettings:
     path: Assets/Scenes/MotionTest.unity
     guid: fe24c4065722d4468b341690879b2f61
   - enabled: 0
-    path: Assets/Scenes/Level02.unity
+    path: Assets/Scenes/level02_test.unity
     guid: 9e307c4e130e6c04999e3b09842fcbcf
