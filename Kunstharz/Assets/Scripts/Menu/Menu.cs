@@ -100,4 +100,9 @@ public class Menu : MonoBehaviour {
 		menus[2].SetActive (true);
 	}
 
+    public void StartGameWaiting()
+    {
+        SetMenusInactive();
+        menus[3].SetActive(true);
+    }
 }
