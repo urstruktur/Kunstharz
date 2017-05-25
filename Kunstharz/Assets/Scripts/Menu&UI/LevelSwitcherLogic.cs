@@ -11,6 +11,8 @@ public class LevelSwitcherLogic : MonoBehaviour, ISwitcherLogic {
 
 	private int futureSelectedLevelIdx;
 
+	Vector3 [] levelPosition;
+
 	private bool isSwitchingLevel {
 		get {
 			return futureSelectedLevelIdx != selectedLevelIdx;
@@ -21,10 +23,16 @@ public class LevelSwitcherLogic : MonoBehaviour, ISwitcherLogic {
 	public static LevelSwitchDelegate OnLevelSwitch;
 
 	void Start () {
+
 		futureSelectedLevelIdx = selectedLevelIdx;
+		levelPosition = new Vector3 [transform.childCount];
+
 		for (int i = 0; i < transform.childCount; ++i) {
 			transform.GetChild (i).gameObject.SetActive (i == selectedLevelIdx);
+			levelPosition[i] = transform.GetChild (i).position;
 		}
+		
+
 	}
 
 	void StartLevelSwitchTo(int idx, bool moveUp) {
@@ -38,10 +46,10 @@ public class LevelSwitcherLogic : MonoBehaviour, ISwitcherLogic {
 
 			Vector3 offset = (moveUp ? Vector3.left : Vector3.right) * switchLevelOffset;
 
-			Vector3 oldLevelStartPos = transform.GetChild (selectedLevelIdx).position;
-			Vector3 oldLevelEndPos = oldLevelStartPos + offset;
-			Vector3 newLevelStartPos = oldLevelStartPos - offset;
-			Vector3 newLevelEndPos = oldLevelStartPos;
+			Vector3 oldLevelStartPos = levelPosition[selectedLevelIdx];
+			Vector3 oldLevelEndPos = levelPosition[selectedLevelIdx] + offset;
+			Vector3 newLevelStartPos = levelPosition[futureSelectedLevelIdx] - offset;
+			Vector3 newLevelEndPos = levelPosition[futureSelectedLevelIdx];
 
 
 			newLevel.position = newLevelStartPos;
