@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelSwitcher : MonoBehaviour {
+public class LevelSwitcherLogic : MonoBehaviour, ISwitcherLogic {
 
 	public int selectedLevelIdx = 0;
 	public float switchLevelOffset = 10.0f;
 	public float levelSwitchTime = 0.6f;
-
 	private float remainingLevelSwitchTime = 0.0f;
 
 	private int futureSelectedLevelIdx;
@@ -19,10 +18,8 @@ public class LevelSwitcher : MonoBehaviour {
 	}
 
 	public delegate void LevelSwitchDelegate();
-	public static LevelSwitchDelegate onLevelSwitch;
+	public static LevelSwitchDelegate OnLevelSwitch;
 
-
-	// Use this for initialization
 	void Start () {
 		futureSelectedLevelIdx = selectedLevelIdx;
 		for (int i = 0; i < transform.childCount; ++i) {
@@ -54,8 +51,9 @@ public class LevelSwitcher : MonoBehaviour {
 				oldLevel.gameObject.SetActive(false);
 			});
 
-			onLevelSwitch();
-			
+			if(OnLevelSwitch != null)
+			OnLevelSwitch();
+
 		}
 	}
 
@@ -74,7 +72,6 @@ public class LevelSwitcher : MonoBehaviour {
 		StartLevelSwitchTo (prevLevelIdx, false);
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		if (isSwitchingLevel) {
 
