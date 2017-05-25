@@ -8,6 +8,7 @@ using Colorful;
 public class Menu : MonoBehaviour {
 
 	public string gameName = "";
+	public int selectedLevelIdx = 0;
 	public GameObject generalCanvas;
 	public GameObject [] menus;
 	public Kunstharz.Publisher publisher;
@@ -24,7 +25,7 @@ public class Menu : MonoBehaviour {
 	}
 
 	public void SetGameName(string gameName) {
-		this.gameName = gameName;
+		this.gameName = gameName.ToUpper();
 	}
 
 	public static int tweenBlurId = -1;

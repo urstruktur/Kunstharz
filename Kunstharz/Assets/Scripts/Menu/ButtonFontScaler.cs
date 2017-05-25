@@ -38,4 +38,8 @@ public class ButtonFontScaler : MonoBehaviour, IPointerEnterHandler, IPointerExi
 		return content;
 	}
 
+	void OnEnable() {
+		TextSmall();
+	}
+
 }

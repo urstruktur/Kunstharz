@@ -32,7 +32,7 @@ public class MenuSounds : MonoBehaviour {
         FMODUnity.RuntimeManager.PlayOneShot(hover, Camera.main.transform.position);
     }
 
-	private void PlayClickSound() {
+	public void PlayClickSound() {
 		FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
 	}
 

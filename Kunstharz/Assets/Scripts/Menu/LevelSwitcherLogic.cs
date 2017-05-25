@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelSwitcherLogic : MonoBehaviour, ISwitcherLogic {
 
+	public GameObject menu;
 	public int selectedLevelIdx = 0;
 	public float switchLevelOffset = 10.0f;
 	public float levelSwitchTime = 0.6f;
@@ -56,6 +57,7 @@ public class LevelSwitcherLogic : MonoBehaviour, ISwitcherLogic {
 			LeanTween.move (newLevel.gameObject, newLevelEndPos, levelSwitchTime).setEaseOutExpo();
 			LeanTween.move (oldLevel.gameObject, oldLevelEndPos, levelSwitchTime).setEaseOutExpo().setOnComplete(() => {
 				selectedLevelIdx = idx;
+				menu.GetComponent<Menu>().selectedLevelIdx = selectedLevelIdx;
 				oldLevel.gameObject.SetActive(false);
 			});
 
