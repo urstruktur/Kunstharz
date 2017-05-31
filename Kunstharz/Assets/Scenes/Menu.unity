@@ -1621,7 +1621,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -7244,9 +7244,9 @@ MonoBehaviour:
   - {fileID: 763373131}
   - {fileID: 1168450553}
   levelSceneNames:
-  - level02_test
-  - level02_test
-  - level02_test
+  - level01_test
+  - level01_test
+  - level01_test
 --- !u!4 &1713434357
 Transform:
   m_ObjectHideFlags: 0
