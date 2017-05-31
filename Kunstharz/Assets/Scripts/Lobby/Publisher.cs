@@ -27,9 +27,11 @@ namespace Kunstharz
 			sock.Blocking = false;
 			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS));
 			// Traverse a maximum of one router to another network when sending multicast data
-			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 1);
+			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 2);
 			sock.Connect (new IPEndPoint(NetworkSpecs.PING_ADDRESS, NetworkSpecs.PING_PORT));
 			timeUntilBeacon = 0;
+
+			Application.runInBackground = true;
 		}
 
 		/**
@@ -42,7 +44,7 @@ namespace Kunstharz
 		}
 
 		void SendBeacon() {
-			byte[] beaconData = Encoding.UTF8.GetBytes (beacon);
+			byte[] beaconData = Encoding.UTF8.GetBytes ((beacon.Length > 0) ? beacon : "n/a");
 			sock.Send (beaconData);
 		}
 
@@ -56,9 +58,9 @@ namespace Kunstharz
 		}
 
 		void Update() {
-			if (beacon.Length > 0) {
+			//if (beacon.Length > 0) {
 				SendBeaconIfIntervalExpired ();
-			}
+			//}
 		}
 	}
 }

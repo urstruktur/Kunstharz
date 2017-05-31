@@ -42,6 +42,8 @@ namespace Kunstharz
 			sock.Blocking = false;
 			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS, IPAddress.Any));
 			sock.Bind (new IPEndPoint (IPAddress.Any, NetworkSpecs.PING_PORT));
+
+			Application.runInBackground = true;
 		}
 
 		/**

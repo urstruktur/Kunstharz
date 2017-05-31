@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour {
 	public GameObject [] menus;
 	public Kunstharz.Publisher publisher;
 	public Kunstharz.Finder finder;
+	public Kunstharz.LevelLoader loader;
+
 	private float turnXOld = 0;
 	private float turnYOld = 0;
 
@@ -104,5 +106,6 @@ public class Menu : MonoBehaviour {
     {
         SetMenusInactive();
         menus[3].SetActive(true);
+		loader.StartUgly (selectedLevelIdx);
     }
 }
