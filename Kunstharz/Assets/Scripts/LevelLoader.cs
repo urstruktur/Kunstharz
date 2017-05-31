@@ -20,6 +20,8 @@ namespace Kunstharz {
 
 		public string[] levelSceneNames;
 
+		private bool canLoad = true;
+
 	    void Start()
 	    {
 	        cam = Camera.main;
@@ -95,7 +97,8 @@ namespace Kunstharz {
 		}
 
 		public void StartUgly(string levelSceneName) {
-			if (!NetworkManager.singleton.isNetworkActive) {
+			if (canLoad && !NetworkManager.singleton.isNetworkActive) {
+				canLoad = false;
 				NetworkManager.singleton.onlineScene = levelSceneName;
 				NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
 				DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
@@ -104,7 +107,8 @@ namespace Kunstharz {
 		}
 
 		public void JoinUgly(string hostname) {
-			if (!NetworkManager.singleton.isNetworkActive) {
+			if (canLoad && !NetworkManager.singleton.isNetworkActive) {
+				canLoad = false;
 				print ("Connecting with " + hostname);
 				NetworkManager.singleton.networkAddress = hostname;
 				NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
