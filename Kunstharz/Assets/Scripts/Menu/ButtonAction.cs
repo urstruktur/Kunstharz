@@ -22,9 +22,12 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 	public float menuSaturation = 0.0f;
 
 	public bool enablePublisher = false;
+
 	public bool enableFinder = false;
 
 	public bool disableFinderAndPublisher = false;
+
+	public bool enableStartHost = false;
 
 	void Start() {
 		blur = GameObject.Find("Blur");
@@ -70,7 +73,12 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 			menu.GetComponent<Menu>().finder.enabled = false;
 			menu.GetComponent<Menu>().publisher.enabled = false;
 		}
-		
+
+		if (enableStartHost) {
+			var loader = GameObject.Find ("LevelLoader").GetComponent<Kunstharz.LevelLoader> ();
+			var idx = menu.GetComponent<Menu> ().selectedLevelIdx;
+			loader.StartUgly (idx);
+		}
     }
 
 }

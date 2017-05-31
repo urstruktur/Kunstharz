@@ -160,6 +160,7 @@ MonoBehaviour:
   - {fileID: 1251268974}
   publisher: {fileID: 635041962}
   finder: {fileID: 635041960}
+  loader: {fileID: 0}
 --- !u!114 &14886395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,13 +501,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0e7f1cb3fbd4c4086e925744d33ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 0
-  moveToMenu: {fileID: 449405273}
+  action: 2
+  moveToMenu: {fileID: 0}
   reverseMenuRotation: 0
   menuSaturation: 1
   enablePublisher: 0
   enableFinder: 1
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &232287509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1284,6 +1286,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &393220725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1772,6 +1775,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &530648838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1939,6 +1943,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &565377807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2106,6 +2111,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 1
+  enableStartHost: 0
 --- !u!114 &581519100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2224,6 +2230,7 @@ GameObject:
   - component: {fileID: 635041961}
   - component: {fileID: 635041962}
   - component: {fileID: 635041960}
+  - component: {fileID: 635041963}
   m_Layer: 0
   m_Name: NetworkDiscovery
   m_TagString: Untagged
@@ -2269,6 +2276,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beacon: THOMAS
   beaconInterval: 0.5
+--- !u!114 &635041963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 635041959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c575522d94f8e4b52b084406d068cbf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loader: {fileID: 1713434356}
 --- !u!1 &645014722
 GameObject:
   m_ObjectHideFlags: 0
@@ -2328,6 +2347,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &645014725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2571,6 +2591,117 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 660542773}
+--- !u!1 &672440031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 672440033}
+  - component: {fileID: 672440032}
+  m_Layer: 0
+  m_Name: NetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &672440032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 672440031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -822479833, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NetworkPort: 7777
+  m_ServerBindToIP: 0
+  m_ServerBindAddress: 
+  m_NetworkAddress: localhost
+  m_DontDestroyOnLoad: 1
+  m_RunInBackground: 1
+  m_ScriptCRCCheck: 1
+  m_MaxDelay: 0.01
+  m_LogLevel: 2
+  m_PlayerPrefab: {fileID: 1561821470740654, guid: 62ded4dfe9d20428cad22b929d49ec26,
+    type: 2}
+  m_AutoCreatePlayer: 1
+  m_PlayerSpawnMethod: 1
+  m_OfflineScene: 
+  m_OnlineScene: 
+  m_SpawnPrefabs: []
+  m_CustomConfig: 0
+  m_MaxConnections: 4
+  m_ConnectionConfig:
+    m_PacketSize: 1440
+    m_FragmentSize: 500
+    m_ResendTimeout: 1200
+    m_DisconnectTimeout: 2000
+    m_ConnectTimeout: 2000
+    m_MinUpdateTimeout: 10
+    m_PingTimeout: 500
+    m_ReducedPingTimeout: 100
+    m_AllCostTimeout: 20
+    m_NetworkDropThreshold: 5
+    m_OverflowDropThreshold: 5
+    m_MaxConnectionAttempt: 10
+    m_AckDelay: 33
+    m_SendDelay: 10
+    m_MaxCombinedReliableMessageSize: 100
+    m_MaxCombinedReliableMessageCount: 10
+    m_MaxSentMessageQueueSize: 512
+    m_AcksType: 1
+    m_UsePlatformSpecificProtocols: 0
+    m_InitialBandwidth: 0
+    m_BandwidthPeakFactor: 2
+    m_WebSocketReceiveBufferMaxSize: 0
+    m_UdpSocketReceiveBufferMaxSize: 0
+    m_SSLCertFilePath: 
+    m_SSLPrivateKeyFilePath: 
+    m_SSLCAFilePath: 
+    m_Channels: []
+  m_GlobalConfig:
+    m_ThreadAwakeTimeout: 1
+    m_ReactorModel: 0
+    m_ReactorMaximumReceivedMessages: 1024
+    m_ReactorMaximumSentMessages: 1024
+    m_MaxPacketSize: 2000
+    m_MaxHosts: 16
+    m_ThreadPoolSize: 1
+    m_MinTimerTimeout: 1
+    m_MaxTimerTimeout: 12000
+    m_MinNetSimulatorTimeout: 1
+    m_MaxNetSimulatorTimeout: 12000
+  m_Channels: 0500000000000000
+  m_UseWebSockets: 0
+  m_UseSimulator: 0
+  m_SimulatedLatency: 1
+  m_PacketLossPercentage: 0
+  m_MaxBufferedPackets: 16
+  m_AllowFragmentation: 1
+  m_MatchHost: 
+  m_MatchPort: 0
+  matchName: 
+  matchSize: 0
+  isNetworkActive: 0
+  matchMaker: {fileID: 0}
+--- !u!4 &672440033
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 672440031}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.9139261, y: 0.34727955, z: 100.09186}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &694110229
 GameObject:
   m_ObjectHideFlags: 0
@@ -2718,6 +2849,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &718636251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2954,7 +3086,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120.48064, y: 49.98665}
+  m_SizeDelta: {x: 119.6817, y: 49.655174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &775673845
 MonoBehaviour:
@@ -3411,13 +3543,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0e7f1cb3fbd4c4086e925744d33ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 0
+  action: 2
   moveToMenu: {fileID: 1251268974}
   reverseMenuRotation: 0
   menuSaturation: 0
-  enablePublisher: 0
+  enablePublisher: 1
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 1
 --- !u!114 &885476127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3753,9 +3886,10 @@ MonoBehaviour:
   moveToMenu: {fileID: 1661650535}
   reverseMenuRotation: 0
   menuSaturation: 1
-  enablePublisher: 1
+  enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &1077993386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3923,6 +4057,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &1093313898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4468,7 +4603,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 311.59195, y: 47.48068}
+  m_SizeDelta: {x: 319.5756, y: 49.655174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1205235814
 MonoBehaviour:
@@ -5529,7 +5664,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120.48064, y: 49.98665}
+  m_SizeDelta: {x: 119.6817, y: 49.655174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1383316884
 GameObject:
@@ -5806,6 +5941,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &1435295421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6120,7 +6256,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 276.8436, y: 50.96126}
+  m_SizeDelta: {x: 254.6419, y: 49.655174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1574457105
 MonoBehaviour:
@@ -6233,6 +6369,7 @@ MonoBehaviour:
   enablePublisher: 0
   enableFinder: 0
   disableFinderAndPublisher: 0
+  enableStartHost: 0
 --- !u!114 &1589196769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7092,6 +7229,10 @@ MonoBehaviour:
   - {fileID: 1697509411}
   - {fileID: 763373131}
   - {fileID: 1168450553}
+  levelSceneNames:
+  - level02_test
+  - level02_test
+  - level02_test
 --- !u!4 &1713434357
 Transform:
   m_ObjectHideFlags: 0
@@ -7163,7 +7304,8 @@ MonoBehaviour:
   menuSaturation: 0
   enablePublisher: 0
   enableFinder: 0
-  disableFinderAndPublisher: 0
+  disableFinderAndPublisher: 1
+  enableStartHost: 0
 --- !u!114 &1781134756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7475,14 +7617,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 14886392}
-  gameName: {fileID: 279036884}
-  leftArrow: {fileID: 1639563374}
-  rightArrow: {fileID: 1301541277}
-  chooseGameButton: {fileID: 1435295418}
+  gameName: {fileID: 0}
+  leftArrow: {fileID: 0}
+  rightArrow: {fileID: 0}
+  chooseGameButton: {fileID: 0}
   selectedLevelIdx: 0
   switchLevelOffset: 10
   levelSwitchTime: 0.6
-  _gamesAvailable: 0
 --- !u!1 &1817993142
 GameObject:
   m_ObjectHideFlags: 0
@@ -7569,7 +7710,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 115.73415, y: 47.48068}
+  m_SizeDelta: {x: 119.6817, y: 49.655174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1975496657
 GameObject:
