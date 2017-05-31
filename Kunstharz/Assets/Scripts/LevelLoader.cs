@@ -9,10 +9,6 @@ using UnityEngine.Networking;
 
 namespace Kunstharz {
 	public class LevelLoader : MonoBehaviour {
-	    Matrix4x4 orthographic;
-	    Matrix4x4 perspective;
-	    private Camera cam;
-
 	    public GameObject gameEssentialsPrefab;
 	    private GameObject currentLevel;
 
@@ -21,35 +17,19 @@ namespace Kunstharz {
 		public string[] levelSceneNames;
 
 		private bool canLoad = true;
-
-	    void Start()
-	    {
-	        cam = Camera.main;
-
-	        Debug.Log("amen");
-
-	        // initialize projection matrices
-	        orthographic = Matrix4x4.Ortho(-cam.orthographicSize * cam.aspect, cam.orthographicSize * cam.aspect,
-	            -cam.orthographicSize, cam.orthographicSize, -15, cam.farClipPlane);
-	        perspective = Matrix4x4.Perspective(cam.fieldOfView, cam.aspect, 0, cam.farClipPlane);
-	    }
-
+        
 	    /// <summary>
 	    /// Parameter being the level geometry to be prepared for playing.
 	    /// </summary>
 	    public void LoadLevel(GameObject level) {
 	        foreach(GameObject o in toDeactivate){
-	            o.SetActive(false);
+	            //o.SetActive(false);
 	        }
-	        currentLevel = Instantiate(level, level.transform.position, level.transform.rotation);
+            currentLevel = level;
+	        //currentLevel = Instantiate(level, level.transform.position, level.transform.rotation);
 	        currentLevel.SetActive(true);
-	        currentLevel.transform.parent = null; // set to top hierarchy
-	        Instantiate(gameEssentialsPrefab);
-
-	        Camera.main.transform.position = cam.transform.position;
-	        Camera.main.transform.rotation = cam.transform.rotation;
-	        //Camera.main.orthographic = true;
-	        //Camera.main.projectionMatrix = orthographic;
+	        //currentLevel.transform.parent = null; // set to top hierarchy
+	        //Instantiate(gameEssentialsPrefab);
 
 	        StartLevel(level);
 	    }
@@ -67,30 +47,24 @@ namespace Kunstharz {
 	        if (parent != null)
 	        {
 	            spawnLocation = parent.transform.GetChild(0).gameObject;
-	        }
+            }
 	        
 	        if (spawnLocation != null)
 	        {
 	            // tweens camera to spawnLocation
-	            LeanTween.move(cam.gameObject, spawnLocation.transform.position, 1f);
-	        }
+	            LeanTween.move(Camera.main.gameObject, spawnLocation.transform.position, 3f).setEase(LeanTweenType.easeOutExpo);
+            }else
+            {
+                Debug.Log("no spawn point found");
+            }
 
-	        // tweens from orthographic to perspective
-	        LeanTween.value(gameObject, matrixLerpCallback, 0f, 1f, 1f).setEase(LeanTweenType.easeOutElastic);
-	    }
-
-	    void matrixLerpCallback(float val)
-	    {
-	        cam.projectionMatrix = MatrixLerp(orthographic, perspective, val);
-	    }
-
-	    public static Matrix4x4 MatrixLerp(Matrix4x4 from, Matrix4x4 to, float amount)
-	    {
-	        Matrix4x4 ret = new Matrix4x4();
-	        for (int i = 0; i < 16; i++)
-	            ret[i] = Mathf.Lerp(from[i], to[i], amount);
-	        return ret;
-	    }
+            ProjectionController projection = Camera.main.GetComponent<ProjectionController>();
+            if (projection == null)
+            {
+                Debug.LogError("No ProjectionController on camera!");
+            }
+            projection.lerp = true;
+        }
 
 		public void StartUgly(int selectedLevelIdx) {
 			StartUgly (levelSceneNames [selectedLevelIdx]);
