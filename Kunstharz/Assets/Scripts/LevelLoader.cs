@@ -11,6 +11,7 @@ namespace Kunstharz {
 	public class LevelLoader : MonoBehaviour {
 	    public GameObject gameEssentialsPrefab;
 	    private GameObject currentLevel;
+        public GameObject testLevelGeometry;
 
 	    public GameObject[] toDeactivate;
 
@@ -67,17 +68,25 @@ namespace Kunstharz {
         }
 
 		public void StartUgly(int selectedLevelIdx) {
-			StartUgly (levelSceneNames [selectedLevelIdx]);
+            StartUgly(levelSceneNames[selectedLevelIdx]);
+
+
 		}
 
 		public void StartUgly(string levelSceneName) {
-			if (canLoad && !NetworkManager.singleton.isNetworkActive) {
-				canLoad = false;
-				NetworkManager.singleton.onlineScene = levelSceneName;
-				NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
-				DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
-				NetworkManager.singleton.StartHost ();
-			}
+            LoadLevel(testLevelGeometry);
+            LeanTween.delayedCall(3f, () => {
+
+                if (canLoad && !NetworkManager.singleton.isNetworkActive)
+                {
+                    canLoad = false;
+                    NetworkManager.singleton.onlineScene = levelSceneName;
+                    NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
+                    DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
+                    NetworkManager.singleton.StartHost();
+                }
+
+            });
 		}
 
 		public void JoinUgly(string hostname) {
