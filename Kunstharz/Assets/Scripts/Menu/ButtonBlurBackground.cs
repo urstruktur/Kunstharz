@@ -9,7 +9,6 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 	GameObject content;
 	GameObject effectCanvas;
 	GameObject blur;
-	public int blurSpace = 80;
 
 	void Start() {
 		blur = GameObject.Find("Blur");
@@ -43,12 +42,12 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 	private void SetBlurSize() {
 		LeanTween.cancel(Menu.tweenBlurId);
 
-		blur.GetComponent<RectTransform>().sizeDelta = new Vector2(0, blur.GetComponent<RectTransform>().rect.height);
+		float width = GetContent().GetComponent<RectTransform>().rect.size.x + Menu.blurSpace;
+		float height = GetContent().GetComponent<RectTransform>().rect.size.y + Menu.blurSpace / 4.0f;
 
-		Vector2 size = new Vector2(
-			GetContent().GetComponent<RectTransform>().rect.size.x + blurSpace,
-			blur.GetComponent<RectTransform>().rect.height
-		);
+		blur.GetComponent<RectTransform>().sizeDelta = new Vector2(0, height);
+
+		Vector2 size = new Vector2(width, height);
 
 		Menu.tweenBlurId = LeanTween.size (blur.GetComponent<RectTransform>(), size, 0.25f).setEase(LeanTweenType.easeInOutQuint).id;
 	}

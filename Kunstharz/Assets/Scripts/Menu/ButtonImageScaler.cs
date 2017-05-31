@@ -5,9 +5,6 @@ using UnityEngine.EventSystems;
 
 public class ButtonImageScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
-	public Vector3 smallScale = new Vector3(0.3f, 0.3f, 0.3f);
-	public Vector3 bigScale = new Vector3(0.7f, 0.7f, 0.7f);
-
 	public void OnPointerEnter(PointerEventData eventData) {
 		ScaleBig();
 	}
@@ -17,11 +14,11 @@ public class ButtonImageScaler : MonoBehaviour, IPointerEnterHandler, IPointerEx
 	}
 
 	private void ScaleBig() {
-		transform.Find("Content").GetComponent<RectTransform>().localScale = bigScale;
+		transform.Find("Content").GetComponent<RectTransform>().localScale = Menu.imageBigScale;
 	}
 
 	private void ScaleSmall() {
-		transform.Find("Content").GetComponent<RectTransform>().localScale = smallScale;
+		transform.Find("Content").GetComponent<RectTransform>().localScale = Menu.imageSmallScale;
 	}
 
 }

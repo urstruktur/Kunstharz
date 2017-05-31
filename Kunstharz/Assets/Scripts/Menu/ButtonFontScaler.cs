@@ -9,10 +9,6 @@ public class ButtonFontScaler : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
 	GameObject content;
 
-	public int textSizeSmall = 43;
-
-	public int textSizeBig = 122;
-
 	public void OnPointerEnter(PointerEventData eventData) {
 		TextBig();
 	}
@@ -22,12 +18,12 @@ public class ButtonFontScaler : MonoBehaviour, IPointerEnterHandler, IPointerExi
 	}
 
 	private void TextSmall() {
-		GetContent().GetComponent<Text>().fontSize = textSizeSmall;
+		GetContent().GetComponent<Text>().fontSize = Menu.textSizeSmall;
 		Canvas.ForceUpdateCanvases();
 	}
 
 	private void TextBig() {
-		GetContent().GetComponent<Text>().fontSize = textSizeBig;
+		GetContent().GetComponent<Text>().fontSize = Menu.textSizeBig;
 		Canvas.ForceUpdateCanvases();
 	}
 

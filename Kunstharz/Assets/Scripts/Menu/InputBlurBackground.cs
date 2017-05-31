@@ -13,7 +13,6 @@ public class InputBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointer
 	public GameObject content;
 	public GameObject startGameStartGameButton;
 	public string currentText = "";
-	public int blurSpace = 80;
 
 	void Start() {
 		blur = GameObject.Find("Blur");
@@ -65,8 +64,8 @@ public class InputBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointer
 			startGameStartGameButton.SetActive(true);
 		}
 
-		float width = content.GetComponent<TextMeshProUGUI>().GetPreferredValues(s).x + blurSpace;
-		float height = blur.GetComponent<RectTransform> ().rect.height;
+		float width = content.GetComponent<TextMeshProUGUI>().GetPreferredValues(s).x + Menu.blurSpace;
+		float height = content.GetComponent<TextMeshProUGUI>().GetPreferredValues(s).y + Menu.blurSpace / 4.0f;
 
 		if (enter) {
 			blur.GetComponent<RectTransform> ().sizeDelta = new Vector2 (0, height);

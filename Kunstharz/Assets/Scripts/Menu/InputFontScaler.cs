@@ -18,14 +18,14 @@ public class InputFontScaler : MonoBehaviour, IPointerEnterHandler, IPointerExit
 	}
 
 	private void TextSmall() {
-		content.GetComponent<TextMeshProUGUI>().fontSize = 52;
-		placeholder.GetComponent<TextMeshProUGUI>().fontSize = 52;
+		content.GetComponent<TextMeshProUGUI>().fontSize = Menu.textSizeSmallTextMeshPro;
+		placeholder.GetComponent<TextMeshProUGUI>().fontSize = Menu.textSizeSmallTextMeshPro;
 		Canvas.ForceUpdateCanvases();
 	}
 
 	private void TextBig() {
-		content.GetComponent<TextMeshProUGUI>().fontSize = 130;
-		placeholder.GetComponent<TextMeshProUGUI>().fontSize = 130;
+		content.GetComponent<TextMeshProUGUI>().fontSize = Menu.textSizeBigTextMeshPro;
+		placeholder.GetComponent<TextMeshProUGUI>().fontSize = Menu.textSizeBigTextMeshPro;
 		Canvas.ForceUpdateCanvases();
 	}
 

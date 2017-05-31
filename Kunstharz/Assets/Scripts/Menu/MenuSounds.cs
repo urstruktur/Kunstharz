@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MenuSounds : MonoBehaviour {
 
@@ -29,11 +30,15 @@ public class MenuSounds : MonoBehaviour {
 	}
 
 	public void PlayHoverSound() {
-        FMODUnity.RuntimeManager.PlayOneShot(hover, Camera.main.transform.position);
+        if (Menu.canTurn) {
+            FMODUnity.RuntimeManager.PlayOneShot(hover, Camera.main.transform.position);
+        }   
     }
 
 	public void PlayClickSound() {
-		FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
+        if (Menu.canTurn) {
+            FMODUnity.RuntimeManager.PlayOneShot(click, Camera.main.transform.position);
+        } 
 	}
 
 	void OnDestroy() {

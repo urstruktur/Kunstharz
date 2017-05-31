@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Switcher : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class LevelSwitcher : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
 	public GameObject switcherLogic;
 	public bool left = false;
@@ -17,21 +17,22 @@ public class Switcher : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	private void ChangeGameWorlds() {
 		if (canSwitch) {
 			if (left) {
-				ISwitcherLogic sli = switcherLogic.GetComponent(typeof(ISwitcherLogic)) as ISwitcherLogic;
+				LevelSwitcherLogic sli = switcherLogic.GetComponent<LevelSwitcherLogic>();
 				sli.PrevLevel();
 			} 
 			if (right) {
-				ISwitcherLogic sli = switcherLogic.GetComponent(typeof(ISwitcherLogic)) as ISwitcherLogic;
+				LevelSwitcherLogic sli = switcherLogic.GetComponent<LevelSwitcherLogic>();
 				sli.NextLevel();
 			}
 		}
 	}
 
 	public void OnPointerEnter(PointerEventData eventData) {
-		canSwitch = true;
+		canSwitch = true;	
 	}
 
 	public void OnPointerExit(PointerEventData eventData) {
 		canSwitch = false;
 	}
+
 }
