@@ -19,6 +19,8 @@ namespace Kunstharz {
 		private Gui gui;
 
 		void Start() {
+			print ("Player start");
+
 			spawnPosition = transform.position;
 			spawnRotation = transform.rotation;
 		
