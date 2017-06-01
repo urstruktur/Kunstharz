@@ -20,19 +20,17 @@ namespace Kunstharz {
 
 		void Start() {
 			print ("Player start");
-
-			spawnPosition = transform.position;
-			spawnRotation = transform.rotation;
 		}
 
 		[ClientRpc]
-		public void RpcInitPlayer() {
-			print ("Player init");
+		public void RpcInitPlayer(Vector3 spawnPos, Quaternion spawnRot) {
+			print (spawnPos);
 			transform.parent = GameObject.Find ("Game").transform;
+			spawnPosition = spawnPos;
+			spawnRotation = spawnRot;
+			transform.position = spawnPosition;
+			transform.rotation = spawnRotation;
 			SendMessageUpwards ("PlayerJoined", this);
-		}
-
-		void PlayerJoined(Player pl) {
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 		}

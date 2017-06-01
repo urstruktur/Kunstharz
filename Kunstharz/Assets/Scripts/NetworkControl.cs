@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 namespace Kunstharz
 {
@@ -8,44 +9,40 @@ namespace Kunstharz
 	{
 		public string selectedLevelName;
 
+		private List<NetworkConnection> connections = new List<NetworkConnection> ();
+		private List<short> playerControllerIds = new List<short> ();
+
 		private int connectedCount = 0;
-
-		public override void OnServerConnect(NetworkConnection conn) {
-			if (connectedCount < 2) {
-				base.OnServerConnect (conn);
-
-				++connectedCount;
-
-				print ("Connected: " + connectedCount);
-
-				if (connectedCount == 2) {
-					print ("Changing scene");
-					autoCreatePlayer = true;
-					ServerChangeScene (selectedLevelName);
-				}
-			} else {
-				print ("Got a connection, but already have two");
-			}
-		}
-
-		public override void OnServerSceneChanged (string sceneName) {
-			var essentialsPrefab = spawnPrefabs [0];
-			NetworkServer.Spawn (Instantiate(essentialsPrefab));
-		}
 
 		public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 		{
-			if (GameObject.Find ("Game") != null) {
-				/*GameObject player = (GameObject)Instantiate (playerPrefab);
-				NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);*/
-				base.OnServerAddPlayer (conn, playerControllerId);
+			connections.Add (conn);
+			playerControllerIds.Add (playerControllerId);
+
+			++connectedCount;
+			if (connectedCount == 2) {
+				var essentialsPrefab = spawnPrefabs [0];
+				var levelPrefab = spawnPrefabs [1];
+
+				NetworkServer.Spawn (Instantiate (essentialsPrefab));
+				var level = Instantiate (levelPrefab);
+				NetworkServer.Spawn (level);
+
+				for (int i = 0; i < connections.Count; ++i) {
+					NetworkConnection playerConn = connections[i];
+					short playerId = playerControllerIds[i];
+					base.OnServerAddPlayer(playerConn, playerId);
+				}
 
 				var players = GameObject.FindGameObjectsWithTag ("Player");
-				if (players.Length == 2) {
-					foreach(var aPlayer in players) {
-						aPlayer.GetComponent<Player> ().RpcInitPlayer ();
-					}
+				var startPositions = level.GetComponentsInChildren<NetworkStartPosition> ();
+				int idx = 0;
+				foreach(var aPlayer in players) {
+					Transform spawn = startPositions[idx].transform;
+					aPlayer.GetComponent<Player> ().RpcInitPlayer (spawn.position, spawn.rotation);
+					++idx;
 				}
+
 			}
 		}
 	}

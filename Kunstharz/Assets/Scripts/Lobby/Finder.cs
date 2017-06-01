@@ -36,8 +36,7 @@ namespace Kunstharz
 			if (sock != null) {
 				OnDisable ();
 			}
-
-			print ("Starting Finder…");
+				
 			sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			sock.Blocking = false;
 			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS, IPAddress.Any));
@@ -50,7 +49,6 @@ namespace Kunstharz
 		 * Automatically called when destroyed or disabled, cleans up
 		 */
 		void OnDisable() {
-			print ("Shutting down Finder…");
 			sock.Close ();
 			sock = null;
 			entries.Clear ();

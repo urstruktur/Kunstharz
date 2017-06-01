@@ -116,6 +116,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4506548551848972}
+  - component: {fileID: 114376720411250032}
   m_Layer: 0
   m_Name: Level02_Geometry
   m_TagString: Untagged
@@ -285,6 +286,38 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114376720411250032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1958421361866840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 128
+    i1: 88
+    i2: 25
+    i3: 133
+    i4: 218
+    i5: 110
+    i6: 90
+    i7: 132
+    i8: 155
+    i9: 119
+    i10: 199
+    i11: 101
+    i12: 0
+    i13: 153
+    i14: 177
+    i15: 209
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114393251077018296
 MonoBehaviour:
   m_ObjectHideFlags: 1

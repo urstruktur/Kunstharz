@@ -1025,6 +1025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fe25f122c3947a0a414d6c996c2323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 20512541397342578}
+  gui: {fileID: 114261587816527834}
+  crosshair: {fileID: 114563497856359540}
   state: 0
   numRounds: 3
 --- !u!114 &114115113947207846

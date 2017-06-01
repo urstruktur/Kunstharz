@@ -26,7 +26,7 @@ namespace Kunstharz {
 			ghostTransform = GameObject.Find ("GhostPlayer").transform;
 			ghostTransform.gameObject.SetActive (false);
 
-			enabled = false;
+			//enabled = false;
 
 		}
 

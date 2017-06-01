@@ -8,7 +8,6 @@ namespace Kunstharz {
 		private bool loaded = false;
 
 		void FinderEntriesChanged(ICollection<FinderEntry> found) {
-			print ("Got finder entries changed");
 			if (!loaded && found.Count > 0) {
 				loaded = true;
 				var enumerator = found.GetEnumerator ();

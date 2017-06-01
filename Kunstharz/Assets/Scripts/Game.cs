@@ -7,12 +7,13 @@ namespace Kunstharz
 {
 	public class Game : MonoBehaviour
 	{
+		public Camera camera;
+		public Gui gui;
+		public ModularCrosshair crosshair;
 		public GameState state = GameState.Preparing;
 		public int numRounds = 3;
 
 		private List<Player> players = new List<Player> ();
-		private Gui gui;
-		private ModularCrosshair crosshair;
 
 		public Player localPlayer {
 			get {
@@ -79,8 +80,13 @@ namespace Kunstharz
 
 		void Start() {
 			enabled = false;
-			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
-			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
+
+			// DEBUG
+			Destroy(GameObject.Find("General"));
+			Destroy(GameObject.Find("Cameras"));
+			Destroy(GameObject.Find("General Canvas"));
+			Destroy(GameObject.Find("Effect Canvas"));
+			Destroy(GameObject.Find ("NetworkDiscovery"));
 		}
 
 		IEnumerator StartNextRoundLater() {
@@ -105,6 +111,7 @@ namespace Kunstharz
 
 		// Called once when all players first in scene together
 		void StartGame() {
+			print ("Game starting");
 			localPlayer.CmdSetState (PlayerState.SelectingMotion);
 			state = GameState.PlayingRound;
 			gui.UpdatePlayerNames(this);
@@ -137,7 +144,7 @@ namespace Kunstharz
 		}
 
 		void GiveCameraToPlayer(Player activePlayer) {
-			Transform camTransform = Camera.main.transform;
+			Transform camTransform = camera.transform;
 			Vector3 pos = camTransform.localPosition;
 			Quaternion orientation = camTransform.localRotation;
 
