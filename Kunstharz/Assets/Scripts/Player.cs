@@ -8,7 +8,7 @@ namespace Kunstharz {
 		public float deathTimeout = 8.0f;
 
 		[SyncVar(hook = "OnStateChange")]
-		public PlayerState state = PlayerState.SelectingMotion;
+		public PlayerState state = PlayerState.AwaitingRoundStart;
 		[SyncVar(hook = "OnWinsChange")]
 		public int wins = 0;
 
@@ -23,12 +23,16 @@ namespace Kunstharz {
 
 			spawnPosition = transform.position;
 			spawnRotation = transform.rotation;
-		
-            // set player as child of game
-            var game = GameObject.Find ("Game").transform;
-			transform.parent = game;
-			SendMessageUpwards ("PlayerJoined", this);
+		}
 
+		[ClientRpc]
+		public void RpcInitPlayer() {
+			print ("Player init");
+			transform.parent = GameObject.Find ("Game").transform;
+			SendMessageUpwards ("PlayerJoined", this);
+		}
+
+		void PlayerJoined(Player pl) {
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 		}
@@ -113,7 +117,7 @@ namespace Kunstharz {
 			PlayerState oldState = this.state;
 			this.state = state;
 
-			SendMessageUpwards ("PlayerStateChanged", this);
+			SendMessageUpwards ("PlayerStateChanged", this, SendMessageOptions.DontRequireReceiver);
 		}
 
 		void OnWinsChange(int wins) {

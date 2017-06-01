@@ -74,19 +74,22 @@ namespace Kunstharz {
 		}
 
 		public void StartUgly(string levelSceneName) {
-            LoadLevel(testLevelGeometry);
-            LeanTween.delayedCall(3f, () => {
+            /*LoadLevel(testLevelGeometry);
+            LeanTween.delayedCall(3f, () => {*/
 
                 if (canLoad && !NetworkManager.singleton.isNetworkActive)
                 {
                     canLoad = false;
-                    NetworkManager.singleton.onlineScene = levelSceneName;
-                    NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
-                    DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
-                    NetworkManager.singleton.StartHost();
+					NetworkControl control = (NetworkControl) NetworkManager.singleton;
+					control.selectedLevelName = levelSceneName;
+					//control.onlineScene = levelSceneName;
+					control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
+					control.maxConnections = 2;
+					control.StartHost();
+                    //DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
                 }
 
-            });
+            //});
 		}
 
 		public void JoinUgly(string hostname) {
