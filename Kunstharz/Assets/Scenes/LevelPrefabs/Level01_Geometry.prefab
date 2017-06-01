@@ -53,13 +53,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4773197684229322}
+  - component: {fileID: 114727348513401988}
   m_Layer: 0
   m_Name: Level01_Geometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1769540056272568
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +216,38 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 701dee9216450434d9cca8d5bb814ae7, type: 3}
+--- !u!114 &114727348513401988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1747042753494940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 200
+    i1: 113
+    i2: 204
+    i3: 69
+    i4: 249
+    i5: 38
+    i6: 150
+    i7: 164
+    i8: 43
+    i9: 221
+    i10: 123
+    i11: 160
+    i12: 15
+    i13: 113
+    i14: 75
+    i15: 115
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114787881842730938
 MonoBehaviour:
   m_ObjectHideFlags: 1

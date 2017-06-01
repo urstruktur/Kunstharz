@@ -7,8 +7,6 @@ namespace Kunstharz
 {
 	public class NetworkControl : NetworkManager
 	{
-		public string selectedLevelName;
-
 		private List<NetworkConnection> connections = new List<NetworkConnection> ();
 		private List<short> playerControllerIds = new List<short> ();
 
@@ -22,7 +20,7 @@ namespace Kunstharz
 			++connectedCount;
 			if (connectedCount == 2) {
 				var essentialsPrefab = spawnPrefabs [0];
-				var levelPrefab = spawnPrefabs [1];
+				var levelPrefab = spawnPrefabs [GameObject.Find("Menu Script").GetComponent<Menu> ().selectedLevelIdx + 1];
 
 				NetworkServer.Spawn (Instantiate (essentialsPrefab));
 				var level = Instantiate (levelPrefab);

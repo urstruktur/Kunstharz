@@ -51,6 +51,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4606144766476332}
+  - component: {fileID: 114522017092455800}
   m_Layer: 0
   m_Name: Level03_Geometry
   m_TagString: Untagged
@@ -66,6 +67,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4094705994325786}
+  - component: {fileID: 114475107971333518}
   m_Layer: 0
   m_Name: Spawn 2
   m_TagString: Untagged
@@ -81,6 +83,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4227670722228826}
+  - component: {fileID: 114052519806056588}
   m_Layer: 0
   m_Name: Spawn 1
   m_TagString: Untagged
@@ -196,3 +199,57 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1053726557057550}
   m_Mesh: {fileID: 4300000, guid: 66c245177877fb84a8b09bef60348422, type: 3}
+--- !u!114 &114052519806056588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1998319645244846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114475107971333518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1872046604214020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114522017092455800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1749707237715474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 142
+    i1: 83
+    i2: 90
+    i3: 30
+    i4: 45
+    i5: 192
+    i6: 154
+    i7: 20
+    i8: 88
+    i9: 193
+    i10: 204
+    i11: 157
+    i12: 144
+    i13: 61
+    i14: 146
+    i15: 53
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

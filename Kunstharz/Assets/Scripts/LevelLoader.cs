@@ -81,7 +81,6 @@ namespace Kunstharz {
                 {
                     canLoad = false;
 					NetworkControl control = (NetworkControl) NetworkManager.singleton;
-					control.selectedLevelName = levelSceneName;
 					//control.onlineScene = levelSceneName;
 					control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
 					control.maxConnections = 2;
