@@ -395,7 +395,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120.48064, y: 49.98665}
+  m_SizeDelta: {x: 123.44432, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &222059906
 MonoBehaviour:
@@ -501,8 +501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0e7f1cb3fbd4c4086e925744d33ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 2
-  moveToMenu: {fileID: 0}
+  action: 0
+  moveToMenu: {fileID: 1400554193}
   reverseMenuRotation: 0
   menuSaturation: 1
   enablePublisher: 0
@@ -651,7 +651,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 548.5714, y: 49.98665}
+  m_SizeDelta: {x: 555.49945, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &279036886
 MonoBehaviour:
@@ -1950,12 +1950,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   action: 0
-  moveToMenu: {fileID: 312179694}
+  moveToMenu: {fileID: 303813355}
   reverseMenuRotation: 1
   menuSaturation: 0
   enablePublisher: 0
   enableFinder: 0
-  disableFinderAndPublisher: 0
+  disableFinderAndPublisher: 1
   enableStartHost: 0
 --- !u!114 &565377807
 MonoBehaviour:
@@ -2550,7 +2550,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 107.66355, y: 49.98665}
+  m_SizeDelta: {x: 106.9116, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &660542775
 MonoBehaviour:
@@ -3560,7 +3560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0e7f1cb3fbd4c4086e925744d33ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 2
+  action: 0
   moveToMenu: {fileID: 1251268974}
   reverseMenuRotation: 0
   menuSaturation: 0
@@ -3715,7 +3715,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 412.71027, y: 49.98665}
+  m_SizeDelta: {x: 415.5224, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &947371402
 MonoBehaviour:
@@ -4708,7 +4708,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 107.66355, y: 49.98665}
+  m_SizeDelta: {x: 106.9116, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1229656314
 MonoBehaviour:
@@ -4796,7 +4796,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120.48064, y: 49.98665}
+  m_SizeDelta: {x: 123.44432, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1230008818
 MonoBehaviour:
@@ -6135,7 +6135,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 412.71027, y: 49.98665}
+  m_SizeDelta: {x: 415.5224, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1569060862
 MonoBehaviour:
@@ -6385,7 +6385,7 @@ MonoBehaviour:
   menuSaturation: 0
   enablePublisher: 0
   enableFinder: 0
-  disableFinderAndPublisher: 0
+  disableFinderAndPublisher: 1
   enableStartHost: 0
 --- !u!114 &1589196769
 MonoBehaviour:
@@ -7128,7 +7128,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120.48064, y: 49.98665}
+  m_SizeDelta: {x: 123.44432, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1675310272
 MonoBehaviour:
