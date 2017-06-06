@@ -11,6 +11,8 @@ namespace Kunstharz
 
 		/** Port that the host uses for the networkmanager */
 		public const int GAME_HOST_PORT = 51255;
+
+		public const int MULTICAST_TTL = 2;
 	}
 }
 

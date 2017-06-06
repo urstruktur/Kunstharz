@@ -26,26 +26,10 @@ namespace Kunstharz
 			print ("Starting Publisher…");
 			sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			sock.Blocking = false;
-			NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
-			foreach (NetworkInterface adapter in nics)
-			{
-				IPInterfaceProperties ip_properties = adapter.GetIPProperties();
-				if (adapter.GetIPProperties().MulticastAddresses.Count == 0)
-					continue; // most of VPN adapters will be skipped
-				if (!adapter.SupportsMulticast)
-					continue; // multicast is meaningless for this type of connection
-				if (OperationalStatus.Up != adapter.OperationalStatus)
-					continue; // this adapter is off or not connected
-				IPv4InterfaceProperties p = adapter.GetIPProperties().GetIPv4Properties();
-				if (null == p)
-					continue; // IPv4 is not configured on this adapter
-
-				// now we have adapter index as p.Index, let put it to socket option
-				sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastInterface, (int)IPAddress.HostToNetworkOrder(p.Index));
-			}
+			sock.EnsureNetworkInterfaceSupportsMulticast ();
 			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS));
 			// Traverse a maximum of one router to another network when sending multicast data
-			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 2);
+			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, NetworkSpecs.MULTICAST_TTL);
 			sock.Connect (new IPEndPoint(NetworkSpecs.PING_ADDRESS, NetworkSpecs.PING_PORT));
 			timeUntilBeacon = 0;
 
