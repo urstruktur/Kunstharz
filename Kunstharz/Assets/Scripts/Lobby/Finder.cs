@@ -43,7 +43,10 @@ namespace Kunstharz
 			sock.EnsureNetworkInterfaceSupportsMulticast ();
 			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS, IPAddress.Any));
 			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, NetworkSpecs.MULTICAST_TTL);
-			sock.Bind (new IPEndPoint (IPAddress.Any, NetworkSpecs.PING_PORT));
+
+			if (!sock.IsBound) {
+				sock.Bind (new IPEndPoint (IPAddress.Any, NetworkSpecs.PING_PORT));
+			}
 
 			Application.runInBackground = true;
 		}
