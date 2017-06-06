@@ -16,14 +16,19 @@ namespace Kunstharz
 			foreach (NetworkInterface adapter in nics)
 			{
 				IPInterfaceProperties ip_properties = adapter.GetIPProperties();
-				Debug.Log ("" + adapter + "   " + adapter.SupportsMulticast);
+
 				if (adapter.GetIPProperties ().MulticastAddresses.Count > 0 &&
 				    adapter.SupportsMulticast &&
 					adapter.OperationalStatus == OperationalStatus.Up) {
 
 					IPv4InterfaceProperties p = adapter.GetIPProperties().GetIPv4Properties();
+
 					if (p != null) {
 						Debug.Log ("Setting interface " + adapter.Name + " as multicast interface");
+						foreach (UnicastIPAddressInformation addr in ip_properties.UnicastAddresses) {
+							Debug.Log ("Address: " + addr.Address);
+							sock.Bind (new IPEndPoint (addr.Address, 0));
+						}
 						supportingIdx = (int)IPAddress.HostToNetworkOrder (p.Index);
 					}
 				}
