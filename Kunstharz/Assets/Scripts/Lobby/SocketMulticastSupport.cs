@@ -25,9 +25,13 @@ namespace Kunstharz
 
 					if (p != null) {
 						Debug.Log ("Setting interface " + adapter.Name + " as multicast interface");
+
 						foreach (UnicastIPAddressInformation addr in ip_properties.UnicastAddresses) {
-							Debug.Log ("Address: " + addr.Address);
-							sock.Bind (new IPEndPoint (addr.Address, 0));
+							if (addr.Address.AddressFamily == AddressFamily.InterNetwork) {
+								Debug.Log ("Address: " + addr.Address);
+								sock.Bind (new IPEndPoint (addr.Address, 0));
+								break;
+							}
 						}
 						supportingIdx = (int)IPAddress.HostToNetworkOrder (p.Index);
 					}
