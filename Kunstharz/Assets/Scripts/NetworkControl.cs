@@ -20,6 +20,7 @@ namespace Kunstharz
 			++connectedCount;
 			if (connectedCount == 2) {
 				var essentialsPrefab = spawnPrefabs [0];
+				// 1 being game essentials, the rest being levels to spawn
 				var levelPrefab = spawnPrefabs [GameObject.Find("Menu Script").GetComponent<Menu> ().selectedLevelIdx + 1];
 
 				NetworkServer.Spawn (Instantiate (essentialsPrefab));

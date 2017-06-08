@@ -6,7 +6,6 @@ namespace Kunstharz
 	[Serializable]
 	public class Challenge
 	{
-		public String gameName;
 		public String playerName;
 		public int selectedLevelIdx;
 

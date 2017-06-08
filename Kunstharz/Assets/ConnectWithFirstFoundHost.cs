@@ -7,7 +7,7 @@ namespace Kunstharz {
 		public LevelLoader loader;
 		private bool loaded = false;
 
-		void FinderEntriesChanged(ICollection<FinderEntry> found) {
+		void FinderEntriesChanged(IList<FinderEntry> found) {
 			if (!loaded && found.Count > 0) {
 				loaded = true;
 				var enumerator = found.GetEnumerator ();

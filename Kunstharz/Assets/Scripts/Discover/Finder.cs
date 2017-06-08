@@ -22,16 +22,10 @@ namespace Kunstharz
 	public class Finder : MonoBehaviour
 	{
 		public float beaconExpireTime = 1.5f;
+		public List<FinderEntry> entries = new List<FinderEntry> ();
 
 		private Socket sock;
 		private byte[] buf = new byte[1024];
-		private List<FinderEntry> entries = new List<FinderEntry> ();
-
-		public ICollection<FinderEntry> found {
-			get {
-				return entries.AsReadOnly ();
-			}
-		}
 
 		void OnEnable() {
 			if (sock != null) {
@@ -58,7 +52,17 @@ namespace Kunstharz
 		}
 
 		void CleanExpiredEntries() {
-			int removed = entries.RemoveAll (e => (Time.time - e.lastBeaconTime) > beaconExpireTime);
+			int removed = 0;
+
+			for (int i = entries.Count - 1; i >= 0; --i) {
+				if ((Time.time - entries [i].lastBeaconTime) > beaconExpireTime) {
+					++removed;
+					entries.RemoveAt (i);
+					print ("Discovered game expired at index: " + i);
+					SendMessageUpwards ("ChallengeExpired", i, SendMessageOptions.DontRequireReceiver);
+				}
+			}
+
 			if (removed > 0) {
 				SendFinderEntriesChanged ();
 			}
@@ -66,18 +70,21 @@ namespace Kunstharz
 
 		void AddEntry(FinderEntry entry) {
 			// Remove expired and old entries of same host
+
+
 			int identicalHostnameCount = entries.RemoveAll (e => e.hostname == entry.hostname);
 			entries.Add (entry);
 
 			if (identicalHostnameCount == 0) {
 				print ("Discovered game: " + entry);
+				SendMessageUpwards ("ChallengeDiscovered", entry, SendMessageOptions.DontRequireReceiver);
 			}
 
 			SendFinderEntriesChanged ();
 		}
 
 		void SendFinderEntriesChanged() {
-			SendMessageUpwards ("FinderEntriesChanged", found, SendMessageOptions.DontRequireReceiver);
+			SendMessageUpwards ("FinderEntriesChanged", entries, SendMessageOptions.DontRequireReceiver);
 		}
 
 		void Update() {

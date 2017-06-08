@@ -68,7 +68,6 @@ public class Menu : MonoBehaviour {
 			if (publisher.challenge == null) {
 				publisher.challenge = new Kunstharz.Challenge ();
 			}
-			publisher.challenge.gameName = playerName;
 			publisher.challenge.playerName = playerName;
 			publisher.challenge.selectedLevelIdx = selectedLevelIdx;
 		}

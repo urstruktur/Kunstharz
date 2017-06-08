@@ -61,7 +61,7 @@ namespace Kunstharz
 		}
 
 		void Update() {
-			if (challenge.gameName.Length > 0) {
+			if (challenge.playerName.Length > 0) {
 				SendBeaconIfIntervalExpired ();
 			}
 		}

@@ -307,7 +307,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 96.99197, y: 50.700344}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &171540009
 MonoBehaviour:
@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   action: 0
-  moveToMenu: {fileID: 1400554193}
+  moveToMenu: {fileID: 449405273}
   reverseMenuRotation: 0
   menuSaturation: 1
   enablePublisher: 0
@@ -2349,7 +2349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86697e81723334f8baa9a9b7d2eea7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beacon: THOMAS
+  challenge:
+    playerName: 
+    selectedLevelIdx: 0
   beaconInterval: 0.5
 --- !u!114 &635041963
 MonoBehaviour:
@@ -3143,7 +3145,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 103.60506, y: 50.700344}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &776492994
 MonoBehaviour:
@@ -4572,7 +4574,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 319.5756, y: 49.655174}
+  m_SizeDelta: {x: 322.93915, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1205235814
 MonoBehaviour:
@@ -7724,7 +7726,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 119.6817, y: 49.655174}
+  m_SizeDelta: {x: 123.44432, y: 50.700344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1881553954 stripped
 Transform:
@@ -8032,7 +8034,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 278.8519, y: 50.700344}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2091289707
 MonoBehaviour:
