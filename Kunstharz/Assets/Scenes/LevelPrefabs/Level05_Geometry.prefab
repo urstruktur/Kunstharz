@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4851102876110434}
+  - component: {fileID: 114009949658926752}
   m_Layer: 0
   m_Name: Level05_Geometry
   m_TagString: Untagged
@@ -83,6 +84,7 @@ GameObject:
   - component: {fileID: 4085074421617570}
   - component: {fileID: 33544980781768616}
   - component: {fileID: 23212485391051418}
+  - component: {fileID: 64771053443899720}
   m_Layer: 0
   m_Name: prototype_level05
   m_TagString: Untagged
@@ -198,6 +200,52 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1798166958511094}
   m_Mesh: {fileID: 4300000, guid: 56446a3b27bf6aa4a860b485e442e84e, type: 3}
+--- !u!64 &64771053443899720
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1798166958511094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 56446a3b27bf6aa4a860b485e442e84e, type: 3}
+--- !u!114 &114009949658926752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1053577588733448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 184
+    i1: 45
+    i2: 51
+    i3: 62
+    i4: 58
+    i5: 26
+    i6: 54
+    i7: 20
+    i8: 11
+    i9: 129
+    i10: 62
+    i11: 197
+    i12: 89
+    i13: 250
+    i14: 150
+    i15: 243
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114359973747646284
 MonoBehaviour:
   m_ObjectHideFlags: 1

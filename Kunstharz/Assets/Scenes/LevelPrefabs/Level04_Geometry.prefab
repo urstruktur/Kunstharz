@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4340496066366798}
   - component: {fileID: 33296065574895802}
   - component: {fileID: 23022499880816054}
+  - component: {fileID: 64978252849269760}
   m_Layer: 0
   m_Name: prototype_level04
   m_TagString: Untagged
@@ -83,6 +84,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4648189109746120}
+  - component: {fileID: 114235984834111936}
   m_Layer: 0
   m_Name: Level04_Geometry
   m_TagString: Untagged
@@ -125,7 +127,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1899998264948226}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -71.95238, y: 73.44529, z: -87.989845}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4340496066366798}
@@ -198,6 +200,52 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1198227175583714}
   m_Mesh: {fileID: 4300000, guid: a3d4eb5e2b6fd3d4599c0ef7c64c9bc8, type: 3}
+--- !u!64 &64978252849269760
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1198227175583714}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: a3d4eb5e2b6fd3d4599c0ef7c64c9bc8, type: 3}
+--- !u!114 &114235984834111936
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1899998264948226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 104
+    i1: 30
+    i2: 128
+    i3: 137
+    i4: 153
+    i5: 35
+    i6: 21
+    i7: 196
+    i8: 185
+    i9: 200
+    i10: 218
+    i11: 153
+    i12: 172
+    i13: 108
+    i14: 212
+    i15: 223
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114921830074748550
 MonoBehaviour:
   m_ObjectHideFlags: 1
