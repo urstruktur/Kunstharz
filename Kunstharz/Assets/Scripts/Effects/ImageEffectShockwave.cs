@@ -43,12 +43,6 @@ public class ImageEffectShockwave : MonoBehaviour
 		}
 	}
 
-	void Update() {
-		if (Input.GetKeyDown (KeyCode.T)) {
-			actionMode = !actionMode;
-		}
-	}
-
     void Start()
     {
         if (!SystemInfo.supportsImageEffects)
