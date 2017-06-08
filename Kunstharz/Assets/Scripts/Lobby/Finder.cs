@@ -40,13 +40,10 @@ namespace Kunstharz
 				
 			sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			sock.Blocking = false;
-			sock.EnsureNetworkInterfaceSupportsMulticast ();
 			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS, IPAddress.Any));
 			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, NetworkSpecs.MULTICAST_TTL);
 
-			if (!sock.IsBound) {
-				sock.Bind (new IPEndPoint (IPAddress.Any, NetworkSpecs.PING_PORT));
-			}
+			sock.Bind (new IPEndPoint (IPAddress.Any, NetworkSpecs.PING_PORT));
 
 			Application.runInBackground = true;
 		}
