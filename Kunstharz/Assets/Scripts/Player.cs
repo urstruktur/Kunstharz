@@ -75,6 +75,11 @@ namespace Kunstharz {
 				SendMessage ("SetFlyTarget", target);
 				CmdSetState (PlayerState.SelectedMotion);
 
+                if(Motion.allowMoveDebugStatic)
+                {
+                    GetComponent<Motion>().enabled = true;
+                }
+
                 ImageEffectShockwave i = Camera.main.GetComponent<ImageEffectShockwave>();
                 if(i != null)
                 {

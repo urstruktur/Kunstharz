@@ -29,6 +29,7 @@ namespace Kunstharz
 		private float remainingFlyDuration = float.MinValue;
 
 		void Start() {
+
 			enabled = false;
 			allowMoveDebugStatic = allowMoveDebug;
 		}
