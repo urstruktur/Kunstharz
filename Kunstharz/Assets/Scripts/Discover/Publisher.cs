@@ -26,8 +26,6 @@ namespace Kunstharz
 			print ("Starting Publisher…");
 			sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			sock.Blocking = false;
-			sock.EnsureNetworkInterfaceSupportsMulticast ();
-			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS));
 			// Traverse a maximum of one router to another network when sending multicast data
 			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, NetworkSpecs.MULTICAST_TTL);
 			sock.Connect (new IPEndPoint(NetworkSpecs.PING_ADDRESS, NetworkSpecs.PING_PORT));

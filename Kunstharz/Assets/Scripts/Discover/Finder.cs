@@ -70,8 +70,6 @@ namespace Kunstharz
 
 		void AddEntry(FinderEntry entry) {
 			// Remove expired and old entries of same host
-
-
 			int identicalHostnameCount = entries.RemoveAll (e => e.hostname == entry.hostname);
 			entries.Add (entry);
 
