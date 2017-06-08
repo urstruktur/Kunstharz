@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Kunstharz
 {
@@ -138,9 +139,17 @@ namespace Kunstharz
 				StartCoroutine ("StartNextRoundLater");
 			} else {
 				state = GameState.Finished;
+				StartCoroutine ("ResetGameLater");
 			}
 				
 			gui.UpdateScore (this);
+		}
+
+		IEnumerator ResetGameLater() {
+			yield return new WaitForSeconds (5.0f);
+
+			// Reload menu
+			SceneManager.LoadScene (0);
 		}
 
 		void GiveCameraToPlayer(Player activePlayer) {
