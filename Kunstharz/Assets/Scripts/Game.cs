@@ -53,6 +53,7 @@ namespace Kunstharz
 					// Action mode!
 					localPlayer.CmdSetState (PlayerState.SelectingShot);
 					crosshair.ShowShootCrosshair();
+					Camera.main.GetComponent<ImageEffectShockwave> ().actionMode = true;
 				} else {
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
