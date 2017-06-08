@@ -9,7 +9,7 @@ namespace Kunstharz
 {
 	public class Publisher : MonoBehaviour
 	{
-		public String beacon = "THOMAS";
+		public Challenge challenge;
 		public float beaconInterval = 0.5f;
 
 		private Socket sock;
@@ -46,7 +46,8 @@ namespace Kunstharz
 		}
 
 		void SendBeacon() {
-			byte[] beaconData = Encoding.UTF8.GetBytes ((beacon.Length > 0) ? beacon : "n/a");
+			String beacon = JsonUtility.ToJson (challenge);
+			byte[] beaconData = Encoding.UTF8.GetBytes (beacon);
 			sock.Send (beaconData);
 		}
 
@@ -60,9 +61,9 @@ namespace Kunstharz
 		}
 
 		void Update() {
-			//if (beacon.Length > 0) {
+			if (challenge.gameName.Length > 0) {
 				SendBeaconIfIntervalExpired ();
-			//}
+			}
 		}
 	}
 }

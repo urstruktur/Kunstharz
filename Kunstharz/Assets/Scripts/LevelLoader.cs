@@ -68,12 +68,10 @@ namespace Kunstharz {
         }
 
 		public void StartUgly(int selectedLevelIdx) {
-            StartUgly(levelSceneNames[selectedLevelIdx]);
-
-
+			StartUgly();
 		}
 
-		public void StartUgly(string levelSceneName) {
+		public void StartUgly() {
             /*LoadLevel(testLevelGeometry);
             LeanTween.delayedCall(3f, () => {*/
 

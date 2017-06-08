@@ -10,12 +10,12 @@ namespace Kunstharz
 {
 	public struct FinderEntry {
 		public string hostname;
-		public string beacon;
 		public float lastBeaconTime;
+		public Challenge challenge;
 
 		public override string ToString ()
 		{
-			return beacon + "[ " + hostname + " ]";
+			return challenge + "@" + hostname;
 		}
 	}
 
@@ -92,7 +92,7 @@ namespace Kunstharz
 
 				FinderEntry entry = new FinderEntry ();
 				entry.hostname = hostname;
-				entry.beacon = beacon;
+				entry.challenge = JsonUtility.FromJson<Challenge>(beacon);
 				entry.lastBeaconTime = Time.time;
 
 				AddEntry (entry);
