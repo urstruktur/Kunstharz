@@ -6,7 +6,7 @@ Shader "Kunstharz/GeometryWarp" {
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		_DispTex("Disp Texture", 2D) = "gray" {}
 		_NormalMap("Normalmap", 2D) = "bump" {}
-		_Displacement("Displacement", Range(0, 1.0)) = 0.3
+		_Displacement("Displacement", Range(0, 5.0)) = 1.0
 		_Origin("Origin", Vector) = (0,0,0)
 		_Color("Color", color) = (1,1,1,0)
 		_SpecColor("Spec color", color) = (0.5,0.5,0.5,0.5)
@@ -29,19 +29,15 @@ Shader "Kunstharz/GeometryWarp" {
 
 	float _Tess;
 
-	float4 tessDistance(appdata v0, appdata v1, appdata v2) {
-		float minDist = 10.0;
-		float maxDist = 25.0;
-		return UnityDistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, minDist, maxDist, _Tess);
-	}
-
 	sampler2D _DispTex;
 	float _Displacement;
+	float3 _Origin;
 
 	void disp(inout appdata v)
 	{
-		float d = tex2Dlod(_DispTex, float4(v.texcoord.xy,0,0)).r * _Displacement;
-		v.vertex.xyz += v.normal * d;
+		//float d = tex2Dlod(_DispTex, float4(v.texcoord.xy,0,0)).r * _Displacement;
+		float3 d = _Displacement/pow(distance(v.vertex, _Origin),1.2)*(v.vertex - _Origin);
+		v.vertex.xyz += d;
 	}
 
 	struct Input {
@@ -60,25 +56,31 @@ Shader "Kunstharz/GeometryWarp" {
 		o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
 	}
 
+	float CalcDistanceTessFactor(float4 vertex, float minDist, float maxDist, float tess)
+	{
+		float dist = distance(vertex, _Origin);
+		float f = clamp(1.0 - (dist - minDist) / (maxDist - minDist), 0.01, 1.0) * tess;
+		return f;
+	}
+
 	// Distance based tessellation:
 	// Tessellation level is "tess" before "minDist" from camera, and linearly decreases to 1
 	// up to "maxDist" from camera.
 	float4 DistanceBasedTess(float4 v0, float4 v1, float4 v2, float minDist, float maxDist, float tess)
 	{
 		float3 f;
+
 		f.x = CalcDistanceTessFactor(v0, minDist, maxDist, tess);
 		f.y = CalcDistanceTessFactor(v1, minDist, maxDist, tess);
 		f.z = CalcDistanceTessFactor(v2, minDist, maxDist, tess);
 
-		return CalcTriEdgeTessFactors(f);
+		return UnityCalcTriEdgeTessFactors(f);
 	}
 
-	float CalcDistanceTessFactor(float4 vertex, float minDist, float maxDist, float tess)
-	{
-		float3 wpos = mul(unity_ObjectToWorld, vertex).xyz;
-		float dist = distance(wpos, _WorldSpaceCameraPos);
-		float f = clamp(1.0 - (dist - minDist) / (maxDist - minDist), 0.01, 1.0) * tess;
-		return f;
+	float4 tessDistance(appdata v0, appdata v1, appdata v2) {
+		float minDist = 2.0;
+		float maxDist = 5.0;
+		return DistanceBasedTess(v0.vertex, v1.vertex, v2.vertex, minDist, maxDist, _Tess);
 	}
 
 	ENDCG
