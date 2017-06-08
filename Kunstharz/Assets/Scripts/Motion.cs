@@ -13,6 +13,8 @@ namespace Kunstharz
 	{
 		public float flyVelocity = 3.0f;
 		public float afterFlyIdleTime = 0.2f;
+		public bool allowMoveDebug;
+		public static bool allowMoveDebugStatic;
 
 		[SyncVar]
 		private Vector3 flyStartPosition;
@@ -28,6 +30,7 @@ namespace Kunstharz
 
 		void Start() {
 			enabled = false;
+			allowMoveDebugStatic = allowMoveDebug;
 		}
 
 		void Update () {
@@ -55,8 +58,7 @@ namespace Kunstharz
 			}
 		}
 
-		[Command]
-		void CmdSetFlyTarget(Target target) {
+		void DoSetFlyTarget(Target target) {
 			flyStartPosition = transform.position;
 			flyTargetPosition = target.position;
 
@@ -67,8 +69,17 @@ namespace Kunstharz
 			flyDuration = flyDistance / flyVelocity;
 		}
 
+		[Command]
+		void CmdSetFlyTarget(Target target) {
+			DoSetFlyTarget (target);
+		}
+
 		void SetFlyTarget(Target target) {
-			CmdSetFlyTarget (target);
+			if (allowMoveDebugStatic) {
+				DoSetFlyTarget (target);
+			} else {
+				CmdSetFlyTarget (target);
+			}
 		}
 
 	}
