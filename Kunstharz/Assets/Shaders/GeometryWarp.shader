@@ -2,7 +2,7 @@
 
 Shader "Kunstharz/GeometryWarp" {
 	Properties{
-		_Tess("Tessellation", Range(1,32)) = 4
+		_Tess("Tessellation", Range(1,32)) = 32
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		_DispTex("Disp Texture", 2D) = "gray" {}
 		_NormalMap("Normalmap", 2D) = "bump" {}
@@ -33,10 +33,15 @@ Shader "Kunstharz/GeometryWarp" {
 	float _Displacement;
 	float3 _Origin;
 
+	// Displace geometry based on vertex distance to _Origin
+
+	float getDisplacementFactor(float3 v) {
+		return _Displacement / pow(distance(v, _Origin), 1.2);
+	}
+
 	void disp(inout appdata v)
 	{
-		//float d = tex2Dlod(_DispTex, float4(v.texcoord.xy,0,0)).r * _Displacement;
-		float3 d = _Displacement/pow(distance(v.vertex, _Origin),1.2)*(v.vertex - _Origin);
+		float3 d = getDisplacementFactor(v.vertex)*(v.vertex - _Origin);
 		v.vertex.xyz += d;
 	}
 
@@ -59,6 +64,7 @@ Shader "Kunstharz/GeometryWarp" {
 	float CalcDistanceTessFactor(float4 vertex, float minDist, float maxDist, float tess)
 	{
 		float dist = distance(vertex, _Origin);
+		//float dist = 1/getDisplacementFactor(vertex)*2;
 		float f = clamp(1.0 - (dist - minDist) / (maxDist - minDist), 0.01, 1.0) * tess;
 		return f;
 	}

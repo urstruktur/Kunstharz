@@ -73,7 +73,10 @@ namespace Kunstharz {
 				crosshair.ShowShootCrosshair();
             } else {
 				SendMessage ("SetFlyTarget", target);
-				CmdSetState (PlayerState.SelectedMotion);
+                if (!Motion.allowMoveDebugStatic)
+                {
+                    CmdSetState(PlayerState.SelectedMotion);
+                }
 
                 if(Motion.allowMoveDebugStatic)
                 {
@@ -143,5 +146,14 @@ namespace Kunstharz {
 		public void CmdDestroy(GameObject go) {
 			NetworkServer.Destroy(go);
 		}
+
+        void OnApplicationFocus(bool focus)
+        {
+            if (focus)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
     }
 }
