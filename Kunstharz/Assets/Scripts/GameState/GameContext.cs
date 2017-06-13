@@ -8,6 +8,9 @@ namespace Kunstharz
 		[SyncVar(hook="ChangeCurrentStateIdx")]
 		public int currentStateIdx = -1;
 
+		public Player localPlayer;
+		public Player remotePlayer;
+
 		private IGameState current {
 			get {
 				return (currentStateIdx == -1)
@@ -16,7 +19,14 @@ namespace Kunstharz
 			}
 		}
 
+		[Command]
+		public void  CmdSetStateIdx(int newIdx) {
+			print ("Got command to set to: " + newIdx);
+			currentStateIdx = newIdx;
+		}
+
 		private void ChangeCurrentStateIdx(int newIdx) {
+			print("Changing idx to " + newIdx);
 			current.Exit(this);
 			currentStateIdx = newIdx;
 			current.Enter(this);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,18 +15,29 @@ namespace Kunstharz
 
 		private NetworkStartPosition[] startPositions;
 
+		private GameContext ctx;
+
 		public void Enter(GameContext ctx) {
+			this.ctx = ctx;
+			print("Entering load state");
+
 			HideMainMenu();
 
 			if(isServer) {
 				//RegisterSpawnPrefabs();
 				SpawnEnvironment();
 				SpawnPlayers();
+				StartCoroutine("ChangeToRoundNextFrame");
 			}
 		}
 
+		IEnumerator ChangeToRoundNextFrame() {
+			yield return new WaitForEndOfFrame();
+			ctx.currentStateIdx = GameStateRound.IDX;
+		}
+
 		public void Exit(GameContext ctx) {
-			
+			print("Exiting load state");
 		}
 
 		public void LocalPlayerSelectedLocation(GameContext ctx, Vector3 selectedLocation) {
