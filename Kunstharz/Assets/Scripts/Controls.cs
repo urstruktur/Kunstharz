@@ -36,8 +36,8 @@ namespace Kunstharz {
 			}
 
 
-			Player player = transform.parent.GetComponent<Player> ();
-			state = player.state;
+			Player player = (transform.parent != null) ? transform.parent.GetComponent<Player> () : null;
+			state = (player != null) ? player.state : PlayerState.SelectingMotion;
 
 			bool canChooseRotation = state == PlayerState.SelectingMotion ||
 			                         state == PlayerState.SelectedMotion ||
