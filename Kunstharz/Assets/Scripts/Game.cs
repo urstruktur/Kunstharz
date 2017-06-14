@@ -39,7 +39,7 @@ namespace Kunstharz
 		}
 			
 		void PlayerStateChanged(Player changedPlayer) {
-			if (localPlayer.state == PlayerState.SelectedMotion &&
+			/*if (localPlayer.state == PlayerState.SelectedMotion &&
 			    (nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
 
 				localPlayer.CmdSetState (PlayerState.ExecutingMotion);
@@ -75,9 +75,9 @@ namespace Kunstharz
 						StartCoroutine ("StartNextRoundLater");
 					}
 				}
-			}
+			}*/
 
-			gui.UpdatePlayerStates (this);
+			//gui.UpdatePlayerStates (this);
 		}
 
 		void Start() {
@@ -119,7 +119,7 @@ namespace Kunstharz
 			gui.UpdatePlayerNames(this);
 		}
 
-		void PlayerJoined(Player player) {
+		/*void PlayerJoined(Player player) {
 			int newPlayerIdx = players.Count;
 			players.Add (player);
 
@@ -131,7 +131,7 @@ namespace Kunstharz
 				// All players are spawned, start the actual game
 				StartGame ();
 			}
-		}
+		}*/
 
 		void PlayerWon() {
 			int playedRounds = localPlayer.wins + nonLocalPlayer.wins;
@@ -153,19 +153,7 @@ namespace Kunstharz
 			SceneManager.LoadScene (0);
 		}
 
-		void GiveCameraToPlayer(Player activePlayer) {
-			Transform camTransform = camera.transform;
-			Vector3 pos = camTransform.localPosition;
-			Quaternion orientation = camTransform.localRotation;
-
-			camTransform.parent = activePlayer.transform;
-			camTransform.localPosition = pos;
-			camTransform.localRotation = orientation;
-
-			camTransform.GetComponent<Controls> ().enabled = true;
-		}
-
-		bool LineOfSightExists() {
+		/*bool LineOfSightExists() {
 			if (players.Count != 2) { return false; }
 
 			Player p1 = players [0];
@@ -185,7 +173,7 @@ namespace Kunstharz
 				Debug.DrawRay (start, dir, Color.blue);
 				return false;
 			}
-		}
+		}*/
 	}
 }
 

@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114202941452965954}
   m_Layer: 0
   m_Name: Context
-  m_TagString: Untagged
+  m_TagString: Context
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,6 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936d81c90eac643959ea6afeeeec210e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeoutEnabled: 0
+  synchronizedMotion: 1
 --- !u!114 &114251101008836714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,6 +68,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStateIdx: -1
+  localPlayer: {fileID: 0}
+  remotePlayer: {fileID: 0}
 --- !u!114 &114397344312672138
 MonoBehaviour:
   m_ObjectHideFlags: 1

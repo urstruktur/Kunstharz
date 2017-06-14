@@ -18,8 +18,11 @@ namespace Kunstharz {
 		private ModularCrosshair crosshair;
 		private Gui gui;
 
+		private GameContext ctx;
+
 		void Start() {
 			print ("Player start");
+			ctx = GameContext.instance;
 		}
 
 		[ClientRpc]
@@ -30,7 +33,6 @@ namespace Kunstharz {
 			spawnRotation = spawnRot;
 			transform.position = spawnPosition;
 			transform.rotation = spawnRotation;
-			SendMessageUpwards ("PlayerJoined", this);
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 		}
@@ -60,7 +62,13 @@ namespace Kunstharz {
 		}
 
 		void SelectedTarget(Target target) {
-			if (state == PlayerState.SelectingShot) {
+			ctx.PlayerSelectedTarget(this, target);
+
+			if(isClient) {
+				CmdSelectedTarget(target);
+			}
+
+			/*if (state == PlayerState.SelectingShot) {
 				SendMessage ("SetShootTarget", target);
 				CmdSetState (PlayerState.ExecutingShot);
 
@@ -89,13 +97,25 @@ namespace Kunstharz {
                     i.Shock(target.position);
                 }
 
-			}
+			}*/
+		}
+
+		[Command]
+		void CmdSelectedTarget(Target target) {
+			ctx.PlayerSelectedTarget(this, target);
 		}
 
 		void MotionFinished (Player movedPlayer) {
-			if (isLocalPlayer) {
-				CmdSetState (PlayerState.ExecutedMotion);
+			ctx.PlayerFinishedMotion(this);
+
+			if (isClient) {
+				CmdMotionFinished();
 			}
+		}
+
+		[Command]
+		void CmdMotionFinished () {
+			ctx.PlayerFinishedMotion(this);
 		}
 
 		void HitPlayer(Player player) {

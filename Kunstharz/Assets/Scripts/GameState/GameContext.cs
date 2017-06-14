@@ -1,10 +1,18 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Kunstharz
 {
 	public class GameContext : NetworkBehaviour
 	{
+		public static GameContext instance {
+			get {
+				var go = GameObject.FindGameObjectWithTag("Context");
+				return (go == null) ? null : go.GetComponent<GameContext> ();
+			}
+		}
+
 		[SyncVar(hook="ChangeCurrentStateIdx")]
 		public int currentStateIdx = -1;
 
@@ -30,6 +38,18 @@ namespace Kunstharz
 			current.Exit(this);
 			currentStateIdx = newIdx;
 			current.Enter(this);
+		}
+
+		public void PlayerSelectedTarget(Player selectingPlayer, Target target) {
+			current.PlayerSelectedTarget(this, selectingPlayer, target);
+		}
+
+		public void PlayerSelectedPlayer(Player selectingPlayer, Player selectedPlayer) {
+			current.PlayerSelectedPlayer(this, selectingPlayer, selectedPlayer);
+		}
+
+		public void PlayerFinishedMotion(Player player) {
+			current.PlayerFinishedMotion(this, player);
 		}
 
 		void Update() {

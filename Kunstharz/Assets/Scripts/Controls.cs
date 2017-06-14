@@ -18,14 +18,13 @@ namespace Kunstharz {
 		private float topDownAngle = 0;
 		private float remainingShotCooldown = 0.0f;
 
-		private Transform ghostTransform;
+		private GameContext ctx;
 		private PlayerState state;
 
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
-			ghostTransform = GameObject.Find ("GhostPlayer").transform;
-			ghostTransform.gameObject.SetActive (false);
 
+			ctx = GameContext.instance;
 			//enabled = false;
 
 		}
@@ -55,9 +54,6 @@ namespace Kunstharz {
 			if (canSelectTarget) {
 				HandleTargetInput ();
 			}
-
-			ghostTransform.gameObject.SetActive (state == PlayerState.SelectedMotion ||
-			                                     state == PlayerState.ExecutingMotion);
 		}
 
 		void HandleTargetInput () {
@@ -77,7 +73,21 @@ namespace Kunstharz {
 				target.position = hit.point;
 				target.normal = hit.normal;
 
-				SendMessageUpwards ("SelectedTarget", target);
+				var selecting = transform.parent.GetComponent<Player> ();
+
+				if (hit.collider.CompareTag ("Player")) {
+					var selected = hit.collider.GetComponent<Player> ();
+					ctx.PlayerSelectedPlayer(selecting, selected);
+				} else {
+					SendMessageUpwards ("SelectedTarget", target);
+					/*Player player = (transform.parent != null) ? transform.parent.GetComponent<Player> () : null;
+					if(isClient) {
+						ctx.PlayerSelectedTarget(selecting, target);
+					}
+					CmdSelectedTarget(target);*/
+				}
+
+				/*
 
 				if (hit.collider.CompareTag ("Player")) {
 					SendMessageUpwards ("HitPlayer", hit.collider.GetComponent<Player> ());
@@ -86,7 +96,7 @@ namespace Kunstharz {
 						ghostTransform.transform.position = hit.point;
 						ghostTransform.transform.up = hit.normal;
 					}
-				}
+				}*/
 			}
 		}
 

@@ -128,3 +128,4 @@ MonoBehaviour:
   matchSize: 0
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  contextPrefab: {fileID: 0}

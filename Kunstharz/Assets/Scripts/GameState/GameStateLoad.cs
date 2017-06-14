@@ -40,14 +40,6 @@ namespace Kunstharz
 			print("Exiting load state");
 		}
 
-		public void LocalPlayerSelectedLocation(GameContext ctx, Vector3 selectedLocation) {
-
-		}
-
-		public void RemotePlayerSelectedLocation(GameContext ctx, Vector3 selectedLocation) {
-
-		}
-
 		void RegisterSpawnPrefabs() {
 			ClientScene.RegisterPrefab(essentialsPrefab);
 			ClientScene.RegisterPrefab(playerPrefab);
@@ -71,11 +63,11 @@ namespace Kunstharz
 		void SpawnPlayers() {
 			int idx = 0;
 			foreach(NetworkConnection conn in NetworkServer.connections) {
-				var player = Instantiate (playerPrefab);
-				NetworkServer.AddPlayerForConnection(conn, player, 0);
+				var playerGO = Instantiate (playerPrefab);
+				NetworkServer.AddPlayerForConnection(conn, playerGO, 0);
 				Transform spawn = startPositions[idx].transform;
-				player.GetComponent<Player> ().RpcInitPlayer (spawn.position, spawn.rotation);
-
+				var player = playerGO.GetComponent<Player> ();
+				player.RpcInitPlayer (spawn.position, spawn.rotation);
 				++idx;
 			}
 		}
@@ -87,6 +79,18 @@ namespace Kunstharz
 			GameObject.Destroy(GameObject.Find("General Canvas"));
 			GameObject.Destroy(GameObject.Find("Effect Canvas"));
 			GameObject.Destroy(GameObject.Find("NetworkDiscovery"));
+		}
+
+		public void PlayerSelectedTarget(GameContext ctx, Player selectingPlayer, Target target) {
+			throw new NotImplementedException("When loading, did not expect to see action");
+		}
+
+		public void PlayerSelectedPlayer(GameContext ctx, Player selectingPlayer, Player selectedPlayer) {
+			throw new NotImplementedException("When loading, did not expect to see action");
+		}
+
+		public void PlayerFinishedMotion(GameContext ctx, Player player) {
+			throw new NotImplementedException("When loading, did not expect to see action");
 		}
 	}
 }

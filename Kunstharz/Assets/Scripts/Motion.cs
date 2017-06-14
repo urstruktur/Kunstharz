@@ -29,9 +29,13 @@ namespace Kunstharz
 		private float remainingFlyDuration = float.MinValue;
 
 		void Start() {
-
 			enabled = false;
 			allowMoveDebugStatic = allowMoveDebug;
+		}
+
+		[ClientRpc]
+		public void RpcLaunch() {
+			enabled = true;
 		}
 
 		void Update () {
@@ -59,7 +63,7 @@ namespace Kunstharz
 			}
 		}
 
-		void DoSetFlyTarget(Target target) {
+		public void DoSetFlyTarget(Target target) {
 			flyStartPosition = transform.position;
 			flyTargetPosition = target.position;
 
@@ -71,7 +75,12 @@ namespace Kunstharz
 		}
 
 		[Command]
-		void CmdSetFlyTarget(Target target) {
+		public void CmdSetFlyTarget(Target target) {
+			DoSetFlyTarget (target);
+		}
+
+		[ClientRpc]
+		public void RpcSetFlyTarget(Target target) {
 			DoSetFlyTarget (target);
 		}
 
