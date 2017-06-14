@@ -11,11 +11,14 @@ public class LevelSwitcherLogic : MonoBehaviour {
 	public GameObject rightArrow;
 	public GameObject chooseGameButton;
 	public int selectedLevelIdx = 0;
+
+	public int selectedGameIdx = 0;
 	public float switchLevelOffset = 10.0f;
 	public float levelSwitchTime = 0.6f;
 	private float remainingLevelSwitchTime = 0.0f;
 	private int futureSelectedLevelIdx;
 	Vector3 [] levelPosition;
+
 	private bool isSwitchingLevel {
 		get {
 			return futureSelectedLevelIdx != selectedLevelIdx;
@@ -24,14 +27,8 @@ public class LevelSwitcherLogic : MonoBehaviour {
 
 	public delegate void LevelSwitchDelegate();
 	public static LevelSwitchDelegate OnLevelSwitch;
-	private int currentGameIndex = 0;
-	
-	private bool _gamesAvailable = false;
 
-	public bool gamesAvailable {
-    	get { return this._gamesAvailable; }
-		set { if(_gamesAvailable == value) return; this._gamesAvailable = value; OnGamesAvailable(); }
-	}
+	public List<Kunstharz.FinderEntry> entries = new List<Kunstharz.FinderEntry> ();
 
 	void Start () {
 
@@ -42,8 +39,15 @@ public class LevelSwitcherLogic : MonoBehaviour {
 			transform.GetChild (i).gameObject.SetActive (i == selectedLevelIdx);
 			levelPosition[i] = transform.GetChild (i).position;
 		}
-		
 
+		Kunstharz.Finder.ChallengeExpired += ChallengeExpired;
+		Kunstharz.Finder.ChallengeDiscovered += ChallengeDiscovered;
+
+	}
+
+	void OnDestroy() {
+		Kunstharz.Finder.ChallengeExpired -= ChallengeExpired;
+		Kunstharz.Finder.ChallengeDiscovered -= ChallengeDiscovered;
 	}
 
 	void StartLevelSwitchTo(int idx, bool moveUp) {
@@ -94,25 +98,23 @@ public class LevelSwitcherLogic : MonoBehaviour {
 
 	public void NextGame () {
 		if (!isSwitchingLevel) {
-			currentGameIndex = (currentGameIndex + 1) % menu.GetComponent<Menu>().games.Count;
-			StartLevelSwitchTo (menu.GetComponent<Menu>().games[currentGameIndex].world, false);
-			gameName.GetComponent<Text>().text = menu.GetComponent<Menu>().games[currentGameIndex].gameName;
+			selectedGameIdx = (selectedGameIdx + 1) % entries.Count;
+			StartLevelSwitchTo (entries[selectedGameIdx].challenge.selectedLevelIdx, false);
+			gameName.GetComponent<Text>().text = entries[selectedGameIdx].challenge.playerName;
 		}
 	}
 
 	public void PreviousGame() {
 		if (!isSwitchingLevel) {
-			currentGameIndex = currentGameIndex - 1;
-			if (currentGameIndex < 0) currentGameIndex = menu.GetComponent<Menu>().games.Count - 1;
-			StartLevelSwitchTo (menu.GetComponent<Menu>().games[currentGameIndex].world, false);
-			gameName.GetComponent<Text>().text = menu.GetComponent<Menu>().games[currentGameIndex].gameName;
+			selectedGameIdx = selectedGameIdx - 1;
+			if (selectedGameIdx < 0) selectedGameIdx = entries.Count - 1;
+			StartLevelSwitchTo (entries[selectedGameIdx].challenge.selectedLevelIdx, false);
+			gameName.GetComponent<Text>().text = entries[selectedGameIdx].challenge.playerName;
 		}
 	}
 	
 	void Update () {
-		if (isSwitchingLevel) {
-
-		} else {
+		if (!isSwitchingLevel) {
 			if (Input.GetKey (KeyCode.UpArrow)) {
 				PrevLevel ();
 			} else if (Input.GetKey (KeyCode.DownArrow)) {
@@ -121,17 +123,47 @@ public class LevelSwitcherLogic : MonoBehaviour {
 		}
 	}
 
-	private void OnGamesAvailable() {
-		if (_gamesAvailable) {
-			leftArrow.SetActive(true);
-			rightArrow.SetActive(true);
-			chooseGameButton.SetActive(true);
+	private void GameAdded() {
+		if (entries.Count == 1) {
+			buttonVisibility(false, true);
 			NextGame();
+		} else if (entries.Count > 1) {
+			buttonVisibility(true, true);
 		}
 	}
 
-	void OnValidate() {
-		OnGamesAvailable();
+	private void GameRemoved(int removeIdx) {
+		if (removeIdx < selectedGameIdx) {
+			selectedGameIdx -= 1;
+		} else if (removeIdx == selectedGameIdx) {
+			PreviousGame();
+		}
+
+		if (entries.Count == 1) {
+			buttonVisibility(false, true);
+			NextGame();
+		} else if (entries.Count == 0) {
+			buttonVisibility(false, false);
+			gameName.GetComponent<Text>().text = "SEARCHING FOR GAMES...";
+			StartLevelSwitchTo(0, false);
+		}
+
+	}
+
+	private void ChallengeExpired(int idx) {
+		GameRemoved(idx);
+		entries.RemoveAt(idx);
+	}
+
+	private void ChallengeDiscovered(Kunstharz.FinderEntry entry) {
+		entries.Add(entry);
+		GameAdded();
+	}
+
+	private void buttonVisibility(bool toggle, bool choose) {
+		leftArrow.SetActive(toggle);
+		rightArrow.SetActive(toggle);
+		chooseGameButton.SetActive(choose);
 	}
 
 }

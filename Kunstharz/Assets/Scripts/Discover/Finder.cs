@@ -27,6 +27,15 @@ namespace Kunstharz
 		private Socket sock;
 		private byte[] buf = new byte[1024];
 
+		public delegate void FinderDelegateChallengeExpried(int i);
+		public static FinderDelegateChallengeExpried ChallengeExpired;
+
+		public delegate void FinderDelegateChallengeDiscovered(FinderEntry entry);
+		public static FinderDelegateChallengeDiscovered ChallengeDiscovered;
+
+		public delegate void FinderDelegateFinderEntriesChanged(List<FinderEntry> entries);
+		public static FinderDelegateFinderEntriesChanged FinderEntriesChanged;
+
 		void OnEnable() {
 			if (sock != null) {
 				OnDisable ();
@@ -59,7 +68,7 @@ namespace Kunstharz
 					++removed;
 					entries.RemoveAt (i);
 					print ("Discovered game expired at index: " + i);
-					SendMessageUpwards ("ChallengeExpired", i, SendMessageOptions.DontRequireReceiver);
+					ChallengeExpired(i);
 				}
 			}
 
@@ -75,7 +84,7 @@ namespace Kunstharz
 
 			if (identicalHostnameCount == 0) {
 				print ("Discovered game: " + entry);
-				SendMessageUpwards ("ChallengeDiscovered", entry, SendMessageOptions.DontRequireReceiver);
+				ChallengeDiscovered(entry);
 			}
 
 			SendFinderEntriesChanged ();
@@ -83,6 +92,7 @@ namespace Kunstharz
 
 		void SendFinderEntriesChanged() {
 			SendMessageUpwards ("FinderEntriesChanged", entries, SendMessageOptions.DontRequireReceiver);
+			FinderEntriesChanged(entries);
 		}
 
 		void Update() {

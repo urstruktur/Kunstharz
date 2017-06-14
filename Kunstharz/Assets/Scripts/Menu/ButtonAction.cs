@@ -13,7 +13,12 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 	public GameObject moveToMenu;
 
 	private GameObject blur;
+
 	private GameObject backgroundCamera;
+
+	private GameObject levelLoader;
+
+	private GameObject levelSwitcherLogic;
 
 	private GameObject menu;
 
@@ -29,10 +34,14 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 
 	public bool enableStartHost = false;
 
+	public bool joinGame = false;
+
 	void Start() {
 		blur = GameObject.Find("Blur");
 		backgroundCamera = GameObject.Find("Background Camera");
 		menu = GameObject.Find("Menu Script");
+		levelLoader = GameObject.Find("LevelLoader");
+		levelSwitcherLogic = GameObject.Find("Geometry");
 	}
 
 	public void OnPointerClick (PointerEventData eventData) {
@@ -78,6 +87,11 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 			var loader = GameObject.Find ("LevelLoader").GetComponent<Kunstharz.LevelLoader> ();
 			var idx = menu.GetComponent<Menu> ().selectedLevelIdx;
 			loader.StartUgly (idx);
+		}
+
+		if (joinGame) {
+			LevelSwitcherLogic lsw = levelSwitcherLogic.GetComponent<LevelSwitcherLogic>();
+			levelLoader.GetComponent<Kunstharz.LevelLoader>().JoinUgly(lsw.entries[lsw.selectedGameIdx].hostname);
 		}
     }
 
