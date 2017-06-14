@@ -21,13 +21,11 @@ namespace Kunstharz {
 		private GameContext ctx;
 
 		void Start() {
-			print ("Player start");
 			ctx = GameContext.instance;
 		}
 
 		[ClientRpc]
 		public void RpcInitPlayer(Vector3 spawnPos, Quaternion spawnRot) {
-			print (spawnPos);
 			transform.parent = GameObject.Find ("Game").transform;
 			spawnPosition = spawnPos;
 			spawnRotation = spawnRot;
@@ -61,12 +59,17 @@ namespace Kunstharz {
 			transform.rotation = spawnRotation;
 		}
 
+		[Command]
+		public void CmdSelected(Vector3 direction) {
+			ctx.Selected(this, direction);
+		}
+
 		void SelectedTarget(Target target) {
-			ctx.PlayerSelectedTarget(this, target);
+			/*ctx.PlayerSelectedTarget(this, target);
 
 			if(isClient) {
 				CmdSelectedTarget(target);
-			}
+			}*/
 
 			/*if (state == PlayerState.SelectingShot) {
 				SendMessage ("SetShootTarget", target);
@@ -100,7 +103,7 @@ namespace Kunstharz {
 			}*/
 		}
 
-		[Command]
+		/*[Command]
 		void CmdSelectedTarget(Target target) {
 			ctx.PlayerSelectedTarget(this, target);
 		}
@@ -108,7 +111,7 @@ namespace Kunstharz {
 		void MotionFinished (Player movedPlayer) {
 			ctx.PlayerFinishedMotion(this);
 
-			if (isClient) {
+			if (isLocalPlayer) {
 				CmdMotionFinished();
 			}
 		}
@@ -116,7 +119,7 @@ namespace Kunstharz {
 		[Command]
 		void CmdMotionFinished () {
 			ctx.PlayerFinishedMotion(this);
-		}
+		}*/
 
 		void HitPlayer(Player player) {
 			CmdSetState (PlayerState.Victorious);

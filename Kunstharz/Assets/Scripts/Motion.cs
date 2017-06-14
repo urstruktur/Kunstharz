@@ -16,26 +16,16 @@ namespace Kunstharz
 		public bool allowMoveDebug;
 		public static bool allowMoveDebugStatic;
 
-		[SyncVar]
 		private Vector3 flyStartPosition;
-		[SyncVar]
 		private Vector3 flyTargetPosition;
-		[SyncVar]
 		private Quaternion flyStartOrientation;
-		[SyncVar]
 		private Quaternion flyTargetOrientation;
-		[SyncVar]
 		private float flyDuration;
 		private float remainingFlyDuration = float.MinValue;
 
 		void Start() {
 			enabled = false;
 			allowMoveDebugStatic = allowMoveDebug;
-		}
-
-		[ClientRpc]
-		public void RpcLaunch() {
-			enabled = true;
 		}
 
 		void Update () {
@@ -58,7 +48,6 @@ namespace Kunstharz
 				if (-remainingFlyDuration > afterFlyIdleTime) {
 					remainingFlyDuration = float.MinValue;
 					enabled = false;
-					SendMessageUpwards ("MotionFinished", GetComponent<Player> ());
 				}
 			}
 		}
@@ -74,22 +63,21 @@ namespace Kunstharz
 			flyDuration = flyDistance / flyVelocity;
 		}
 
-		[Command]
-		public void CmdSetFlyTarget(Target target) {
-			DoSetFlyTarget (target);
+		public float FlightDuration(Target target) {
+			float flyDistance = Vector3.Distance(transform.position, target.position);
+			return flyDistance / flyVelocity;
 		}
 
 		[ClientRpc]
 		public void RpcSetFlyTarget(Target target) {
+			print("Setting fly target in clientrpc");
 			DoSetFlyTarget (target);
 		}
 
-		void SetFlyTarget(Target target) {
-			if (allowMoveDebugStatic) {
-				DoSetFlyTarget (target);
-			} else {
-				CmdSetFlyTarget (target);
-			}
+		[ClientRpc]
+		public void RpcLaunch() {
+			print("Launched");
+			enabled = true;
 		}
 
 	}

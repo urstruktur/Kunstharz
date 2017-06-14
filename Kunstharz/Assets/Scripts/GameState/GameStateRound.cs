@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -20,6 +21,8 @@ namespace Kunstharz
 
 		private Transform ghostTransform;
 
+		private Vector3 camOffset;
+
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
 
@@ -27,10 +30,13 @@ namespace Kunstharz
 
 			FindPlayers(ctx);
 			GiveCameraToPlayer(ctx.localPlayer);
+
+			// FIXME This should only be for game logic,
+			// do the gui stuff somewhere else
 			HideGhostTransform();
 
 			if(isServer) {
-				SetInitalPlayerStatesForRound();
+				DeterminePlayerSelectionStates();
 			}
 		}
 
@@ -39,7 +45,81 @@ namespace Kunstharz
 			HideGhostTransform();
 		}
 
-		public void PlayerSelectedPlayer(GameContext ctx, Player selectingPlayer, Player selectedPlayer) {
+		public void Selected(GameContext ctx, Player player, Vector3 direction) {
+			//print("Selected from " + ((player.isLocalPlayer) ? "local" : "remote") + " at " + transform.position + " towards " + direction);
+
+			Debug.DrawRay(transform.position + 0.1f*direction, direction, Color.magenta, 100.0f);
+
+			Vector3 origin = player.transform.position + camOffset + 0.1f*direction;
+			RaycastHit hit;
+			if (Physics.Raycast (origin, direction, out hit)) {
+				if(player.state == PlayerState.SelectingMotion ||
+				   player.state == PlayerState.SelectedMotion) {
+
+					Target target;
+					target.position = hit.point;
+					target.normal = hit.normal;
+
+					SelectMotionTarget(player, target);
+				}
+
+				if(player.state == PlayerState.SelectingShot) {
+					if (hit.collider.CompareTag ("Player")) {
+						// WIN
+					} else {
+						// missed ):
+					}
+				}
+			} else {
+				print("Empty selection for " + ((player.isLocalPlayer) ? "local" : "remote"));
+			}
+		}
+
+		void SelectMotionTarget(Player player, Target target) {
+			print("Selecting motion target " + target);
+			var motion = player.GetComponent<Motion> ();
+
+			motion.RpcSetFlyTarget(target);
+
+			if(synchronizedMotion) {
+				player.state = PlayerState.SelectedMotion;
+
+				var p1 = ctx.localPlayer;
+				var p2 = ctx.remotePlayer;
+
+				if(p1.state == PlayerState.SelectedMotion &&
+				   p2.state == PlayerState.SelectedMotion) {
+
+					p1.state = PlayerState.ExecutingMotion;
+					p2.state = PlayerState.ExecutingMotion;
+					
+					var m1 = p1.GetComponent<Motion> ();
+					var m2 = p2.GetComponent<Motion> ();
+					
+					print("Calling clients to launch");
+					m1.RpcLaunch();
+					m2.RpcLaunch();
+
+					float maxDuration = Math.Max(m1.FlightDuration(target), m2.FlightDuration(target));
+					StartCoroutine(ReevaluatePlayerStatesLater(maxDuration));
+				}
+			} else {
+				print("Calling single client to launch");
+				player.state = PlayerState.ExecutingMotion;
+				motion.RpcLaunch();
+				float duration = motion.FlightDuration(target);
+				StartCoroutine(ReevaluatePlayerStatesLater(duration));
+			}
+		}
+
+		IEnumerator ReevaluatePlayerStatesLater(float duration) {
+			yield return new WaitForSeconds(duration);
+			DeterminePlayerSelectionStates();
+		}
+
+		
+
+		/*public void PlayerSelectedPlayer(GameContext ctx, Player selectingPlayer, Player selectedPlayer) {
 			print("PlayerSelectedPlayer");
 		}
 
@@ -71,11 +151,21 @@ namespace Kunstharz
 					motion.RpcLaunch();
 				}
 			}
-		}
+		}*/
 
 		public void PlayerFinishedMotion(GameContext ctx, Player player) {
-			if(isServer) {
-				player.state = PlayerState.SelectingMotion;
+			if(isServer && player.state == PlayerState.ExecutingMotion) {
+				player.state = PlayerState.ExecutedMotion;
+
+				bool bothExecuted = ctx.localPlayer.state == PlayerState.ExecutedMotion &&
+				                    ctx.remotePlayer.state == PlayerState.ExecutedMotion;
+
+				if(bothExecuted) {
+					ctx.localPlayer.state = PlayerState.SelectingMotion;
+					ctx.remotePlayer.state = PlayerState.SelectingMotion;
+				} else if(!synchronizedMotion) {
+					player.state = PlayerState.SelectingMotion;
+				}
 			}
 		}
 
@@ -100,6 +190,8 @@ namespace Kunstharz
 			camTransform.localRotation = orientation;
 
 			camTransform.GetComponent<Controls> ().enabled = true;
+
+			camOffset = camTransform.position - activePlayer.transform.position;
 		}
 
 		private void HideGhostTransform() {
@@ -107,7 +199,7 @@ namespace Kunstharz
 			ghostTransform.gameObject.SetActive (false);
 		}
 
-		private void SetInitalPlayerStatesForRound() {
+		private void DeterminePlayerSelectionStates() {
 			bool isConfrontation = LineOfSightExists();
 			PlayerState commonState = isConfrontation
 			                             ? PlayerState.SelectingShot

@@ -17,9 +17,7 @@ namespace Kunstharz
 
 		public void Enter(GameContext ctx) {}
 		public void Exit(GameContext ctx) {}
-		public void PlayerSelectedTarget(GameContext ctx, Player selectingPlayer, Target target) {}
-		public void PlayerSelectedPlayer(GameContext ctx, Player selectingPlayer, Player selectedPlayer) {}
-		public void PlayerFinishedMotion(GameContext ctx, Player player) {}
+		public void Selected(GameContext ctx, Player player, Vector3 direction) {}
 	}
 }
 

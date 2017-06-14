@@ -58,7 +58,7 @@ namespace Kunstharz {
 
 		void HandleTargetInput () {
 			if (Input.GetMouseButtonDown (0)) {
-				TrySelectTarget ();
+				transform.parent.GetComponent<Player> ().CmdSelected(transform.forward);
 			}
 		}
 
@@ -77,9 +77,9 @@ namespace Kunstharz {
 
 				if (hit.collider.CompareTag ("Player")) {
 					var selected = hit.collider.GetComponent<Player> ();
-					ctx.PlayerSelectedPlayer(selecting, selected);
+					//ctx.PlayerSelectedPlayer(selecting, selected);
 				} else {
-					SendMessageUpwards ("SelectedTarget", target);
+					//SendMessageUpwards ("SelectedTarget", target);
 					/*Player player = (transform.parent != null) ? transform.parent.GetComponent<Player> () : null;
 					if(isClient) {
 						ctx.PlayerSelectedTarget(selecting, target);

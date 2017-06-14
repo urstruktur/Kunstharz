@@ -7,9 +7,7 @@ namespace Kunstharz
 	{
 		void Enter(GameContext ctx);
 		void Exit(GameContext ctx);
-		void PlayerSelectedTarget(GameContext ctx, Player selectingPlayer, Target target);
-		void PlayerSelectedPlayer(GameContext ctx, Player selectingPlayer, Player selectedPlayer);
-		void PlayerFinishedMotion(GameContext ctx, Player player);
+		void Selected(GameContext ctx, Player player, Vector3 direction);
 	}
 }
 

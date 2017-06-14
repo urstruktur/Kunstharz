@@ -81,15 +81,7 @@ namespace Kunstharz
 			GameObject.Destroy(GameObject.Find("NetworkDiscovery"));
 		}
 
-		public void PlayerSelectedTarget(GameContext ctx, Player selectingPlayer, Target target) {
-			throw new NotImplementedException("When loading, did not expect to see action");
-		}
-
-		public void PlayerSelectedPlayer(GameContext ctx, Player selectingPlayer, Player selectedPlayer) {
-			throw new NotImplementedException("When loading, did not expect to see action");
-		}
-
-		public void PlayerFinishedMotion(GameContext ctx, Player player) {
+		public void Selected(GameContext ctx, Player player, Vector3 direction) {
 			throw new NotImplementedException("When loading, did not expect to see action");
 		}
 	}

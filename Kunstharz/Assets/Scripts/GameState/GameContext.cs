@@ -40,7 +40,11 @@ namespace Kunstharz
 			current.Enter(this);
 		}
 
-		public void PlayerSelectedTarget(Player selectingPlayer, Target target) {
+		public void Selected(Player player, Vector3 direction) {
+			current.Selected(this, player, direction);
+		}
+
+		/*public void PlayerSelectedTarget(Player selectingPlayer, Target target) {
 			current.PlayerSelectedTarget(this, selectingPlayer, target);
 		}
 
@@ -50,7 +54,7 @@ namespace Kunstharz
 
 		public void PlayerFinishedMotion(Player player) {
 			current.PlayerFinishedMotion(this, player);
-		}
+		}*/
 
 		void Update() {
 			if(isClient) {
