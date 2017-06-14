@@ -65,7 +65,11 @@ public class Menu : MonoBehaviour {
 	private void UpdateBeacon() {
 		// Updates the beacon to be sent when publishing game on the network
 		if (publisher.enabled) {
-			publisher.beacon = playerName;
+			if (publisher.challenge == null) {
+				publisher.challenge = new Kunstharz.Challenge ();
+			}
+			publisher.challenge.playerName = playerName;
+			publisher.challenge.selectedLevelIdx = selectedLevelIdx;
 		}
 	}
 

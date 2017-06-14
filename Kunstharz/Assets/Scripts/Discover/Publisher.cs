@@ -9,7 +9,7 @@ namespace Kunstharz
 {
 	public class Publisher : MonoBehaviour
 	{
-		public String beacon = "THOMAS";
+		public Challenge challenge;
 		public float beaconInterval = 0.5f;
 
 		private Socket sock;
@@ -26,8 +26,6 @@ namespace Kunstharz
 			print ("Starting Publisher…");
 			sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			sock.Blocking = false;
-			sock.EnsureNetworkInterfaceSupportsMulticast ();
-			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS));
 			// Traverse a maximum of one router to another network when sending multicast data
 			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, NetworkSpecs.MULTICAST_TTL);
 			sock.Connect (new IPEndPoint(NetworkSpecs.PING_ADDRESS, NetworkSpecs.PING_PORT));
@@ -46,7 +44,8 @@ namespace Kunstharz
 		}
 
 		void SendBeacon() {
-			byte[] beaconData = Encoding.UTF8.GetBytes ((beacon.Length > 0) ? beacon : "n/a");
+			String beacon = JsonUtility.ToJson (challenge);
+			byte[] beaconData = Encoding.UTF8.GetBytes (beacon);
 			sock.Send (beaconData);
 		}
 
@@ -60,9 +59,9 @@ namespace Kunstharz
 		}
 
 		void Update() {
-			//if (beacon.Length > 0) {
+			if (challenge.playerName.Length > 0) {
 				SendBeaconIfIntervalExpired ();
-			//}
+			}
 		}
 	}
 }

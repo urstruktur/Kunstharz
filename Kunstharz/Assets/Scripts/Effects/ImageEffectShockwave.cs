@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections;
 
 [ExecuteInEditMode]
 public class ImageEffectShockwave : MonoBehaviour
@@ -8,8 +10,12 @@ public class ImageEffectShockwave : MonoBehaviour
 
     public Vector3 origin = Vector3.zero;
 
+	public float actionnessTransitionTime = 0.5f;
+
     [Range(0.0f, 1.0f)]
     public float progress = 0f;
+
+	private float actionness = 0.0f;
 
     private Camera cam;
 
@@ -26,6 +32,16 @@ public class ImageEffectShockwave : MonoBehaviour
             return currentMaterial;
         }
     }
+
+	public bool actionMode {
+		get {
+			return actionness > 0;
+		}
+
+		set {
+			LeanTween.value (value ? 0.0f : 1.0f, value ? 1.0f : 0.0f, actionnessTransitionTime).setOnUpdate (f => actionness = f);
+		}
+	}
 
     void Start()
     {
@@ -57,6 +73,7 @@ public class ImageEffectShockwave : MonoBehaviour
         {
             material.SetVector("_Origin", origin);
             material.SetFloat("_Progress", progress);
+			material.SetFloat("_Actionness", actionness);
             //Matrix4x4 viewProjInverse = (cam.projectionMatrix * cam.worldToCameraMatrix).inverse;
             Matrix4x4 viewProjInverse = cam.cameraToWorldMatrix;
             material.SetMatrix("_ViewProjectInverse", viewProjInverse);

@@ -10,28 +10,22 @@ namespace Kunstharz
 {
 	public struct FinderEntry {
 		public string hostname;
-		public string beacon;
 		public float lastBeaconTime;
+		public Challenge challenge;
 
 		public override string ToString ()
 		{
-			return beacon + "[ " + hostname + " ]";
+			return challenge + "@" + hostname;
 		}
 	}
 
 	public class Finder : MonoBehaviour
 	{
 		public float beaconExpireTime = 1.5f;
+		public List<FinderEntry> entries = new List<FinderEntry> ();
 
 		private Socket sock;
 		private byte[] buf = new byte[1024];
-		private List<FinderEntry> entries = new List<FinderEntry> ();
-
-		public ICollection<FinderEntry> found {
-			get {
-				return entries.AsReadOnly ();
-			}
-		}
 
 		void OnEnable() {
 			if (sock != null) {
@@ -40,13 +34,10 @@ namespace Kunstharz
 				
 			sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			sock.Blocking = false;
-			sock.EnsureNetworkInterfaceSupportsMulticast ();
 			sock.SetSocketOption (SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption (NetworkSpecs.PING_ADDRESS, IPAddress.Any));
 			sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, NetworkSpecs.MULTICAST_TTL);
 
-			if (!sock.IsBound) {
-				sock.Bind (new IPEndPoint (IPAddress.Any, NetworkSpecs.PING_PORT));
-			}
+			sock.Bind (new IPEndPoint (IPAddress.Any, NetworkSpecs.PING_PORT));
 
 			Application.runInBackground = true;
 		}
@@ -61,7 +52,17 @@ namespace Kunstharz
 		}
 
 		void CleanExpiredEntries() {
-			int removed = entries.RemoveAll (e => (Time.time - e.lastBeaconTime) > beaconExpireTime);
+			int removed = 0;
+
+			for (int i = entries.Count - 1; i >= 0; --i) {
+				if ((Time.time - entries [i].lastBeaconTime) > beaconExpireTime) {
+					++removed;
+					entries.RemoveAt (i);
+					print ("Discovered game expired at index: " + i);
+					SendMessageUpwards ("ChallengeExpired", i, SendMessageOptions.DontRequireReceiver);
+				}
+			}
+
 			if (removed > 0) {
 				SendFinderEntriesChanged ();
 			}
@@ -74,13 +75,14 @@ namespace Kunstharz
 
 			if (identicalHostnameCount == 0) {
 				print ("Discovered game: " + entry);
+				SendMessageUpwards ("ChallengeDiscovered", entry, SendMessageOptions.DontRequireReceiver);
 			}
 
 			SendFinderEntriesChanged ();
 		}
 
 		void SendFinderEntriesChanged() {
-			SendMessageUpwards ("FinderEntriesChanged", found, SendMessageOptions.DontRequireReceiver);
+			SendMessageUpwards ("FinderEntriesChanged", entries, SendMessageOptions.DontRequireReceiver);
 		}
 
 		void Update() {
@@ -95,7 +97,7 @@ namespace Kunstharz
 
 				FinderEntry entry = new FinderEntry ();
 				entry.hostname = hostname;
-				entry.beacon = beacon;
+				entry.challenge = JsonUtility.FromJson<Challenge>(beacon);
 				entry.lastBeaconTime = Time.time;
 
 				AddEntry (entry);
