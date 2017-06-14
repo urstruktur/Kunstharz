@@ -39,6 +39,12 @@ namespace Kunstharz
 		}
 			
 		void PlayerStateChanged(Player changedPlayer) {
+			if(changedPlayer.isLocalPlayer) {
+				if(changedPlayer.state == PlayerState.SelectingShot) {
+					crosshair.ShowShootCrosshair();
+				}
+			}
+
 			/*if (localPlayer.state == PlayerState.SelectedMotion &&
 			    (nonLocalPlayer.state == PlayerState.SelectedMotion || nonLocalPlayer.state == PlayerState.ExecutingMotion)) {
 
@@ -91,7 +97,7 @@ namespace Kunstharz
 			Destroy(GameObject.Find ("NetworkDiscovery"));
 		}
 
-		IEnumerator StartNextRoundLater() {
+		/*IEnumerator StartNextRoundLater() {
 			state = GameState.BetweenRounds;
 
 			yield return new WaitForSeconds (5.0f);
@@ -103,7 +109,7 @@ namespace Kunstharz
 			crosshair.ShowMoveCrosshair();
 
 			state = GameState.PlayingRound;
-		}
+		}*/
 
 		void Update() {
 			if (localPlayer.state == PlayerState.ExecutingShot) {

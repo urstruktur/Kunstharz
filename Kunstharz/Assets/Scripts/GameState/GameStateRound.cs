@@ -65,6 +65,14 @@ namespace Kunstharz
 
 				if(player.state == PlayerState.SelectingShot) {
 					if (hit.collider.CompareTag ("Player")) {
+						var other = hit.collider.GetComponent<Player> ();
+
+						player.state = PlayerState.Victorious;
+						other.state = PlayerState.Dead;
+						player.CmdWon();
+
+						print("Some player just won!");
+						StartCoroutine(RespawnLater());
 						// WIN
 					} else {
 						// missed ):
@@ -75,7 +83,20 @@ namespace Kunstharz
 			}
 		}
 
-		void SelectMotionTarget(Player player, Target target) {
+		private IEnumerator RespawnLater() {
+			yield return new WaitForSeconds(3.0f);
+
+			ctx.localPlayer.RpcResetPosition();
+			ctx.remotePlayer.RpcResetPosition();
+
+			// Ensure local positions are already correct
+			ctx.localPlayer.ResetPosition();
+			ctx.remotePlayer.ResetPosition();
+			
+			DeterminePlayerSelectionStates();
+		}
+
+		private void SelectMotionTarget(Player player, Target target) {
 			print("Selecting motion target " + target);
 			var motion = player.GetComponent<Motion> ();
 

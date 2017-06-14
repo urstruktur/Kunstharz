@@ -46,15 +46,16 @@ namespace Kunstharz {
 			}
 		}
 
-		[Command]
-		public void CmdRespawn() {
-			state = PlayerState.SelectingMotion;
-			RpcResetPosition ();
-		}
-
 		[ClientRpc]
 		public void RpcResetPosition() {
 			print ("Resetting position to " + spawnPosition);
+			transform.position = spawnPosition;
+			transform.rotation = spawnRotation;
+		}
+
+		// This is called once by the server so it immediately has the right positions
+		// for the players after respawn, do not use otherwise
+		public void ResetPosition() {
 			transform.position = spawnPosition;
 			transform.rotation = spawnRotation;
 		}
@@ -64,14 +65,32 @@ namespace Kunstharz {
 			ctx.Selected(this, direction);
 		}
 
+		/*[Command]
+		void CmdSelectedTarget(Target target) {
+			ctx.PlayerSelectedTarget(this, target);
+		}
+
+		void MotionFinished (Player movedPlayer) {
+			ctx.PlayerFinishedMotion(this);
+
+			if (isLocalPlayer) {
+				CmdMotionFinished();
+			}
+		}
+
+		[Command]
+		void CmdMotionFinished () {
+			ctx.PlayerFinishedMotion(this);
+		}
+		
 		void SelectedTarget(Target target) {
-			/*ctx.PlayerSelectedTarget(this, target);
+			ctx.PlayerSelectedTarget(this, target);
 
 			if(isClient) {
 				CmdSelectedTarget(target);
-			}*/
+			}
 
-			/*if (state == PlayerState.SelectingShot) {
+			if (state == PlayerState.SelectingShot) {
 				SendMessage ("SetShootTarget", target);
 				CmdSetState (PlayerState.ExecutingShot);
 
@@ -100,31 +119,9 @@ namespace Kunstharz {
                     i.Shock(target.position);
                 }
 
-			}*/
-		}
-
-		/*[Command]
-		void CmdSelectedTarget(Target target) {
-			ctx.PlayerSelectedTarget(this, target);
-		}
-
-		void MotionFinished (Player movedPlayer) {
-			ctx.PlayerFinishedMotion(this);
-
-			if (isLocalPlayer) {
-				CmdMotionFinished();
 			}
 		}
-
-		[Command]
-		void CmdMotionFinished () {
-			ctx.PlayerFinishedMotion(this);
-		}*/
-
-		void HitPlayer(Player player) {
-			CmdSetState (PlayerState.Victorious);
-			CmdWon ();
-		}
+		*/
 
 		[Command]
 		public void CmdWon() {

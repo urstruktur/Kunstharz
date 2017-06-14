@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeoutEnabled: 0
-  synchronizedMotion: 1
+  synchronizedMotion: 0
 --- !u!114 &114251101008836714
 MonoBehaviour:
   m_ObjectHideFlags: 1
