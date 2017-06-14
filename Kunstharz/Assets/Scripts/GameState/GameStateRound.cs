@@ -5,9 +5,12 @@ using UnityEngine.Networking;
 
 namespace Kunstharz
 {
+	// TODO rounds and timeouts
 	public class GameStateRound : NetworkBehaviour, IGameState
 	{
 		public const int IDX = 1;
+
+		public int numRounds = 3;
 
 		public bool timeoutEnabled = true;
 
@@ -21,7 +24,7 @@ namespace Kunstharz
 
 		private Transform ghostTransform;
 
-		private Vector3 camOffset;
+		public Vector3 camLocalPosition = new Vector3(1.0f, 0.0f, 0.0f);
 
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
@@ -46,11 +49,8 @@ namespace Kunstharz
 		}
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {
-			//print("Selected from " + ((player.isLocalPlayer) ? "local" : "remote") + " at " + transform.position + " towards " + direction);
-
-			Debug.DrawRay(transform.position + 0.1f*direction, direction, Color.magenta, 100.0f);
-
-			Vector3 origin = player.transform.position + camOffset + 0.1f*direction;
+			Vector3 origin = player.transform.TransformPoint(camLocalPosition) + 0.1f*direction;
+			Debug.DrawRay(origin, direction*10, Color.magenta, 100.0f);
 			RaycastHit hit;
 			if (Physics.Raycast (origin, direction, out hit)) {
 				if(player.state == PlayerState.SelectingMotion ||
@@ -101,6 +101,7 @@ namespace Kunstharz
 			var motion = player.GetComponent<Motion> ();
 
 			motion.RpcSetFlyTarget(target);
+			player.RpcVisualizeMotionSelection(target);
 
 			if(synchronizedMotion) {
 				player.state = PlayerState.SelectedMotion;
@@ -203,16 +204,16 @@ namespace Kunstharz
 
 		private void GiveCameraToPlayer(Player activePlayer) {
 			Transform camTransform = Camera.main.transform;
-			Vector3 pos = camTransform.localPosition;
-			Quaternion orientation = camTransform.localRotation;
+			//Vector3 pos = camTransform.localPosition;
+			//Quaternion orientation = camTransform.localRotation;
 
 			camTransform.parent = activePlayer.transform;
-			camTransform.localPosition = pos;
-			camTransform.localRotation = orientation;
+			camTransform.localPosition = camLocalPosition;
+			//camTransform.localRotation = orientation;
 
 			camTransform.GetComponent<Controls> ().enabled = true;
 
-			camOffset = camTransform.position - activePlayer.transform.position;
+			//camLocalPosition = pos;
 		}
 
 		private void HideGhostTransform() {
@@ -234,8 +235,8 @@ namespace Kunstharz
 			Player p1 = ctx.localPlayer;
 			Player p2 = ctx.remotePlayer;
 
-			Vector3 p1Pos = p1.transform.position + p1.transform.forward * p1.GetComponent<BoxCollider> ().size.z * 0.7f;
-			Vector3 p2Pos = p2.transform.position + p2.transform.forward * p2.GetComponent<BoxCollider> ().size.z * 0.7f;
+			Vector3 p1Pos = p1.transform.TransformPoint(camLocalPosition);
+			Vector3 p2Pos = p2.transform.TransformPoint(camLocalPosition);
 
 			Vector3 dir = p2Pos - p1Pos;
 			Vector3 start = p1Pos;

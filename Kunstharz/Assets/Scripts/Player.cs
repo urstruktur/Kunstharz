@@ -53,6 +53,12 @@ namespace Kunstharz {
 			transform.rotation = spawnRotation;
 		}
 
+		[ClientRpc]
+		public void RpcVisualizeMotionSelection(Target target) {
+			ImageEffectShockwave i = Camera.main.GetComponent<ImageEffectShockwave>();
+			i.Shock(target.position);
+		}
+
 		// This is called once by the server so it immediately has the right positions
 		// for the players after respawn, do not use otherwise
 		public void ResetPosition() {
