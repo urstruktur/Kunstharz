@@ -12,6 +12,8 @@ public class InputBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointer
 	GameObject blur;
 	public GameObject content;
 	public GameObject startGameStartGameButton;
+	public GameObject placeholderText;
+
 	public string currentText = "";
 
 	void Start() {
@@ -59,9 +61,11 @@ public class InputBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointer
 
 		if (s == "") {
 			startGameStartGameButton.SetActive(false);
+			placeholderText.SetActive(false);
 			s = "TYPE YOUR NAME";
 		} else {
 			startGameStartGameButton.SetActive(true);
+			placeholderText.SetActive(true);
 		}
 
 		float width = content.GetComponent<TextMeshProUGUI>().GetPreferredValues(s).x + Menu.blurSpace;

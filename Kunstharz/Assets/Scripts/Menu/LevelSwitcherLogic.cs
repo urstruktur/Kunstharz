@@ -139,10 +139,10 @@ public class LevelSwitcherLogic : MonoBehaviour {
 			PreviousGame();
 		}
 
-		if (entries.Count == 1) {
+		if (entries.Count - 1 == 1) {
 			buttonVisibility(false, true);
 			NextGame();
-		} else if (entries.Count == 0) {
+		} else if (entries.Count - 1 == 0) {
 			buttonVisibility(false, false);
 			gameName.GetComponent<Text>().text = "SEARCHING FOR GAMES...";
 			StartLevelSwitchTo(0, false);

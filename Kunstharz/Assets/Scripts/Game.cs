@@ -53,10 +53,12 @@ namespace Kunstharz
 					// Action mode!
 					localPlayer.CmdSetState (PlayerState.SelectingShot);
 					crosshair.ShowShootCrosshair();
+					gui.ShowShootInstruction(0.5f);
 					Camera.main.GetComponent<ImageEffectShockwave> ().actionMode = true;
 				} else {
 					// Next turn!
 					localPlayer.CmdSetState (PlayerState.SelectingMotion);
+					gui.ShowMoveInstruction(0.5f);
 				}
 			} else if (nonLocalPlayer.state == PlayerState.Victorious) {
 				localPlayer.CmdSetState (PlayerState.Dead);
@@ -101,6 +103,7 @@ namespace Kunstharz
 			localPlayer.CmdRespawn ();
 
 			crosshair.ShowMoveCrosshair();
+			gui.ShowMoveInstruction(0.5f);
 
 			state = GameState.PlayingRound;
 		}

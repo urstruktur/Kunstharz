@@ -42,13 +42,6 @@ public class Menu : MonoBehaviour {
 
 	public static int tweenBlurId = -1;
 
-	public List<Game> games = new List<Game> {
-		new Game("PHIL'S GAME", 1),
-		new Game("THOMAS' GAME", 2),
-		new Game("SARAH'S GAME", 0),
-		new Game("ANDREAS' GAME", 1)
-	};
-
 	void Start() {
 		blur = GameObject.Find("Blur");
 	}

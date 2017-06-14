@@ -92,7 +92,6 @@ namespace Kunstharz
 
 		void SendFinderEntriesChanged() {
 			SendMessageUpwards ("FinderEntriesChanged", entries, SendMessageOptions.DontRequireReceiver);
-			FinderEntriesChanged(entries);
 		}
 
 		void Update() {

@@ -22,8 +22,13 @@ namespace Kunstharz
 		public GameObject GUIAnchor;
 		public float speed = 5f;
 
+		public GameObject moveImage;
+
+		public GameObject shootImage;
+
 		private Vector3 currentAngle;
 		private float currentVelocity;
+
 
 		bool slug = true;
 
@@ -73,6 +78,15 @@ namespace Kunstharz
 
 		void LateUpdate() {
 			UISlug();
+
+			if (Input.GetKeyDown(KeyCode.O)) {
+				ShowMoveInstruction(0.5f);
+			}
+
+			if (Input.GetKeyDown(KeyCode.P)) {
+				ShowShootInstruction(0.5f);
+			}
+
 		}
 
 		private void UISlug() {
@@ -89,5 +103,21 @@ namespace Kunstharz
 			GUIAnchor.transform.eulerAngles = currentAngle;
 
 		}
+
+		public void ShowMoveInstruction(float duration) {
+			moveImage.SetActive(true);
+			StartCoroutine(SetInstructionsInactive(duration));
+		}
+
+		public void ShowShootInstruction(float duration) {
+			shootImage.SetActive(true);
+			StartCoroutine(SetInstructionsInactive(duration));
+		}
+
+		IEnumerator SetInstructionsInactive(float duration) {
+         	yield return new WaitForSeconds(duration);
+			 shootImage.SetActive(false);
+			 moveImage.SetActive(false);
+    	}
 	}
 }

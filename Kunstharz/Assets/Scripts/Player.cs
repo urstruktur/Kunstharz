@@ -71,6 +71,7 @@ namespace Kunstharz {
                 }
 
 				crosshair.ShowShootCrosshair();
+				gui.ShowShootInstruction(0.5f);
             } else {
 				SendMessage ("SetFlyTarget", target);
                 if (!Motion.allowMoveDebugStatic)

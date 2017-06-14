@@ -9,10 +9,30 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 	GameObject content;
 	GameObject effectCanvas;
 	GameObject blur;
+	GameObject textChild;
+
+	string text = "";
 
 	void Start() {
 		blur = GameObject.Find("Blur");
 		effectCanvas = GameObject.Find("Effect Canvas");
+		textChild = transform.GetChild(0).gameObject;
+
+		if (textChild.transform.GetComponent<Text>() != null) {
+			text = textChild.transform.GetComponent<Text>().text;
+		} else {
+			text = "";
+		}
+
+	}
+
+	void Update() {
+		if (textChild.transform.GetComponent<Text>() != null) {
+			if (text != textChild.transform.GetComponent<Text>().text) {
+				Debug.Log("Setting blur size");
+				SetBlurSize();
+			}
+		}
 	}
 
 	public void OnPointerEnter(PointerEventData eventData) {

@@ -45,6 +45,10 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 	}
 
 	public void OnPointerClick (PointerEventData eventData) {
+		Clicked();
+    }
+
+	public void Clicked() {
 		if (action == Actions.MoveTo) {
 			blur.GetComponent<RawImage>().enabled = false;
 
@@ -93,6 +97,6 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 			LevelSwitcherLogic lsw = levelSwitcherLogic.GetComponent<LevelSwitcherLogic>();
 			levelLoader.GetComponent<Kunstharz.LevelLoader>().JoinUgly(lsw.entries[lsw.selectedGameIdx].hostname);
 		}
-    }
+	}
 
 }
