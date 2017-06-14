@@ -39,9 +39,9 @@ namespace Kunstharz
 			GUIAnchor.transform.eulerAngles = Camera.main.transform.eulerAngles;
 		}
 
-		public void UpdateScore(Game game) {
+		public void UpdateScore(GameContext game) {
 			Player local = game.localPlayer;
-			Player other = game.nonLocalPlayer;
+			Player other = game.remotePlayer;
 
 			p1ScoreText.text = ""+local.wins;
 			p2ScoreText.text = ""+other.wins;
@@ -66,14 +66,14 @@ namespace Kunstharz
 			
 		}
 
-		public void UpdatePlayerStates(Game game) {
+		public void UpdatePlayerStates(GameContext game) {
 			p1Action.text = ""+game.localPlayer.state;
-			p2Action.text = ""+game.nonLocalPlayer.state;
+			p2Action.text = ""+game.remotePlayer.state;
 		}
 
-		public void UpdatePlayerNames(Game game) {
+		public void UpdatePlayerNames(GameContext game) {
 			p1Action.text = ""+game.localPlayer.name;
-			p2Action.text = ""+game.nonLocalPlayer.name;	
+			p2Action.text = ""+game.remotePlayer.name;	
 		}
 
 		void LateUpdate() {

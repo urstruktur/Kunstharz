@@ -170,7 +170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be524a38d249484bbbd15e68f13723c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathTimeout: 80000000
   state: 0
+  wins: 0
 --- !u!114 &114691451488780222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flyVelocity: 3
   afterFlyIdleTime: 0.2
+  allowMoveDebug: 0
 --- !u!114 &114858195321584204
 MonoBehaviour:
   m_ObjectHideFlags: 1

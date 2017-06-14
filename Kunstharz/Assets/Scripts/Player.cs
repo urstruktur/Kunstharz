@@ -18,19 +18,19 @@ namespace Kunstharz {
 		private ModularCrosshair crosshair;
 		private Gui gui;
 
+		private GameContext ctx;
+
 		void Start() {
-			print ("Player start");
+			ctx = GameContext.instance;
 		}
 
 		[ClientRpc]
 		public void RpcInitPlayer(Vector3 spawnPos, Quaternion spawnRot) {
-			print (spawnPos);
 			transform.parent = GameObject.Find ("Game").transform;
 			spawnPosition = spawnPos;
 			spawnRotation = spawnRot;
 			transform.position = spawnPosition;
 			transform.rotation = spawnRotation;
-			SendMessageUpwards ("PlayerJoined", this);
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 		}
@@ -46,12 +46,6 @@ namespace Kunstharz {
 			}
 		}
 
-		[Command]
-		public void CmdRespawn() {
-			state = PlayerState.SelectingMotion;
-			RpcResetPosition ();
-		}
-
 		[ClientRpc]
 		public void RpcResetPosition() {
 			print ("Resetting position to " + spawnPosition);
@@ -59,7 +53,49 @@ namespace Kunstharz {
 			transform.rotation = spawnRotation;
 		}
 
+		[ClientRpc]
+		public void RpcVisualizeMotionSelection(Target target) {
+			ImageEffectShockwave i = Camera.main.GetComponent<ImageEffectShockwave>();
+			i.Shock(target.position);
+		}
+
+		// This is called once by the server so it immediately has the right positions
+		// for the players after respawn, do not use otherwise
+		public void ResetPosition() {
+			transform.position = spawnPosition;
+			transform.rotation = spawnRotation;
+		}
+
+		[Command]
+		public void CmdSelected(Vector3 direction) {
+			ctx.Selected(this, direction);
+		}
+
+		/*[Command]
+		void CmdSelectedTarget(Target target) {
+			ctx.PlayerSelectedTarget(this, target);
+		}
+
+		void MotionFinished (Player movedPlayer) {
+			ctx.PlayerFinishedMotion(this);
+
+			if (isLocalPlayer) {
+				CmdMotionFinished();
+			}
+		}
+
+		[Command]
+		void CmdMotionFinished () {
+			ctx.PlayerFinishedMotion(this);
+		}
+		
 		void SelectedTarget(Target target) {
+			ctx.PlayerSelectedTarget(this, target);
+
+			if(isClient) {
+				CmdSelectedTarget(target);
+			}
+
 			if (state == PlayerState.SelectingShot) {
 				SendMessage ("SetShootTarget", target);
 				CmdSetState (PlayerState.ExecutingShot);
@@ -92,17 +128,7 @@ namespace Kunstharz {
 
 			}
 		}
-
-		void MotionFinished (Player movedPlayer) {
-			if (isLocalPlayer) {
-				CmdSetState (PlayerState.ExecutedMotion);
-			}
-		}
-
-		void HitPlayer(Player player) {
-			CmdSetState (PlayerState.Victorious);
-			CmdWon ();
-		}
+		*/
 
 		[Command]
 		public void CmdWon() {

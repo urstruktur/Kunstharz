@@ -1438,7 +1438,7 @@ MonoBehaviour:
     i14: 137
     i15: 32
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114356042789350970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2205,6 +2205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentShader: {fileID: 4800000, guid: dda924d974278de41bae07ff8f49078b, type: 3}
   origin: {x: 0, y: 0, z: 0}
+  actionnessTransitionTime: 0.5
   progress: 0
 --- !u!114 &114974284809277916
 MonoBehaviour:

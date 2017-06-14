@@ -7,41 +7,21 @@ namespace Kunstharz
 {
 	public class NetworkControl : NetworkManager
 	{
-		private List<NetworkConnection> connections = new List<NetworkConnection> ();
-		private List<short> playerControllerIds = new List<short> ();
-
-		private int connectedCount = 0;
-
-		public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
-		{
-			connections.Add (conn);
-			playerControllerIds.Add (playerControllerId);
-
-			++connectedCount;
-			if (connectedCount == 2) {
-				var essentialsPrefab = spawnPrefabs [0];
-				// 1 being game essentials, the rest being levels to spawn
-				var levelPrefab = spawnPrefabs [GameObject.Find("Menu Script").GetComponent<Menu> ().selectedLevelIdx + 1];
-
-				NetworkServer.Spawn (Instantiate (essentialsPrefab));
-				var level = Instantiate (levelPrefab);
-				NetworkServer.Spawn (level);
-
-				for (int i = 0; i < connections.Count; ++i) {
-					NetworkConnection playerConn = connections[i];
-					short playerId = playerControllerIds[i];
-					base.OnServerAddPlayer(playerConn, playerId);
-				}
-
-				var players = GameObject.FindGameObjectsWithTag ("Player");
-				var startPositions = level.GetComponentsInChildren<NetworkStartPosition> ();
-				int idx = 0;
-				foreach(var aPlayer in players) {
-					Transform spawn = startPositions[idx].transform;
-					aPlayer.GetComponent<Player> ().RpcInitPlayer (spawn.position, spawn.rotation);
-					++idx;
-				}
-
+		public GameObject contextPrefab;
+		
+		// <summary>
+		// Spawns a game context when two connections are ready and sets it to
+		// the loading state
+		// </summary>
+		public override void OnServerReady(NetworkConnection conn) {
+			base.OnServerReady(conn);
+			
+			if(NetworkServer.connections.Count == 2) {
+				var context = Instantiate(contextPrefab);
+				NetworkServer.Spawn(context);
+				//var clientConn = NetworkServer.connections[1];
+				//NetworkServer.SpawnWithClientAuthority(context, clientConn);
+				context.GetComponent<GameContext> ().CmdSetStateIdx(GameStateLoad.IDX);
 			}
 		}
 	}
