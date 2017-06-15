@@ -21,6 +21,8 @@ namespace Kunstharz
 			this.ctx = ctx;
 			print("Entering load state");
 
+			ctx.localPlayerName = GetLocalPlayerNameFromMenu();
+
 			HideMainMenu();
 
 			if(isServer) {
@@ -70,6 +72,11 @@ namespace Kunstharz
 				player.RpcInitPlayer (spawn.position, spawn.rotation);
 				++idx;
 			}
+		}
+
+		string GetLocalPlayerNameFromMenu() {
+			var menu = GameObject.Find("Menu Script").GetComponent<Menu> ();
+			return menu.playerName;
 		}
 
 		void HideMainMenu() {

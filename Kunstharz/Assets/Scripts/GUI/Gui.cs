@@ -67,13 +67,13 @@ namespace Kunstharz
 		}
 
 		public void UpdatePlayerStates(GameContext game) {
-			//p1Action.text = ""+game.localPlayer.state;
-			//p2Action.text = ""+game.remotePlayer.state;
+			p1Action.text = ""+game.localPlayer.state;
+			p2Action.text = ""+game.remotePlayer.state;
 		}
 
 		public void UpdatePlayerNames(GameContext game) {
-			p1Action.text = ""+game.localPlayer.name;
-			p2Action.text = ""+game.remotePlayer.name;	
+			p1Name.text = ""+game.localPlayer.playerName;
+			p2Name.text = ""+game.remotePlayer.playerName;	
 		}
 
 		void LateUpdate() {

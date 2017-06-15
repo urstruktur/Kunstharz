@@ -7,6 +7,9 @@ namespace Kunstharz {
 	public class Player : NetworkBehaviour {
 		public float deathTimeout = 8.0f;
 
+		[SyncVar(hook = "OnNameChange")]
+		public string playerName;
+
 		[SyncVar(hook = "OnStateChange")]
 		public PlayerState state = PlayerState.AwaitingRoundStart;
 		[SyncVar(hook = "OnWinsChange")]
@@ -22,6 +25,11 @@ namespace Kunstharz {
 
 		void Start() {
 			ctx = GameContext.instance;
+		}
+
+		[Command]
+		public void CmdSetPlayerName(string name) {
+			playerName = name;
 		}
 
 		[ClientRpc]
@@ -177,6 +185,11 @@ namespace Kunstharz {
 		[Command]
 		public void CmdSetState(PlayerState state) {
 			this.state = state;
+		}
+
+		void OnNameChange(string newName) {
+			playerName = newName;
+			gui.UpdatePlayerNames(ctx);
 		}
 
 		void OnStateChange(PlayerState state) {
