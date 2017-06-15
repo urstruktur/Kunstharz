@@ -35,6 +35,10 @@ namespace Kunstharz
 
 		private int timeID;
 
+		private bool moveInstructionShown = false;
+
+		private bool timeHidden = false;
+
 		void Start() {
 			currentAngle = GUIAnchor.transform.eulerAngles;
 
@@ -112,6 +116,7 @@ namespace Kunstharz
 		public void ShowMoveInstruction(float duration) {
 			moveImage.SetActive(true);
 			StartCoroutine(SetInstructionsInactive(duration));
+			moveInstructionShown = true;
 		}
 
 		public void ShowShootInstruction(float duration) {
@@ -121,22 +126,31 @@ namespace Kunstharz
 
 		IEnumerator SetInstructionsInactive(float duration) {
          	yield return new WaitForSeconds(duration);
-			 shootImage.SetActive(false);
-			 moveImage.SetActive(false);
+			shootImage.SetActive(false);
+			moveImage.SetActive(false);
+			moveInstructionShown = false;
     	}
 
 		public void ShowTime(float duration) {
 			LeanTween.cancel(timeID);
-			time.SetActive (true);
+			timeHidden = false;
 			timeID = LeanTween.value(gameObject, UpdateTime, 1f, 0f, duration).setOnComplete(TimeComplete).id;
 		}
 
 		void UpdateTime(float value) {
+			if (!moveInstructionShown && !time.activeInHierarchy && !timeHidden) {
+				time.SetActive (true);
+			}
 			time.GetComponent<Image>().fillAmount = value;
 		}
 
 		void TimeComplete () {
 			time.SetActive (false);
+		}
+
+		public void HideTime() {
+			time.SetActive (false);
+			timeHidden = true;
 		}
 	}
 }
