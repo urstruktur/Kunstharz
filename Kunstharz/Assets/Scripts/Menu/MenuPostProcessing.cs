@@ -10,15 +10,18 @@ public class MenuPostProcessing : MonoBehaviour {
 
 	private float oldValue = 0.0f;
 
+	private int saturationID;
+
 	void OnEnable() {
 		PostProcessingBehaviour behaviour = GetComponent<PostProcessingBehaviour> ();
 		profile = Instantiate(behaviour.profile);
         behaviour.profile = profile;
 	}
 
-	public void SetSaturation(float value) {
+	public void SetSaturation(float value, float duration) {
 		if (value != oldValue) {
-			LeanTween.value (gameObject, UpdateSaturation, oldValue, value, 0.5f).setEaseInOutSine();
+			LeanTween.cancel(saturationID);
+			saturationID = LeanTween.value (gameObject, UpdateSaturation, oldValue, value, duration).setEaseInOutSine().id;
 			oldValue = value;
 		}
 	}
