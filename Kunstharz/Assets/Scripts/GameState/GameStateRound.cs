@@ -189,11 +189,11 @@ namespace Kunstharz
 			ctx.remotePlayer.state = commonState;
 
 			if(isConfrontation) {
-				ctx.localPlayer.RpcVisualizeMotionSelectionReady();
-				ctx.remotePlayer.RpcVisualizeMotionSelectionReady();
-			} else {
 				ctx.localPlayer.RpcVisualizeShotReady();
 				ctx.remotePlayer.RpcVisualizeShotReady();
+			} else {
+				ctx.localPlayer.RpcVisualizeMotionSelectionReady();
+				ctx.remotePlayer.RpcVisualizeMotionSelectionReady();
 			}
 		}
 
@@ -218,7 +218,6 @@ namespace Kunstharz
 		}
 
 		private IEnumerator CheckTimeouts() {
-			print("Checking timeout after " + timeout);
 			yield return new WaitForSeconds(timeout);
 
 			var p1 = ctx.localPlayer;

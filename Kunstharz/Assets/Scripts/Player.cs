@@ -64,6 +64,7 @@ namespace Kunstharz {
 		[ClientRpc]
 		public void RpcVisualizeMotionSelectionReady() {
 			if (isLocalPlayer) {
+				crosshair.ShowMoveCrosshair();
 				gui.ShowMoveInstruction(0.5f);
 				gui.ShowTime(GameContext.instance.GetComponent<GameStateRound>().timeout);
 			}
