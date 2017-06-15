@@ -66,6 +66,8 @@ namespace Kunstharz
 					scoreImages[i + 3].GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
 				}
 			}
+
+			Canvas.ForceUpdateCanvases();
 			
 		}
 
