@@ -73,10 +73,14 @@ public class ImageEffectSuperformula : MonoBehaviour
     public void Shoot()
     {
         Animator animator = GetComponent<Animator>();
+        glitch = 1.0f;
         if (animator != null)
         {
             //animator.StopPlayback();
             animator.Play("Lasershot");
+            LeanTween.value(this.gameObject, 1f, 0f, 2f).setOnUpdate((float val) => {
+                glitch = val;
+            }).setEase(LeanTweenType.easeOutCubic);
         }
     }
 }
