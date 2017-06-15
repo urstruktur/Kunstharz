@@ -11,28 +11,6 @@ namespace Kunstharz
 		public ModularCrosshair crosshair;
 
 		private List<Player> players = new List<Player> ();
-
-		public Player localPlayer {
-			get {
-				foreach (var player in players) {
-					if (player.isLocalPlayer) {
-						return player;
-					}
-				}
-				return null;
-			}
-		}
-
-		public Player nonLocalPlayer {
-			get {
-				foreach (var player in players) {
-					if (!player.isLocalPlayer) {
-						return player;
-					}
-				}
-				return null;
-			}
-		}
 			
 		void PlayerStateChanged(Player changedPlayer) {
 			if(changedPlayer.isLocalPlayer) {

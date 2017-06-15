@@ -5,8 +5,6 @@ using UnityEngine.Networking;
 
 namespace Kunstharz {
 	public class Controls : MonoBehaviour {
-		
-		public float shotCooldown = 0.5f;
 
 		Vector2 mouseAbsolute;
 		Vector2 smoothMouse;
@@ -16,87 +14,22 @@ namespace Kunstharz {
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
-		private float remainingShotCooldown = 0.0f;
 
 		private GameContext ctx;
-		private PlayerState state;
 
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
-
 			ctx = GameContext.instance;
-			//enabled = false;
-
 		}
 
 		void Update () {
-			if (remainingShotCooldown > 0) {
-				remainingShotCooldown -= Time.deltaTime;
-			}
-
-
-			Player player = (transform.parent != null) ? transform.parent.GetComponent<Player> () : null;
-			state = (player != null) ? player.state : PlayerState.SelectingMotion;
-
-			bool canChooseRotation = state == PlayerState.SelectingMotion ||
-			                         state == PlayerState.SelectedMotion ||
-			                         state == PlayerState.SelectingShot;
-
-			bool canSelectTarget = canChooseRotation && remainingShotCooldown <= 0;
-
-
-			//canChooseRotation
-
-			if (true) {
-				SmoothMove ();
-			}
-
-			if (canSelectTarget) {
-				HandleTargetInput ();
-			}
+			SmoothMove ();
+			HandleTargetInput ();
 		}
 
 		void HandleTargetInput () {
 			if (Input.GetMouseButtonDown (0)) {
 				transform.parent.GetComponent<Player> ().CmdSelected(transform.forward);
-			}
-		}
-
-		void TrySelectTarget () {
-			if (state == PlayerState.SelectingShot) {
-				remainingShotCooldown = shotCooldown;
-			}
-
-			RaycastHit hit;
-			if (Physics.Raycast (transform.position + 0.1f*transform.forward, transform.forward, out hit)) {
-				Target target;
-				target.position = hit.point;
-				target.normal = hit.normal;
-
-				var selecting = transform.parent.GetComponent<Player> ();
-
-				if (hit.collider.CompareTag ("Player")) {
-					var selected = hit.collider.GetComponent<Player> ();
-					//ctx.PlayerSelectedPlayer(selecting, selected);
-				} else {
-					//SendMessageUpwards ("SelectedTarget", target);
-					/*Player player = (transform.parent != null) ? transform.parent.GetComponent<Player> () : null;
-					if(isClient) {
-						ctx.PlayerSelectedTarget(selecting, target);
-					}
-					CmdSelectedTarget(target);*/
-				}
-
-				/*
-
-				if (hit.collider.CompareTag ("Player")) {
-					SendMessageUpwards ("HitPlayer", hit.collider.GetComponent<Player> ());
-				} else {
-					if (state == PlayerState.SelectingMotion || state == PlayerState.SelectedMotion) {
-						ghostTransform.transform.position = hit.point;
-						ghostTransform.transform.up = hit.normal;
-					}
-				}*/
 			}
 		}
 
