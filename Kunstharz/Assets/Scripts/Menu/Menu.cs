@@ -44,6 +44,7 @@ public class Menu : MonoBehaviour {
 
 	void Start() {
 		blur = GameObject.Find("Blur");
+		Cursor.lockState = CursorLockMode.Confined;
 	}
 
 	public void SetPlayerName(string gameName) {

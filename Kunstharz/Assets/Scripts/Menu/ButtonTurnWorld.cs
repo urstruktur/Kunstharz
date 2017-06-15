@@ -6,9 +6,12 @@ using UnityEngine.UI;
 
 public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
+	public bool saturation = false;
 	private bool pointerInside = false;
 	private GameObject geometry;
 	private GameObject activeLevel;
+
+	private int activeLevelIndex;
 	private GameObject instructions;
 	private Vector3 initialRotation = Vector3.zero;
 
@@ -28,9 +31,12 @@ public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExit
 	public GameObject [] buttons;
 	private GameObject backgroundCamera;
 
+	private bool showInstructions = true;
+
 	void Start() {
 		geometry = GameObject.Find("Geometry");
-		activeLevel = geometry.transform.GetChild (geometry.GetComponent<LevelSwitcherLogic>().selectedLevelIdx).gameObject;
+		activeLevelIndex = geometry.GetComponent<LevelSwitcherLogic>().selectedLevelIdx;
+		activeLevel = geometry.transform.GetChild (activeLevelIndex).gameObject;
 		initialRotation = activeLevel.transform.localEulerAngles;
 		instructions = gameObject.transform.GetChild(0).gameObject;
 		backgroundCamera = GameObject.Find("Background Camera");
@@ -49,6 +55,13 @@ public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExit
 			if (canTurnLevel) {
 				TurnLevel();
 			}
+		}
+
+		if (activeLevelIndex != geometry.GetComponent<LevelSwitcherLogic>().selectedLevelIdx) {
+			activeLevel.transform.localEulerAngles = initialRotation;
+			activeLevelIndex = geometry.GetComponent<LevelSwitcherLogic>().selectedLevelIdx;
+			activeLevel = geometry.transform.GetChild (activeLevelIndex).gameObject;
+			initialRotation = activeLevel.transform.localEulerAngles;
 		}
 	}
 
@@ -78,11 +91,11 @@ public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExit
 				currentRotation = initialRotation;
 			}
 
-			fadeID = LeanTween.value(gameObject, updateColorOpacity, 1f, 0f, 0.5f).setEase(LeanTweenType.easeInOutQuint).id;
+			fadeID = LeanTween.value(gameObject, updateColorOpacity, 1f, 0f, 0.5f).setEase(LeanTweenType.easeInOutQuint).setOnComplete(OpacityStop).id;
 
 			SetButtonActive(false);
 
-			backgroundCamera.GetComponent<MenuPostProcessing>().SetSaturation(1f, 0.25f);
+			if (saturation) backgroundCamera.GetComponent<MenuPostProcessing>().SetSaturation(1f, 0.25f);
 
 		}
 
@@ -95,15 +108,21 @@ public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		fadeID = LeanTween.value(gameObject, updateColorOpacity, 0f, 1f, 0.5f).setEase(LeanTweenType.easeInOutQuint).id;
 		rotateID = LeanTween.rotate(activeLevel, initialRotation, .5f).setEaseOutBounce().setOnComplete(AnimationStop).id;
 		SetButtonActive(true);
-		backgroundCamera.GetComponent<MenuPostProcessing>().SetSaturation(0f, 0.25f);
+		if (saturation) backgroundCamera.GetComponent<MenuPostProcessing>().SetSaturation(0f, 0.25f);
 	}
 
 	private void AnimationStop() {
 		animationRunning = false;
 	}
 
+	private void OpacityStop() {
+		showInstructions = false;
+	}
+
 	void updateColorOpacity(float val){
-		instructions.GetComponent<Text>().color = new Color(1f, 1f, 1f, val);
+		if (showInstructions) {
+			instructions.GetComponent<Text>().color = new Color(1f, 1f, 1f, val);
+		}
 	}
 
 	private void SetButtonActive(bool active) {
