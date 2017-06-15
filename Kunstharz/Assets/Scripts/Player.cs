@@ -54,9 +54,34 @@ namespace Kunstharz {
 		}
 
 		[ClientRpc]
-		public void RpcVisualizeMotionSelection(Target target) {
+		public void RpcVisualizeMotionSelectionReady() {
+			print("RpcVisualizeMotionSelectionReady");
+		}
+
+		[ClientRpc]
+		public void RpcVisualizeMotionSelected(Target target) {
 			ImageEffectShockwave i = Camera.main.GetComponent<ImageEffectShockwave>();
 			i.Shock(target.position);
+		}
+
+		[ClientRpc]
+		public void RpcVisualizeMotionMissed() {
+			print("RpcVisualizeMotionMissed");
+		}
+
+		[ClientRpc]
+		public void RpcVisualizeShotReady() {
+			print("RpcVisualizeShotReady");
+		}
+
+		[ClientRpc]
+		public void RpcVisualizeShotHit() {
+			print("RpcVisualizeShotHit");
+		}
+
+		[ClientRpc]
+		public void RpcVisualizeShotMissed() {
+			print("RpcVisualizeShotMissed");
 		}
 
 		// This is called once by the server so it immediately has the right positions

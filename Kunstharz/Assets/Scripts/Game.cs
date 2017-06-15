@@ -52,13 +52,6 @@ namespace Kunstharz
 
 		void Start() {
 			enabled = false;
-
-			// DEBUG
-			Destroy(GameObject.Find("General"));
-			Destroy(GameObject.Find("Cameras"));
-			Destroy(GameObject.Find("General Canvas"));
-			Destroy(GameObject.Find("Effect Canvas"));
-			Destroy(GameObject.Find ("NetworkDiscovery"));
 		}
 
 		void Update() {

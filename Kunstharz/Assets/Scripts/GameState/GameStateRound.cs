@@ -65,21 +65,27 @@ namespace Kunstharz
 
 				if(player.state == PlayerState.SelectingShot) {
 					if (hit.collider.CompareTag ("Player")) {
+						// WIN
 						var other = hit.collider.GetComponent<Player> ();
 
+						player.RpcVisualizeShotHit();
 						player.state = PlayerState.Victorious;
 						other.state = PlayerState.Dead;
 						player.CmdWon();
 
 						print("Some player just won!");
 						StartCoroutine(RespawnLater());
-						// WIN
 					} else {
 						// missed ):
+						player.RpcVisualizeShotMissed();
 					}
 				}
 			} else {
-				print("Empty selection for " + ((player.isLocalPlayer) ? "local" : "remote"));
+				if(player.state == PlayerState.SelectingShot) {
+					player.RpcVisualizeShotMissed();
+				} else {
+					player.RpcVisualizeMotionMissed();
+				}
 			}
 		}
 
@@ -101,7 +107,7 @@ namespace Kunstharz
 			var motion = player.GetComponent<Motion> ();
 
 			motion.RpcSetFlyTarget(target);
-			player.RpcVisualizeMotionSelection(target);
+			player.RpcVisualizeMotionSelected(target);
 
 			if(synchronizedMotion) {
 				player.state = PlayerState.SelectedMotion;
@@ -118,7 +124,6 @@ namespace Kunstharz
 					var m1 = p1.GetComponent<Motion> ();
 					var m2 = p2.GetComponent<Motion> ();
 					
-					print("Calling clients to launch");
 					m1.RpcLaunch();
 					m2.RpcLaunch();
 
@@ -126,7 +131,6 @@ namespace Kunstharz
 					StartCoroutine(ReevaluatePlayerStatesLater(maxDuration));
 				}
 			} else {
-				print("Calling single client to launch");
 				player.state = PlayerState.ExecutingMotion;
 				motion.RpcLaunch();
 				float duration = motion.FlightDuration(target);
@@ -138,42 +142,6 @@ namespace Kunstharz
 			yield return new WaitForSeconds(duration);
 			DeterminePlayerSelectionStates();
 		}
-
-		
-
-		/*public void PlayerSelectedPlayer(GameContext ctx, Player selectingPlayer, Player selectedPlayer) {
-			print("PlayerSelectedPlayer");
-		}
-
-		public void PlayerSelectedTarget(GameContext ctx, Player player, Target target) {
-			print("PlayerSelectedTarget");
-
-			if(player.isLocalPlayer) {
-				ghostTransform.gameObject.SetActive (true);
-				ghostTransform.transform.position = target.position;
-				ghostTransform.transform.up = target.normal;
-			}
-
-			if(isServer) {
-				Motion motion = player.GetComponent<Motion> ();
-				motion.RpcSetFlyTarget(target);
-				player.state = PlayerState.SelectedMotion;
-
-				bool bothPlayersSelectedMotion = ctx.localPlayer.state == PlayerState.SelectedMotion &&
-				                                 ctx.remotePlayer.state == PlayerState.SelectedMotion;
-
-				if(bothPlayersSelectedMotion) {
-					ctx.localPlayer.state = PlayerState.ExecutingMotion;
-					ctx.remotePlayer.state = PlayerState.ExecutingMotion;
-
-					ctx.localPlayer.GetComponent<Motion>().RpcLaunch();
-					ctx.remotePlayer.GetComponent<Motion>().RpcLaunch();
-				} else if(!synchronizedMotion) {
-					player.state = PlayerState.ExecutingMotion;
-					motion.RpcLaunch();
-				}
-			}
-		}*/
 
 		public void PlayerFinishedMotion(GameContext ctx, Player player) {
 			if(isServer && player.state == PlayerState.ExecutingMotion) {
@@ -229,6 +197,14 @@ namespace Kunstharz
 			
 			ctx.localPlayer.state = commonState;
 			ctx.remotePlayer.state = commonState;
+
+			if(isConfrontation) {
+				ctx.localPlayer.RpcVisualizeMotionSelectionReady();
+				ctx.remotePlayer.RpcVisualizeMotionSelectionReady();
+			} else {
+				ctx.localPlayer.RpcVisualizeShotReady();
+				ctx.remotePlayer.RpcVisualizeShotReady();
+			}
 		}
 
 		private bool LineOfSightExists() {
