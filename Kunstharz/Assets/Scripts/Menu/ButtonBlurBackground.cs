@@ -30,6 +30,7 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 		if (textChild.transform.GetComponent<Text>() != null) {
 			if (text != textChild.transform.GetComponent<Text>().text) {
 				Debug.Log("Setting blur size");
+				text = textChild.transform.GetComponent<Text>().text;
 				SetBlurSize();
 			}
 		}
