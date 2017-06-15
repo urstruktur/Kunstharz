@@ -29,6 +29,11 @@ namespace Kunstharz
 			Teardown();
 		}
 
+		public override void OnServerDisconnect(NetworkConnection conn) {
+			base.OnServerDisconnect(conn);
+			Teardown();
+		}
+
 		public override void OnClientError(NetworkConnection conn, int errorCode) {
 			base.OnClientError(conn, errorCode);
 			Teardown();
