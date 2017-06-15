@@ -99,18 +99,18 @@ namespace Kunstharz
 		}
 
 		private void UISlug() {
+			if (Camera.main != null) {
+				Vector3 currentCameraAngle = Camera.main.transform.eulerAngles;
 
-			Vector3 currentCameraAngle = Camera.main.transform.eulerAngles;
+				GUIAnchor.transform.position = Camera.main.transform.position;
 
-			GUIAnchor.transform.position = Camera.main.transform.position;
-
-			currentAngle = new Vector3 (
-				Mathf.SmoothDampAngle (currentAngle.x, currentCameraAngle.x, ref currentVelocity, Time.deltaTime * speed),
-				Mathf.SmoothDampAngle (currentAngle.y, currentCameraAngle.y, ref currentVelocity, Time.deltaTime * speed * 1.5f),
-				Mathf.SmoothDampAngle (currentAngle.z, currentCameraAngle.z, ref currentVelocity, Time.deltaTime * speed));
+				currentAngle = new Vector3 (
+					Mathf.SmoothDampAngle (currentAngle.x, currentCameraAngle.x, ref currentVelocity, Time.deltaTime * speed),
+					Mathf.SmoothDampAngle (currentAngle.y, currentCameraAngle.y, ref currentVelocity, Time.deltaTime * speed * 1.5f),
+					Mathf.SmoothDampAngle (currentAngle.z, currentCameraAngle.z, ref currentVelocity, Time.deltaTime * speed));
 	
-			GUIAnchor.transform.eulerAngles = currentAngle;
-
+				GUIAnchor.transform.eulerAngles = currentAngle;
+			}
 		}
 
 		public void ShowMoveInstruction(float duration) {
