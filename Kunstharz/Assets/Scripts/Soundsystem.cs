@@ -61,11 +61,13 @@ namespace Kunstharz
                         case PlayerState.ExecutingMotion:
                             FMODUnity.RuntimeManager.PlayOneShot(flying, changedPlayer.transform.position);
                             break;
-                        case PlayerState.ExecutingShot:
-                            FMODUnity.RuntimeManager.PlayOneShot(shoot, changedPlayer.transform.position);
-                            break;
                 }
                 }
+        }
+
+        public void playShot(GameObject player)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(shoot, player.transform.position);
         }
 
         public void playMotionMissed()

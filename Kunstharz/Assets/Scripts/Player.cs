@@ -106,14 +106,26 @@ namespace Kunstharz {
 				Camera.main.GetComponent<ImageEffectSuperformula>().Shoot();
 				crosshair.ShowShotFiredCrosshair();
 			}
-		}
+
+            Soundsystem ss = FindObjectOfType<Soundsystem>();
+            if (ss != null)
+            {
+                ss.playShot(this.gameObject);
+            }
+        }
 
 		[ClientRpc]
 		public void RpcVisualizeShotMissed() {
 			if (isLocalPlayer) {
 				crosshair.ShowShotFiredCrosshair();
 			}
-		}
+
+            Soundsystem ss = FindObjectOfType<Soundsystem>();
+            if (ss != null)
+            {
+                ss.playShot(this.gameObject);
+            }
+        }
 
 		// This is called once by the server so it immediately has the right positions
 		// for the players after respawn, do not use otherwise
