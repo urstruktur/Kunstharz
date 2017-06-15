@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace Kunstharz
 {
@@ -21,6 +22,21 @@ namespace Kunstharz
 				NetworkServer.Spawn(context);
 				context.GetComponent<GameContext> ().CmdSetStateIdx(GameStateLoad.IDX);
 			}
+		}
+
+		public override void OnClientDisconnect(NetworkConnection conn) {
+			base.OnClientConnect(conn);
+			Teardown();
+		}
+
+		public override void OnClientError(NetworkConnection conn, int errorCode) {
+			base.OnClientError(conn, errorCode);
+			Teardown();
+		}
+
+		private void Teardown() {
+			NetworkManager.Shutdown();
+			SceneManager.LoadScene(0);
 		}
 	}
 }
