@@ -14,10 +14,6 @@ public class ModularCrosshair : MonoBehaviour {
 	public CrosshairModes crosshairMode = CrosshairModes.Move;
 
 	CrosshairModes currentCrosshairMode = CrosshairModes.Move;
-
-	public GameObject time;
-
-	private int timeID;
 	
 	// Update is called once per frame
 	void Update () {
@@ -72,21 +68,6 @@ public class ModularCrosshair : MonoBehaviour {
 	public void ChangeCrosshairMode (CrosshairModes mode) {
 		currentCrosshairMode = mode;
 		crosshairMode = mode;
-	}
-
-
-	public void ShowTime(float duration) {
-		LeanTween.cancel(timeID);
-		time.SetActive (true);
-		timeID = LeanTween.value(gameObject, UpdateTime, 1f, 0f, duration).setOnComplete(TimeComplete).id;
-	}
-
-	void UpdateTime(float value) {
-		time.GetComponent<Image>().fillAmount = value;
-	}
-
-	void TimeComplete () {
-		time.SetActive (false);
 	}
 	
 }

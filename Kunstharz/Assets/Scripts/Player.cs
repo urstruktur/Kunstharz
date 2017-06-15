@@ -65,7 +65,7 @@ namespace Kunstharz {
 		public void RpcVisualizeMotionSelectionReady() {
 			if (isLocalPlayer) {
 				gui.ShowMoveInstruction(0.5f);
-				crosshair.ShowTime(8.0f);
+				gui.ShowTime(8.0f);
 			}
 		}
 

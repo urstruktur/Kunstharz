@@ -29,8 +29,11 @@ namespace Kunstharz
 		private Vector3 currentAngle;
 		private float currentVelocity;
 
-
 		bool slug = true;
+
+		public GameObject time;
+
+		private int timeID;
 
 		void Start() {
 			currentAngle = GUIAnchor.transform.eulerAngles;
@@ -119,5 +122,19 @@ namespace Kunstharz
 			 shootImage.SetActive(false);
 			 moveImage.SetActive(false);
     	}
+
+		public void ShowTime(float duration) {
+			LeanTween.cancel(timeID);
+			time.SetActive (true);
+			timeID = LeanTween.value(gameObject, UpdateTime, 1f, 0f, duration).setOnComplete(TimeComplete).id;
+		}
+
+		void UpdateTime(float value) {
+			time.GetComponent<Image>().fillAmount = value;
+		}
+
+		void TimeComplete () {
+			time.SetActive (false);
+		}
 	}
 }
