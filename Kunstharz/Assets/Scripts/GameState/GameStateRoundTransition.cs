@@ -38,8 +38,7 @@ namespace Kunstharz
         }
 
 		private IEnumerator FinishGameLater() {
-			yield return new WaitForSeconds(transitionTime);
-
+			yield return new WaitForEndOfFrame();
 			ctx.currentStateIdx = GameStateFinish.IDX;
 		}
 

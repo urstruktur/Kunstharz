@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 
 namespace Kunstharz
 {
@@ -24,6 +23,8 @@ namespace Kunstharz
 			GiveCameraToPlayer(ctx.localPlayer);
 
 			if(isServer) {
+				ctx.localPlayer.wins = 0;
+				ctx.remotePlayer.wins = 0;
 				StartCoroutine(StartRoundLater());
 			}
         }
