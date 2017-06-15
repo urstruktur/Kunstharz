@@ -37,12 +37,9 @@ namespace Kunstharz
 		void PlayerStateChanged(Player changedPlayer) {
 			if(changedPlayer.isLocalPlayer) {
 				if(changedPlayer.state == PlayerState.SelectingShot) {
-					crosshair.ShowShootCrosshair();
-					gui.ShowShootInstruction(0.5f);
 					Camera.main.GetComponent<ImageEffectShockwave> ().actionMode = true;
 				} else if(changedPlayer.state == PlayerState.SelectingMotion) {
-					gui.ShowMoveInstruction(0.5f);
-					crosshair.ShowMoveIdleCrosshair();
+
 				}
 			}
 
