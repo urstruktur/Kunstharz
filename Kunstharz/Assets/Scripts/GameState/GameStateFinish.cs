@@ -58,6 +58,7 @@ namespace Kunstharz
 
 			if(p1Approved && p2Approved) {
 				ctx.currentStateIdx = GameStateKickoff.IDX;
+				NetworkManager.Shutdown();
 			}
         }
 	}
