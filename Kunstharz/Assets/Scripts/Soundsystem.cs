@@ -23,7 +23,7 @@ namespace Kunstharz
         [FMODUnity.EventRef]
         private string reject = "event:/reject";
         [FMODUnity.EventRef]
-        private string newGameInLobby = "event:/newGameInLobby";
+        private string newGameInLobby = "event:/ui/newGameInLobby";
 
         // Use this for initialization
         void Start () {
