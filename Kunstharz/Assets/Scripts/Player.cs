@@ -55,33 +55,47 @@ namespace Kunstharz {
 
 		[ClientRpc]
 		public void RpcVisualizeMotionSelectionReady() {
-			print("RpcVisualizeMotionSelectionReady");
+			if (isLocalPlayer) {
+				gui.ShowMoveInstruction(0.5f);
+			}
 		}
 
 		[ClientRpc]
 		public void RpcVisualizeMotionSelected(Target target) {
-			ImageEffectShockwave i = Camera.main.GetComponent<ImageEffectShockwave>();
-			i.Shock(target.position);
+			if (isLocalPlayer) {
+				crosshair.ShowMoveIdleCrosshair();
+			}
+			Camera.main.GetComponent<ImageEffectShockwave>().Shock(target.position);
 		}
 
 		[ClientRpc]
 		public void RpcVisualizeMotionMissed() {
-			print("RpcVisualizeMotionMissed");
+			if (isLocalPlayer) {
+				crosshair.ShowMoveDeniedCrosshair();
+			}
 		}
 
 		[ClientRpc]
 		public void RpcVisualizeShotReady() {
-			print("RpcVisualizeShotReady");
+			if (isLocalPlayer) {
+				gui.ShowShootInstruction(0.5f);
+				crosshair.ShowShootCrosshair();
+			}
 		}
 
 		[ClientRpc]
 		public void RpcVisualizeShotHit() {
-			print("RpcVisualizeShotHit");
+			if (isLocalPlayer) {
+				Camera.main.GetComponent<ImageEffectSuperformula>().Shoot();
+				crosshair.ShowShotFiredCrosshair();
+			}
 		}
 
 		[ClientRpc]
 		public void RpcVisualizeShotMissed() {
-			print("RpcVisualizeShotMissed");
+			if (isLocalPlayer) {
+				crosshair.ShowShotFiredCrosshair();
+			}
 		}
 
 		// This is called once by the server so it immediately has the right positions
