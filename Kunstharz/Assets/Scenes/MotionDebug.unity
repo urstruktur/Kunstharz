@@ -287,11 +287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fe25f122c3947a0a414d6c996c2323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1943693491}
   gui: {fileID: 2108106172}
   crosshair: {fileID: 1023654432}
-  state: 0
-  numRounds: 3
 --- !u!1 &122667463
 GameObject:
   m_ObjectHideFlags: 0
@@ -2771,7 +2768,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 851, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1697967141
@@ -3619,6 +3616,8 @@ MonoBehaviour:
   - {fileID: 122667465}
   GUIAnchor: {fileID: 1794637138}
   speed: 0.5
+  moveImage: {fileID: 0}
+  shootImage: {fileID: 0}
 --- !u!114 &2108106173
 MonoBehaviour:
   m_ObjectHideFlags: 0
