@@ -22,6 +22,9 @@ public class ImageEffectSuperformula : MonoBehaviour
     [Range(0.0f, 50.0f)]
     public float n3 = 18f;
 
+    [Range(0.0f, 50.0f)]
+    public float glitch = 0f;
+
     private Material currentMaterial;
     public Material material
     {
@@ -53,6 +56,7 @@ public class ImageEffectSuperformula : MonoBehaviour
             material.SetFloat("_N1", n1);
             material.SetFloat("_N2", n2);
             material.SetFloat("_N3", n3);
+            material.SetFloat("_Glitch", glitch);
 
             Graphics.Blit(source, destination, material);
         }
