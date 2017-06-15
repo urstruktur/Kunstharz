@@ -11,7 +11,7 @@ namespace Kunstharz
 
 	public class Motion : NetworkBehaviour
 	{
-		public float flyVelocity = 3.0f;
+		//public float flyVelocity = 3.0f;
 		public float afterFlyIdleTime = 0.2f;
 		public bool allowMoveDebug;
 		public static bool allowMoveDebugStatic;
@@ -20,15 +20,16 @@ namespace Kunstharz
 		private Vector3 flyTargetPosition;
 		private Quaternion flyStartOrientation;
 		private Quaternion flyTargetOrientation;
-		private float flyDuration;
+		private float flyDuration = 1.5f;
 		private float remainingFlyDuration = float.MinValue;
 
 		void Start() {
 			enabled = false;
 			allowMoveDebugStatic = allowMoveDebug;
 		}
-
+        /*
 		void Update () {
+            
 			if (remainingFlyDuration == float.MinValue) {
 				remainingFlyDuration = flyDuration;
 			}
@@ -50,25 +51,24 @@ namespace Kunstharz
 					enabled = false;
 				}
 			}
-		}
-
-		public void DoSetFlyTarget(Target target) {
+            
+    }
+    public float FlightDuration(Target target) {
+		float flyDistance = Vector3.Distance(transform.position, target.position);
+		return flyDistance / flyVelocity;
+	}
+    */
+        public void DoSetFlyTarget(Target target) {
 			flyStartPosition = transform.position;
 			flyTargetPosition = target.position;
-
+  
 			flyStartOrientation = transform.rotation;
 			flyTargetOrientation = Quaternion.FromToRotation(Vector3.forward, target.normal);
 
 			float flyDistance = Vector3.Distance(flyTargetPosition, flyStartPosition);
-			flyDuration = flyDistance / flyVelocity;
 		}
-
-		public float FlightDuration(Target target) {
-			float flyDistance = Vector3.Distance(transform.position, target.position);
-			return flyDistance / flyVelocity;
-		}
-
-		[ClientRpc]
+        
+        [ClientRpc]
 		public void RpcSetFlyTarget(Target target) {
 			print("Setting fly target in clientrpc");
 			DoSetFlyTarget (target);
@@ -78,6 +78,8 @@ namespace Kunstharz
 		public void RpcLaunch() {
 			print("Launched");
 			enabled = true;
+            LeanTween.move(this.gameObject, flyTargetPosition, 1.5f).setEase(LeanTweenType.easeOutQuart);
+            LeanTween.rotate(this.gameObject, flyTargetOrientation.eulerAngles, 1.5f).setEase(LeanTweenType.easeOutQuart);
 		}
 
 	}
