@@ -19,8 +19,6 @@ namespace Kunstharz
 			if(NetworkServer.connections.Count == 2) {
 				var context = Instantiate(contextPrefab);
 				NetworkServer.Spawn(context);
-				//var clientConn = NetworkServer.connections[1];
-				//NetworkServer.SpawnWithClientAuthority(context, clientConn);
 				context.GetComponent<GameContext> ().CmdSetStateIdx(GameStateLoad.IDX);
 			}
 		}

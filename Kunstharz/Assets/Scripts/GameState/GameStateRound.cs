@@ -38,9 +38,8 @@ namespace Kunstharz
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
 
-			print("Entering round state");
-
 			FindPlayers(ctx);
+			AssignLocalPlayerName();
 			GiveCameraToPlayer(ctx.localPlayer);
 
 			if(isServer) {
@@ -134,11 +133,6 @@ namespace Kunstharz
 			}
 		}
 
-		IEnumerator ReevaluatePlayerStatesLater(float duration) {
-			yield return new WaitForSeconds(duration);
-			DeterminePlayerSelectionStates();
-		}
-
 		public void PlayerFinishedMotion(GameContext ctx, Player player) {
 			if(isServer && player.state == PlayerState.ExecutingMotion) {
 				player.state = PlayerState.ExecutedMotion;
@@ -178,6 +172,11 @@ namespace Kunstharz
 			camTransform.GetComponent<Controls> ().enabled = true;
 
 			//camLocalPosition = pos;
+		}
+
+		IEnumerator ReevaluatePlayerStatesLater(float duration) {
+			yield return new WaitForSeconds(duration);
+			DeterminePlayerSelectionStates();
 		}
 
 		private void DeterminePlayerSelectionStates() {
@@ -252,6 +251,10 @@ namespace Kunstharz
 				// If either player timed out, start next round later
 				ctx.currentStateIdx = GameStateRoundTransition.IDX;
 			}
+		}
+
+		private void AssignLocalPlayerName() {
+			ctx.localPlayer.CmdSetPlayerName(ctx.localPlayerName);
 		}
 	}
 }
