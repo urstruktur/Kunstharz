@@ -6345,8 +6345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0e7f1cb3fbd4c4086e925744d33ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 0
-  moveToMenu: {fileID: 312179694}
+  action: 2
+  moveToMenu: {fileID: 0}
   reverseMenuRotation: 0
   menuSaturation: 0
   enablePublisher: 0
