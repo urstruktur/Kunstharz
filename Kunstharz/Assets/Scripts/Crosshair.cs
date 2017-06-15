@@ -62,4 +62,5 @@ public class Crosshair : MonoBehaviour {
 	void ShowCrosshair() {
 		GetComponent<MeshRenderer> ().enabled = true;
 	}
+
 }

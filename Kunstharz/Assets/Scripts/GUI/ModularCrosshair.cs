@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ModularCrosshair : MonoBehaviour {
 
@@ -13,6 +14,10 @@ public class ModularCrosshair : MonoBehaviour {
 	public CrosshairModes crosshairMode = CrosshairModes.Move;
 
 	CrosshairModes currentCrosshairMode = CrosshairModes.Move;
+
+	public GameObject time;
+
+	private int timeID;
 	
 	// Update is called once per frame
 	void Update () {
@@ -35,37 +40,31 @@ public class ModularCrosshair : MonoBehaviour {
 	}
 
 	public void ShowShootCrosshair() {
-		Debug.Log ("Shoot Crosshair Activated");
 		ChangeCrosshairMode(CrosshairModes.Shoot);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairShootAnimation");
 	}
 
 	public void ShowMoveCrosshair() {
-		Debug.Log ("Move Crosshair Activated");
 		ChangeCrosshairMode(CrosshairModes.Move);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveAnimation");
 	}
 
 	public void ShowMoveIdleCrosshair() {
-		Debug.Log ("Move Idle Crosshair Activated");
 		ChangeCrosshairMode(CrosshairModes.MoveIdle);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveIdleAnimation");
 	}
 
 	public void ShowShootIdleCrosshair() {
-		Debug.Log ("Shoot Idle Crosshair Activated");
 		ChangeCrosshairMode(CrosshairModes.ShootIdle);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairShootIdleAnimation");
 	}
 
 	public void ShowMoveDeniedCrosshair() {
-		Debug.Log ("Move Denied Crosshair Activated");
 		ChangeCrosshairMode(CrosshairModes.MoveDenied);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairMoveDeniedAnimation");
 	}
 
 	public void ShowShotFiredCrosshair() {
-		Debug.Log ("Shot Fired Crosshair Activated");
 		ChangeCrosshairMode(CrosshairModes.ShotFired);
 		gameObject.GetComponent<Animator> ().Play ("CrosshairShootFiredAnimation");
 	}
@@ -73,6 +72,21 @@ public class ModularCrosshair : MonoBehaviour {
 	public void ChangeCrosshairMode (CrosshairModes mode) {
 		currentCrosshairMode = mode;
 		crosshairMode = mode;
+	}
+
+
+	public void ShowTime(float duration) {
+		LeanTween.cancel(timeID);
+		time.SetActive (true);
+		timeID = LeanTween.value(gameObject, UpdateTime, 1f, 0f, duration).setOnComplete(TimeComplete).id;
+	}
+
+	void UpdateTime(float value) {
+		time.GetComponent<Image>().fillAmount = value;
+	}
+
+	void TimeComplete () {
+		time.SetActive (false);
 	}
 	
 }
