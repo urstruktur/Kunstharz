@@ -53,11 +53,12 @@ namespace Kunstharz
 			}
             
     }
-    public float FlightDuration(Target target) {
-		float flyDistance = Vector3.Distance(transform.position, target.position);
-		return flyDistance / flyVelocity;
-	}
     */
+   public float FlightDuration(Target target) {
+		float flyDistance = Vector3.Distance(transform.position, target.position);
+		return flyDuration;
+	}
+    
         public void DoSetFlyTarget(Target target) {
 			flyStartPosition = transform.position;
 			flyTargetPosition = target.position;

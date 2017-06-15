@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.01.08.00">
     <object class="Event" id="{cb40cb93-8c3b-4a4c-a2ad-4a95c17d92c3}">
         <property name="name">
-            <value>shoot</value>
+            <value>shoot_alt</value>
         </property>
         <property name="outputFormat">
             <value>2</value>
