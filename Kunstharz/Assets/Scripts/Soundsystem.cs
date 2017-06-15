@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Kunstharz
 {
-
     public class Soundsystem : MonoBehaviour {
 
         FMODUnity.StudioEventEmitter eventEmitterRef;
@@ -21,14 +20,29 @@ namespace Kunstharz
         private string flying = "event:/fly";
         [FMODUnity.EventRef]
         private string shoot = "event:/shoot";
+        [FMODUnity.EventRef]
+        private string reject = "event:/reject";
+        [FMODUnity.EventRef]
+        private string newGameInLobby = "event:/newGameInLobby";
 
         // Use this for initialization
         void Start () {
             eventEmitterRef = GetComponent<FMODUnity.StudioEventEmitter>();
             FMODUnity.RuntimeManager.PlayOneShot(ambient);
+
+            Finder.ChallengeDiscovered += ChallangeDiscovered;
         }
 
-        
+        void OnDestroy()
+        {
+            Finder.ChallengeDiscovered -= ChallangeDiscovered;
+        }
+
+        void ChallangeDiscovered(FinderEntry entry)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(newGameInLobby);
+        }
+
         void PlayerStateChanged(Player changedPlayer)
         {
                 if (changedPlayer.isLocalPlayer)
@@ -52,6 +66,11 @@ namespace Kunstharz
                             break;
                 }
                 }
+        }
+
+        public void playMotionMissed()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(reject);
         }
     
         // Update is called once per frame

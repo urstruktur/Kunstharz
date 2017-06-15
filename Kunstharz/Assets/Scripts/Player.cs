@@ -83,6 +83,12 @@ namespace Kunstharz {
 		public void RpcVisualizeMotionMissed() {
 			if (isLocalPlayer) {
 				crosshair.ShowMoveDeniedCrosshair();
+
+                Soundsystem ss = FindObjectOfType<Soundsystem>();
+                if(ss != null)
+                {
+                    ss.playMotionMissed();
+                }
 			}
 		}
 
