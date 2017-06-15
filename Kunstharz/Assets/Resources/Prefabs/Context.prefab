@@ -56,8 +56,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936d81c90eac643959ea6afeeeec210e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeoutEnabled: 0
-  synchronizedMotion: 0
+  timeoutEnabled: 1
+  timeout: 7
+  synchronizedMotion: 1
   camLocalPosition: {x: 0, y: 0, z: 1}
 --- !u!114 &114251101008836714
 MonoBehaviour:

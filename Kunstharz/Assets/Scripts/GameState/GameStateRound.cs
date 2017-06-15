@@ -13,6 +13,12 @@ namespace Kunstharz
 		public bool timeoutEnabled = true;
 
 		/// <summary>
+		/// Time in seconds of inactivity after round start that causes a
+		/// player to die.
+		/// </summary>
+		public float timeout = 7.0f;
+
+		/// <summary>
 		/// If <code>true</code>, players move when both selected a target,
 		/// if <code>false</code>, players move immediately.
 		/// </summary>
@@ -21,6 +27,13 @@ namespace Kunstharz
 		private GameContext ctx;
 
 		public Vector3 camLocalPosition = new Vector3(1.0f, 0.0f, 0.0f);
+
+		void Start() {
+			if(timeoutEnabled && !synchronizedMotion) {
+				Debug.LogError("Timeout can only be enabled when motion is synchronized, disabling timeout…");
+				timeoutEnabled = false;
+			}
+		}
 
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
@@ -32,6 +45,10 @@ namespace Kunstharz
 
 			if(isServer) {
 				DeterminePlayerSelectionStates();
+
+				if(timeoutEnabled) {
+					StartCoroutine(CheckTimeouts()); 
+				}
 			}
 		}
 
@@ -198,6 +215,42 @@ namespace Kunstharz
 			} else {
 				Debug.DrawRay (start, dir, Color.blue);
 				return false;
+			}
+		}
+
+		private IEnumerator CheckTimeouts() {
+			print("Checking timeout after " + timeout);
+			yield return new WaitForSeconds(timeout);
+
+			var p1 = ctx.localPlayer;
+			var p2 = ctx.remotePlayer;
+
+			bool p1WasInactive = p1.state == PlayerState.SelectingMotion ||
+			                     p1.state == PlayerState.SelectingShot;
+
+			
+			bool p2WasInactive = p2.state == PlayerState.SelectingMotion ||
+			                     p2.state == PlayerState.SelectingShot;
+
+			if(p1WasInactive && p2WasInactive) {
+				p1.state = PlayerState.Dead;
+				p2.state = PlayerState.Dead;
+				print("Both timed out");
+			} else if(p1WasInactive) {
+				p1.state = PlayerState.Dead;
+				p2.state = PlayerState.Victorious;
+				p2.CmdWon();
+				print("P1 timed out");
+			} else if(p2WasInactive) {
+				p1.state = PlayerState.Victorious;
+				p2.state = PlayerState.Dead;
+				p1.CmdWon();
+				print("P2 timed out");
+			}
+
+			if(p1WasInactive || p2WasInactive) {
+				// If either player timed out, start next round later
+				ctx.currentStateIdx = GameStateRoundTransition.IDX;
 			}
 		}
 	}
