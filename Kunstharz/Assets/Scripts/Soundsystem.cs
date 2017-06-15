@@ -21,7 +21,7 @@ namespace Kunstharz
         [FMODUnity.EventRef]
         private string shoot = "event:/shoot";
         [FMODUnity.EventRef]
-        private string reject = "event:/reject";
+        private string reject = "event:/ui/reject";
         [FMODUnity.EventRef]
         private string newGameInLobby = "event:/ui/newGameInLobby";
 
