@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 namespace Kunstharz
 {
@@ -52,12 +51,6 @@ namespace Kunstharz
 
 		void Start() {
 			enabled = false;
-		}
-
-		void Update() {
-			if (localPlayer.state == PlayerState.ExecutingShot) {
-				localPlayer.CmdSetState (PlayerState.SelectingShot);
-			}
 		}
 
 		void PlayerWon() {

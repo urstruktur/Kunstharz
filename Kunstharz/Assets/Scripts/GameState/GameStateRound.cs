@@ -10,8 +10,6 @@ namespace Kunstharz
 	{
 		public const int IDX = 1;
 
-		public int numRounds = 3;
-
 		public bool timeoutEnabled = true;
 
 		/// <summary>
@@ -21,8 +19,6 @@ namespace Kunstharz
 		public bool synchronizedMotion = true;
 
 		private GameContext ctx;
-
-		private Transform ghostTransform;
 
 		public Vector3 camLocalPosition = new Vector3(1.0f, 0.0f, 0.0f);
 
@@ -34,10 +30,6 @@ namespace Kunstharz
 			FindPlayers(ctx);
 			GiveCameraToPlayer(ctx.localPlayer);
 
-			// FIXME This should only be for game logic,
-			// do the gui stuff somewhere else
-			HideGhostTransform();
-
 			if(isServer) {
 				DeterminePlayerSelectionStates();
 			}
@@ -45,7 +37,6 @@ namespace Kunstharz
 
 		public void Exit(GameContext ctx) {
 			print("Exiting round state");
-			HideGhostTransform();
 		}
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {
@@ -74,7 +65,8 @@ namespace Kunstharz
 						player.CmdWon();
 
 						print("Some player just won!");
-						StartCoroutine(RespawnLater());
+
+						ctx.currentStateIdx = GameStateRoundTransition.IDX;
 					} else {
 						// missed ):
 						player.RpcVisualizeShotMissed();
@@ -87,19 +79,6 @@ namespace Kunstharz
 					player.RpcVisualizeMotionMissed();
 				}
 			}
-		}
-
-		private IEnumerator RespawnLater() {
-			yield return new WaitForSeconds(3.0f);
-
-			ctx.localPlayer.RpcResetPosition();
-			ctx.remotePlayer.RpcResetPosition();
-
-			// Ensure local positions are already correct
-			ctx.localPlayer.ResetPosition();
-			ctx.remotePlayer.ResetPosition();
-			
-			DeterminePlayerSelectionStates();
 		}
 
 		private void SelectMotionTarget(Player player, Target target) {
@@ -182,11 +161,6 @@ namespace Kunstharz
 			camTransform.GetComponent<Controls> ().enabled = true;
 
 			//camLocalPosition = pos;
-		}
-
-		private void HideGhostTransform() {
-			ghostTransform = GameObject.Find ("GhostPlayer").transform;
-			ghostTransform.gameObject.SetActive (false);
 		}
 
 		private void DeterminePlayerSelectionStates() {

@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 114251101008836714}
   - component: {fileID: 114397344312672138}
   - component: {fileID: 114202941452965954}
+  - component: {fileID: 114857975887377612}
+  - component: {fileID: 114634540184409864}
   m_Layer: 0
   m_Name: Context
   m_TagString: Context
@@ -54,7 +56,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936d81c90eac643959ea6afeeeec210e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numRounds: 3
   timeoutEnabled: 0
   synchronizedMotion: 0
   camLocalPosition: {x: 0, y: 0, z: 1}
@@ -93,6 +94,17 @@ MonoBehaviour:
   - {fileID: 1749707237715474, guid: 8e535a1e2dc09a1458c1cc9d903d9235, type: 2}
   - {fileID: 1899998264948226, guid: 681e8089992315c4b9c8da99ac6cd4df, type: 2}
   - {fileID: 1053577588733448, guid: b82d333e3a1a36140b813ec559fa96f3, type: 2}
+--- !u!114 &114634540184409864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1797036882003670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18d00a513f86475d8c205fb9e7cc121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114734017817992300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,3 +137,15 @@ MonoBehaviour:
     i15: 169
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114857975887377612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1797036882003670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4225f0726305846d9a4ee62312e3c5d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roundsWinCount: 3
