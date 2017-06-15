@@ -29,13 +29,13 @@ namespace Kunstharz
 				//RegisterSpawnPrefabs();
 				SpawnEnvironment();
 				SpawnPlayers();
-				StartCoroutine("ChangeToRoundNextFrame");
+				StartCoroutine(ChangeToKickoffNextFrame());
 			}
 		}
 
-		IEnumerator ChangeToRoundNextFrame() {
+		IEnumerator ChangeToKickoffNextFrame() {
 			yield return new WaitForEndOfFrame();
-			ctx.currentStateIdx = GameStateRound.IDX;
+			ctx.currentStateIdx = GameStateKickoff.IDX;
 		}
 
 		public void Exit(GameContext ctx) {

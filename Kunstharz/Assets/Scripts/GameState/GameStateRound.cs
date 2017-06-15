@@ -38,10 +38,6 @@ namespace Kunstharz
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
 
-			FindPlayers(ctx);
-			AssignLocalPlayerName();
-			GiveCameraToPlayer(ctx.localPlayer);
-
 			if(isServer) {
 				DeterminePlayerSelectionStates();
 
@@ -52,7 +48,6 @@ namespace Kunstharz
 		}
 
 		public void Exit(GameContext ctx) {
-			print("Exiting round state");
 		}
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {
@@ -80,8 +75,6 @@ namespace Kunstharz
 						other.state = PlayerState.Dead;
 						player.CmdWon();
 
-						print("Some player just won!");
-
 						ctx.currentStateIdx = GameStateRoundTransition.IDX;
 					} else {
 						// missed ):
@@ -98,7 +91,6 @@ namespace Kunstharz
 		}
 
 		private void SelectMotionTarget(Player player, Target target) {
-			print("Selecting motion target " + target);
 			var motion = player.GetComponent<Motion> ();
 
 			motion.RpcSetFlyTarget(target);
@@ -147,31 +139,6 @@ namespace Kunstharz
 					player.state = PlayerState.SelectingMotion;
 				}
 			}
-		}
-
-		private void FindPlayers(GameContext ctx) {
-			foreach(var playerGO in GameObject.FindGameObjectsWithTag("Player")) {
-				Player player = playerGO.GetComponent<Player> ();
-				if(player.isLocalPlayer) {
-					ctx.localPlayer = player;
-				} else {
-					ctx.remotePlayer = player;
-				}
-			}
-		}
-
-		private void GiveCameraToPlayer(Player activePlayer) {
-			Transform camTransform = Camera.main.transform;
-			//Vector3 pos = camTransform.localPosition;
-			//Quaternion orientation = camTransform.localRotation;
-
-			camTransform.parent = activePlayer.transform;
-			camTransform.localPosition = camLocalPosition;
-			//camTransform.localRotation = orientation;
-
-			camTransform.GetComponent<Controls> ().enabled = true;
-
-			//camLocalPosition = pos;
 		}
 
 		IEnumerator ReevaluatePlayerStatesLater(float duration) {
@@ -250,10 +217,6 @@ namespace Kunstharz
 				// If either player timed out, start next round later
 				ctx.currentStateIdx = GameStateRoundTransition.IDX;
 			}
-		}
-
-		private void AssignLocalPlayerName() {
-			ctx.localPlayer.CmdSetPlayerName(ctx.localPlayerName);
 		}
 	}
 }
