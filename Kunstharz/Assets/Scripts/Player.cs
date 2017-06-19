@@ -41,6 +41,8 @@ namespace Kunstharz {
 			transform.rotation = spawnRotation;
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
+			crosshair.ShowPrepareTimer(GameContext.instance.GetComponent<GameStateKickoff>().kickoffDuration);
+			gui.ShowInstruction(Gui.InstructionType.PrepareGame, GameContext.instance.GetComponent<GameStateKickoff>().kickoffDuration, true);
 		}
 
 		void Update() {
@@ -65,7 +67,7 @@ namespace Kunstharz {
 		public void RpcVisualizeMotionSelectionReady() {
 			if (isLocalPlayer) {
 				crosshair.ShowMoveCrosshair();
-				gui.ShowMoveInstruction(0.5f);
+				gui.ShowInstruction(Gui.InstructionType.Move, 0.5f, false);
 				gui.ShowTime(GameContext.instance.GetComponent<GameStateRound>().timeout);
 			}
 		}
@@ -95,7 +97,7 @@ namespace Kunstharz {
 		[ClientRpc]
 		public void RpcVisualizeShotReady() {
 			if (isLocalPlayer) {
-				gui.ShowShootInstruction(0.5f);
+				gui.ShowInstruction(Gui.InstructionType.Shoot, 0.5f, false);
 				crosshair.ShowShootCrosshair();
 			}
 		}
@@ -223,12 +225,30 @@ namespace Kunstharz {
 			PlayerState oldState = this.state;
 			this.state = state;
 
+			gui.UpdatePlayerStates (GameContext.instance);
+
 			SendMessageUpwards ("PlayerStateChanged", this, SendMessageOptions.DontRequireReceiver);
 		}
 
 		void OnWinsChange(int wins) {
 			this.wins = wins;
 			SendMessageUpwards ("PlayerWon", this);
+
+			if (ctx.localPlayer.state == PlayerState.Victorious) {
+				if (this.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount || ctx.remotePlayer.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount) {
+					gui.ShowInstruction(Gui.InstructionType.Win, GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout, true);
+					crosshair.ShowFinishedTimer(GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout);
+				} else {
+					gui.ShowInstruction(Gui.InstructionType.Scored, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
+				}	
+			} else if (ctx.localPlayer.state == PlayerState.Dead) {
+				if (this.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount || ctx.remotePlayer.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount) {
+					gui.ShowInstruction(Gui.InstructionType.Lose, GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout, true);
+					crosshair.ShowFinishedTimer(GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout);
+				} else {
+					gui.ShowInstruction(Gui.InstructionType.Erased, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
+				}
+			}
 		}
         
         // only executed locally

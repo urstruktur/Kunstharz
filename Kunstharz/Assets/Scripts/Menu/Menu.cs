@@ -44,7 +44,7 @@ public class Menu : MonoBehaviour {
 
 	void Start() {
 		blur = GameObject.Find("Blur");
-		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.lockState = CursorLockMode.None;
 	}
 
 	public void SetPlayerName(string gameName) {
@@ -72,7 +72,7 @@ public class Menu : MonoBehaviour {
 			float turnX = mouseXN () - turnXOld;
 			float turnY = mouseYN () - turnYOld;
 
-			menuTransform.transform.eulerAngles += new Vector3(turnY * 8, turnX * 8, 0);
+			menuTransform.transform.eulerAngles += new Vector3(turnY * 8, turnX * 14, 0);
 
 			turnXOld = mouseXN ();
 			turnYOld = mouseYN ();

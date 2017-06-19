@@ -124,9 +124,9 @@ Shader "Hidden/Shockwave"
 					c = fixed4(1.0,1.0,1.0,1.0);
 				}
 
-				float3 hsv = RGBtoHSV(c.xyz);
+				/*float3 hsv = RGBtoHSV(c.xyz);
 				hsv.y = lerp(hsv.y * 0.75, hsv.y * 1.0, _Actionness);
-				c = float4(HSVtoRGB(hsv), 1.0);
+				c = float4(HSVtoRGB(hsv), 1.0);*/
 
 				return c;
 			}

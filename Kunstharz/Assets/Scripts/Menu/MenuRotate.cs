@@ -33,7 +33,7 @@ public class MenuRotate : MonoBehaviour {
 	private void RotateComplete() {
 		if (rotateOut) {
 			transform.localEulerAngles = Vector3.zero;
-			transform.localPosition = Vector3.zero;
+			transform.localPosition = new Vector3 (0f, 0f, -300f);
 			gameObject.SetActive(false);
 		}
 		Menu.canTurn = true;

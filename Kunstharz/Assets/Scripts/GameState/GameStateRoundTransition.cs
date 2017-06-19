@@ -8,7 +8,7 @@ namespace Kunstharz
 	public class GameStateRoundTransition : NetworkBehaviour, IGameState
 	{
 		public const int IDX = 2;
-		public const float transitionTime = 3.0f;
+		public float transitionTime = 3.0f;
 
 		/// <summary>
 		/// Determines how often you need to win a round to win the whole game.

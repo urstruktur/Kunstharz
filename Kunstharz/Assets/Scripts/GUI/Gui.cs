@@ -7,6 +7,8 @@ namespace Kunstharz
 {
 	public class Gui : MonoBehaviour {
 
+		public enum InstructionType {Move, Shoot, Scored, Erased, Win, Lose, PrepareGame}
+
 		public Text p1ScoreText;
 		public Text p2ScoreText;
 		public Text generalScore;
@@ -26,6 +28,12 @@ namespace Kunstharz
 
 		public GameObject shootImage;
 
+		public GameObject erasedImage;
+
+		public GameObject scoredImage;
+
+		public GameObject[] instructions = new GameObject [6];
+
 		private Vector3 currentAngle;
 		private float currentVelocity;
 
@@ -39,6 +47,10 @@ namespace Kunstharz
 
 		private bool timeHidden = false;
 
+		public ModularCrosshair crosshair;
+
+		IEnumerator currentCR;
+
 		void Start() {
 			currentAngle = GUIAnchor.transform.eulerAngles;
 
@@ -50,8 +62,8 @@ namespace Kunstharz
 			Player local = game.localPlayer;
 			Player other = game.remotePlayer;
 
-			p1ScoreText.text = ""+local.wins;
-			p2ScoreText.text = ""+other.wins;
+			/*p1ScoreText.text = ""+local.wins;
+			p2ScoreText.text = ""+other.wins;*/
 
 			generalScore.text = local.wins + ":" + other.wins;
 
@@ -89,11 +101,11 @@ namespace Kunstharz
 			UISlug();
 
 			if (Input.GetKeyDown(KeyCode.O)) {
-				ShowMoveInstruction(0.5f);
+				ShowInstruction(InstructionType.Move, 0.5f, false);
 			}
 
 			if (Input.GetKeyDown(KeyCode.P)) {
-				ShowShootInstruction(0.5f);
+				ShowInstruction(InstructionType.Shoot, 0.5f, false);
 			}
 
 		}
@@ -113,22 +125,21 @@ namespace Kunstharz
 			}
 		}
 
-		public void ShowMoveInstruction(float duration) {
-			moveImage.SetActive(true);
-			StartCoroutine(SetInstructionsInactive(duration));
+		public void ShowInstruction (InstructionType it, float duration, bool hideCrosshair) {
+			if (currentCR != null) StopCoroutine(currentCR);
+			StartCoroutine(SetInstructionsInactive(0));
+			instructions[(int)it].SetActive(true);
+			if (hideCrosshair) {crosshair.HideCrosshair();}
+			currentCR = SetInstructionsInactive(duration);
+			StartCoroutine(currentCR);
 			moveInstructionShown = true;
 		}
 
-		public void ShowShootInstruction(float duration) {
-			shootImage.SetActive(true);
-			StartCoroutine(SetInstructionsInactive(duration));
-		}
-
 		IEnumerator SetInstructionsInactive(float duration) {
-         	yield return new WaitForSeconds(duration);
-			shootImage.SetActive(false);
-			moveImage.SetActive(false);
+			if (duration > 0) yield return new WaitForSeconds(duration);
+			for (int i = 0; i < instructions.Length; i++) { instructions[i].SetActive(false); }
 			moveInstructionShown = false;
+			crosshair.ShowCrosshair();
     	}
 
 		public void ShowTime(float duration) {
