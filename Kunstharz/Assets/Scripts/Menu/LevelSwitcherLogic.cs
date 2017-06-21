@@ -19,6 +19,8 @@ public class LevelSwitcherLogic : MonoBehaviour {
 	private int futureSelectedLevelIdx;
 	Vector3 [] levelPosition;
 
+	public Material [] skyBoxMaterials;
+
 	private bool isSwitchingLevel {
 		get {
 			return futureSelectedLevelIdx != selectedLevelIdx;
@@ -75,8 +77,9 @@ public class LevelSwitcherLogic : MonoBehaviour {
 				oldLevel.gameObject.SetActive(false);
 			});
 
-			if(OnLevelSwitch != null)
-			OnLevelSwitch();
+			if(OnLevelSwitch != null) OnLevelSwitch();
+
+			RenderSettings.skybox = skyBoxMaterials[selectedLevelIdx];
 
 		}
 	}
