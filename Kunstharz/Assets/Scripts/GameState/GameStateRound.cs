@@ -48,7 +48,7 @@ namespace Kunstharz
 				DeterminePlayerSelectionStates();
 
 				if(timeoutEnabled) {
-					StartCoroutine("CheckTimeouts"); 
+					StartCoroutine(CheckTimeouts()); 
 				}
 			}
 		}
@@ -56,7 +56,8 @@ namespace Kunstharz
 		public void Exit(GameContext ctx) {
 			if(isServer) {
 				if(timeoutEnabled) {
-					StopCoroutine("CheckTimeouts");
+					print("Stopped running timeout");
+					StopAllCoroutines();
 				}
 			}
 		}
@@ -197,6 +198,7 @@ namespace Kunstharz
 		}
 
 		private IEnumerator CheckTimeouts() {
+			print("Checking timeouts");
 			yield return new WaitForSeconds(timeout);
 
 			var p1 = ctx.localPlayer;
@@ -231,6 +233,7 @@ namespace Kunstharz
 
 			if(p1WasInactive || p2WasInactive) {
 				// If either player timed out, start next round later
+				print("Ending round in timeouts");
 				EndRound();
 			}
 		}
