@@ -48,12 +48,15 @@ namespace Kunstharz
 				DeterminePlayerSelectionStates();
 
 				if(timeoutEnabled) {
-					StartCoroutine(CheckTimeouts()); 
+					StartCoroutine("CheckTimeouts"); 
 				}
 			}
 		}
 
 		public void Exit(GameContext ctx) {
+			if(isServer) {
+				StopCoroutine("CheckTimeouts");
+			}
 		}
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {
