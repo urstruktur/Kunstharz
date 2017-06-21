@@ -67,7 +67,8 @@ namespace Kunstharz
 
         public void playShot(GameObject player)
         {
-            FMODUnity.RuntimeManager.PlayOneShot(shoot, player.transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot(shoot, player.transform.position);
+            FMODUnity.RuntimeManager.PlayOneShotAttached(shoot, player);
         }
 
         public void playMotionMissed()
