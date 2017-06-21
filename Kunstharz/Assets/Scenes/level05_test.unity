@@ -1357,7 +1357,6 @@ MonoBehaviour:
   - {fileID: 272924062}
   - {fileID: 2009157238}
   GUIAnchor: {fileID: 935075407}
-  speed: 0.5
   moveImage: {fileID: 0}
   shootImage: {fileID: 0}
   erasedImage: {fileID: 0}
@@ -1749,6 +1748,10 @@ Prefab:
     - target: {fileID: 4851102876110434, guid: b82d333e3a1a36140b813ec559fa96f3, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1893694293439032, guid: b82d333e3a1a36140b813ec559fa96f3, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b82d333e3a1a36140b813ec559fa96f3, type: 2}
