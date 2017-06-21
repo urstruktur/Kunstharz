@@ -361,6 +361,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4115561721009510}
+  - component: {fileID: 114085547704194712}
   m_Layer: 0
   m_Name: GameEssentials
   m_TagString: Untagged
@@ -1235,6 +1236,38 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114085547704194712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590592623865912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 208
+    i1: 60
+    i2: 33
+    i3: 48
+    i4: 217
+    i5: 103
+    i6: 6
+    i7: 164
+    i8: 8
+    i9: 62
+    i10: 5
+    i11: 121
+    i12: 228
+    i13: 78
+    i14: 137
+    i15: 32
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114088794966288998
 MonoBehaviour:
   m_ObjectHideFlags: 1
