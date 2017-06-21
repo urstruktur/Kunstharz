@@ -15,11 +15,8 @@ namespace Kunstharz {
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
-		private GameContext ctx;
-
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
-			ctx = GameContext.instance;
 		}
 
 		void Update () {
