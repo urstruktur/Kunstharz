@@ -21,6 +21,7 @@ namespace Kunstharz
 			FindPlayers(ctx);
 			AssignLocalPlayerName();
 			GiveCameraToPlayer(ctx.localPlayer);
+			SetKickoffUI();
 
 			if(isServer) {
 				ctx.localPlayer.wins = 0;
@@ -62,6 +63,13 @@ namespace Kunstharz
 
 		private void AssignLocalPlayerName() {
 			ctx.localPlayer.CmdSetPlayerName(ctx.localPlayerName);
+		}
+
+		private void SetKickoffUI() {
+			var crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
+			var gui = GameObject.Find ("GUI").GetComponent<Gui> ();
+			crosshair.ShowPrepareTimer(GameContext.instance.GetComponent<GameStateKickoff>().kickoffDuration);
+			gui.ShowInstruction(Gui.InstructionType.PrepareGame, GameContext.instance.GetComponent<GameStateKickoff>().kickoffDuration, true);
 		}
 	}
 }

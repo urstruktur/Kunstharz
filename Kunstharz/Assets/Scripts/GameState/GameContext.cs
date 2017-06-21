@@ -39,6 +39,13 @@ namespace Kunstharz
 			print("Changing idx to " + newIdx);
 			current.Exit(this);
 			currentStateIdx = newIdx;
+			// Doing this in a coroutine ensures we can change the state within enter
+			// Which can not be done called from the hook
+			StartCoroutine(EnterLater());
+		}
+
+		private System.Collections.IEnumerator EnterLater() {
+			yield return new WaitForEndOfFrame();
 			current.Enter(this);
 		}
 

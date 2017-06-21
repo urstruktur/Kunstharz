@@ -48,8 +48,6 @@ namespace Kunstharz {
 			transform.rotation = spawnRotation;
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
-			crosshair.ShowPrepareTimer(GameContext.instance.GetComponent<GameStateKickoff>().kickoffDuration);
-			gui.ShowInstruction(Gui.InstructionType.PrepareGame, GameContext.instance.GetComponent<GameStateKickoff>().kickoffDuration, true);
 		}
 
 		void Update() {
@@ -148,65 +146,6 @@ namespace Kunstharz {
 			ctx.Selected(this, direction);
 		}
 
-		/*[Command]
-		void CmdSelectedTarget(Target target) {
-			ctx.PlayerSelectedTarget(this, target);
-		}
-
-		void MotionFinished (Player movedPlayer) {
-			ctx.PlayerFinishedMotion(this);
-
-			if (isLocalPlayer) {
-				CmdMotionFinished();
-			}
-		}
-
-		[Command]
-		void CmdMotionFinished () {
-			ctx.PlayerFinishedMotion(this);
-		}
-		
-		void SelectedTarget(Target target) {
-			ctx.PlayerSelectedTarget(this, target);
-
-			if(isClient) {
-				CmdSelectedTarget(target);
-			}
-
-			if (state == PlayerState.SelectingShot) {
-				SendMessage ("SetShootTarget", target);
-				CmdSetState (PlayerState.ExecutingShot);
-
-                ImageEffectSuperformula i = Camera.main.GetComponent<ImageEffectSuperformula>();
-                if (i != null)
-                {
-                    i.Shoot();
-                }
-
-				crosshair.ShowShootCrosshair();
-				gui.ShowShootInstruction(0.5f);
-            } else {
-				SendMessage ("SetFlyTarget", target);
-                if (!Motion.allowMoveDebugStatic)
-                {
-                    CmdSetState(PlayerState.SelectedMotion);
-                }
-
-                if(Motion.allowMoveDebugStatic)
-                {
-                    GetComponent<Motion>().enabled = true;
-                }
-
-                ImageEffectShockwave i = Camera.main.GetComponent<ImageEffectShockwave>();
-                if(i != null)
-                {
-                    i.Shock(target.position);
-                }
-
-			}
-		}
-		*/
-
 		[Command]
 		public void CmdWon() {
 			++wins;
@@ -240,24 +179,6 @@ namespace Kunstharz {
 		void OnWinsChange(int wins) {
 			this.wins = wins;
 			SendMessageUpwards ("PlayerWon", this);
-
-			int roundsWinCount = GameContext.instance.GetComponent<GameStateRound>().roundsWinCount;
-
-			if (ctx.localPlayer.state == PlayerState.Victorious) {
-				if (this.wins >= roundsWinCount || ctx.remotePlayer.wins >= roundsWinCount) {
-					gui.ShowInstruction(Gui.InstructionType.Win, GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout, true);
-					crosshair.ShowFinishedTimer(GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout);
-				} else {
-					gui.ShowInstruction(Gui.InstructionType.Scored, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
-				}	
-			} else if (ctx.localPlayer.state == PlayerState.Dead) {
-				if (this.wins >= roundsWinCount || ctx.remotePlayer.wins >= roundsWinCount) {
-					gui.ShowInstruction(Gui.InstructionType.Lose, GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout, true);
-					crosshair.ShowFinishedTimer(GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout);
-				} else {
-					gui.ShowInstruction(Gui.InstructionType.Erased, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
-				}
-			}
 		}
         
         // only executed locally
@@ -265,16 +186,6 @@ namespace Kunstharz {
         {
             gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().materials[1].color = Color.green;
         }
-
-		[Command]
-		public void CmdInstantiate(GameObject go) {
-			NetworkServer.Spawn(go);
-		}
-
-		[Command]
-		public void CmdDestroy(GameObject go) {
-			NetworkServer.Destroy(go);
-		}
 
         void OnApplicationFocus(bool focus)
         {
