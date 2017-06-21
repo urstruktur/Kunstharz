@@ -95,8 +95,10 @@ namespace Kunstharz
 		}
 
 		public void UpdatePlayerNames(GameContext game) {
-			p1Name.text = ""+game.localPlayer.playerName;
-			p2Name.text = ""+game.remotePlayer.playerName;	
+			if (game != null) {
+				p1Name.text = ""+game.localPlayer.playerName;
+				p2Name.text = ""+game.remotePlayer.playerName;
+			}
 		}
 
 		void LateUpdate() {

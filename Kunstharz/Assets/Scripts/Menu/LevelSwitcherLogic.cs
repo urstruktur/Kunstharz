@@ -79,6 +79,8 @@ public class LevelSwitcherLogic : MonoBehaviour {
 
 			if(OnLevelSwitch != null) OnLevelSwitch();
 
+			LeanTween.value(gameObject, LerpSkybox, 0f, 1f, levelSwitchTime);
+
 			RenderSettings.skybox = skyBoxMaterials[futureSelectedLevelIdx];
 
 		}
@@ -167,6 +169,10 @@ public class LevelSwitcherLogic : MonoBehaviour {
 		leftArrow.SetActive(toggle);
 		rightArrow.SetActive(toggle);
 		chooseGameButton.SetActive(choose);
+	}
+
+	void LerpSkybox(float value) {
+
 	}
 
 }

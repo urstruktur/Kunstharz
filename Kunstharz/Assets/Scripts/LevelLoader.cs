@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 /// <summary>
 /// Responsible for preparing a level to be played.
-/// </summary>
+/// </summary> 
 
 namespace Kunstharz {
 	public class LevelLoader : MonoBehaviour {
@@ -75,28 +75,40 @@ namespace Kunstharz {
             /*LoadLevel(testLevelGeometry);
             LeanTween.delayedCall(3f, () => {*/
 
-                if (canLoad && !NetworkManager.singleton.isNetworkActive)
-                {
+                if (canLoad && !NetworkManager.singleton.isNetworkActive) {
                     canLoad = false;
-					NetworkControl control = (NetworkControl) NetworkManager.singleton;
-					//control.onlineScene = levelSceneName;
-					control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
-					control.maxConnections = 2;
-					control.StartHost();
-                    //DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
+					GameObject.Find("Background Camera").GetComponent<MenuPostProcessing>().SetFadeOut(0.5f);
+					LeanTween.delayedCall(0.5f, Start);
                 }
 
             //});
 		}
 
+		private void Start() {
+			NetworkControl control = (NetworkControl) NetworkManager.singleton;
+			//control.onlineScene = levelSceneName;
+			control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
+			control.maxConnections = 2;
+			control.StartHost();
+            //DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
+		}
+
+		string hostname;
+
 		public void JoinUgly(string hostname) {
 			if (canLoad && !NetworkManager.singleton.isNetworkActive) {
 				canLoad = false;
-				print ("Connecting with " + hostname);
-				NetworkManager.singleton.networkAddress = hostname;
-				NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
-				NetworkManager.singleton.StartClient ();
+				this.hostname = hostname;
+				GameObject.Find("Background Camera").GetComponent<MenuPostProcessing>().SetFadeOut(0.5f);
+				LeanTween.delayedCall(0.5f, Join).setOnCompleteParam(hostname);
 			}
+		}
+
+		private void Join() {
+			print ("Connecting with " + hostname);
+			NetworkManager.singleton.networkAddress = hostname;
+			NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
+			NetworkManager.singleton.StartClient ();
 		}
 	}
 }

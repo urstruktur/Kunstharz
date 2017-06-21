@@ -32,4 +32,21 @@ public class MenuPostProcessing : MonoBehaviour {
 		profile.colorGrading.settings = colorGrading;
 	}
 
+	public void SetFadeOut(float duration) {
+		LeanTween.value (gameObject, UpdateWhiteLevel, 5.3f, 0.1f, duration).setEaseInOutSine();
+		LeanTween.value (gameObject, UpdateWhiteClip, 10f, 1f, duration/2).setEaseInOutSine();
+	}
+
+	private void UpdateWhiteClip(float value) {
+		ColorGradingModel.Settings colorGrading = profile.colorGrading.settings;
+		colorGrading.tonemapping.neutralWhiteClip = value;
+		profile.colorGrading.settings = colorGrading;
+	}
+
+	private void UpdateWhiteLevel(float value) {
+		ColorGradingModel.Settings colorGrading = profile.colorGrading.settings;
+		colorGrading.tonemapping.neutralWhiteLevel = value;
+		profile.colorGrading.settings = colorGrading;
+	}
+
 }
