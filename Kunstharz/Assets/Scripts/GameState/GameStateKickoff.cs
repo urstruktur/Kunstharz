@@ -26,6 +26,8 @@ namespace Kunstharz
 			if(isServer) {
 				ctx.localPlayer.wins = 0;
 				ctx.remotePlayer.wins = 0;
+				ctx.localPlayer.RpcResetPosition();
+				ctx.remotePlayer.RpcResetPosition();
 				StartCoroutine(StartRoundLater());
 			}
         }

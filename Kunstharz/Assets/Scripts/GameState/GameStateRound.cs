@@ -55,7 +55,9 @@ namespace Kunstharz
 
 		public void Exit(GameContext ctx) {
 			if(isServer) {
-				StopCoroutine("CheckTimeouts");
+				if(timeoutEnabled) {
+					StopCoroutine("CheckTimeouts");
+				}
 			}
 		}
 
