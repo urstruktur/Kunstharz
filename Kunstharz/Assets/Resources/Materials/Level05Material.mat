@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: TestMaterial
+  m_Name: Level05Material
   m_Shader: {fileID: 4800000, guid: 078b2a90d062e49c9903390f113619d3, type: 3}
-  m_ShaderKeywords: COLR_1_2
+  m_ShaderKeywords: BACK_SOLID_ON COLR_1_2 FRONT_SOLID_ON LEFT_SOLID_ON RIGHT_SOLID_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
@@ -29,16 +29,16 @@ Material:
     - _Rotation: 0
     m_Colors:
     - _AmbientColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - _BackBottomColor: {r: 1, g: 0.68275857, b: 0, a: 0}
-    - _BackTopColor: {r: 0.029563893, g: 0, b: 0.08088237, a: 0}
-    - _BottomColor: {r: 1, g: 0.68275857, b: 0, a: 0}
-    - _FrontBottomColor: {r: 1, g: 0.68275857, b: 0, a: 0}
-    - _FrontTopColor: {r: 0.029563893, g: 0, b: 0.08088237, a: 0}
-    - _LeftBottomColor: {r: 1, g: 0.68275857, b: 0, a: 0}
-    - _LeftTopColor: {r: 0.029563893, g: 0, b: 0.08088237, a: 0}
+    - _BackBottomColor: {r: 1, g: 0.5803922, b: 0.62352943, a: 1}
+    - _BackTopColor: {r: 1, g: 0.5803922, b: 0.62352943, a: 1}
+    - _BottomColor: {r: 0.96862745, g: 0.21176471, b: 0.3254902, a: 1}
+    - _FrontBottomColor: {r: 0.96862745, g: 0.21176471, b: 0.3254902, a: 1}
+    - _FrontTopColor: {r: 0.96862745, g: 0.21176471, b: 0.3254902, a: 1}
+    - _LeftBottomColor: {r: 1, g: 0.5803922, b: 0.62352943, a: 1}
+    - _LeftTopColor: {r: 1, g: 0.5803922, b: 0.62352943, a: 1}
     - _LightTint: {r: 1, g: 1, b: 1, a: 0}
     - _LightmapColor: {r: 0, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _RightBottomColor: {r: 1, g: 0.68275857, b: 0, a: 0}
-    - _RightTopColor: {r: 0.029563893, g: 0, b: 0.08088237, a: 0}
-    - _TopColor: {r: 0.029563893, g: 0, b: 0.08088237, a: 0}
+    - _RightBottomColor: {r: 1, g: 0.5803922, b: 0.62352943, a: 1}
+    - _RightTopColor: {r: 1, g: 0.5803922, b: 0.62352943, a: 1}
+    - _TopColor: {r: 0.96862745, g: 0.21176471, b: 0.3254902, a: 1}
