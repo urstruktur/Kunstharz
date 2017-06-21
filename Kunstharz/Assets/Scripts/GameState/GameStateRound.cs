@@ -48,6 +48,7 @@ namespace Kunstharz
 				DeterminePlayerSelectionStates();
 
 				if(timeoutEnabled) {
+					StopAllCoroutines();
 					StartCoroutine(CheckTimeouts()); 
 				}
 			}
