@@ -47,6 +47,8 @@ namespace Kunstharz
 
 		private bool timeHidden = false;
 
+        private bool warningPlayed = false;
+
 		public ModularCrosshair crosshair;
 
 		IEnumerator currentCR;
@@ -148,15 +150,24 @@ namespace Kunstharz
 			timeID = LeanTween.value(gameObject, UpdateTime, 1f, 0f, duration).setOnComplete(TimeComplete).id;
 		}
 
+
 		void UpdateTime(float value) {
 			if (!moveInstructionShown && !time.activeInHierarchy && !timeHidden) {
 				time.SetActive (true);
 			}
 			time.GetComponent<Image>().fillAmount = value;
+
+            // play warning sound when round time is at 90%
+            if (!timeHidden && value < 0.1 && !warningPlayed)
+            {
+                FindObjectOfType<Soundsystem>().playWarning();
+                warningPlayed = true;
+            }
 		}
 
 		void TimeComplete () {
 			time.SetActive (false);
+            warningPlayed = false;
 		}
 
 		public void HideTime() {

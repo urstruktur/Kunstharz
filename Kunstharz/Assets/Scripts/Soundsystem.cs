@@ -24,6 +24,8 @@ namespace Kunstharz
         private string reject = "event:/ui/reject";
         [FMODUnity.EventRef]
         private string newGameInLobby = "event:/ui/newGameInLobby";
+        [FMODUnity.EventRef]
+        private string warning = "event:/ui/warning";
 
         // Use this for initialization
         void Start () {
@@ -74,6 +76,11 @@ namespace Kunstharz
         public void playMotionMissed()
         {
             FMODUnity.RuntimeManager.PlayOneShot(reject);
+        }
+
+        public void playWarning()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(warning);
         }
     
         // Update is called once per frame

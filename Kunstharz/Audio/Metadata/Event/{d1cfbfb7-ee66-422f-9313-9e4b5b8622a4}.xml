@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.01.08.00">
     <object class="Event" id="{d1cfbfb7-ee66-422f-9313-9e4b5b8622a4}">
         <property name="name">
-            <value>timeRunningOut</value>
+            <value>warning</value>
         </property>
         <property name="outputFormat">
             <value>0</value>
