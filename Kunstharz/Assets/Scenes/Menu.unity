@@ -198,7 +198,7 @@ MonoBehaviour:
   hover: event:/ui/hover
   click: event:/ui/click
   select: event:/ui/click
-  typing: event:/ui/click
+  typing: event:/ui/type
   zoomIn: event:/ui/click
   zoomOut: event:/ui/click
   hostGame: event:/ui/gameHosted
@@ -3687,7 +3687,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 14886396}
-        m_MethodName: PlayClickSound
+        m_MethodName: PlayTypeSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5282,7 +5282,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 14886396}
-        m_MethodName: PlayClickSound
+        m_MethodName: PlayTypeSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
