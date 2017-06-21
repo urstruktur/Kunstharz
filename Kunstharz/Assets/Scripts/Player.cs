@@ -12,6 +12,10 @@ namespace Kunstharz {
 
 		[SyncVar(hook = "OnStateChange")]
 		public PlayerState state = PlayerState.AwaitingRoundStart;
+
+		[SyncVar]
+		public DeathReason deathReason = DeathReason.None;
+
 		[SyncVar(hook = "OnWinsChange")]
 		public int wins = 0;
 
