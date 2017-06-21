@@ -29,9 +29,9 @@ namespace Kunstharz
 		/// </summary>
 		public bool synchronizedMotion = true;
 
-		private GameContext ctx;
-
 		public Vector3 camLocalPosition = new Vector3(1.0f, 0.0f, 0.0f);
+
+		private GameContext ctx;
 
 		void Start() {
 			if(timeoutEnabled && !synchronizedMotion) {
@@ -44,22 +44,16 @@ namespace Kunstharz
 			this.ctx = ctx;
 
 			if(isServer) {
+				StopAllCoroutines();
+
 				ResetPlayerDeathReasons();
 				DeterminePlayerSelectionStates();
-
-				if(timeoutEnabled) {
-					StopAllCoroutines();
-					StartCoroutine(CheckTimeouts()); 
-				}
 			}
 		}
 
 		public void Exit(GameContext ctx) {
 			if(isServer) {
-				if(timeoutEnabled) {
-					print("Stopped running timeout");
-					StopAllCoroutines();
-				}
+				StopAllCoroutines();
 			}
 		}
 
@@ -129,6 +123,7 @@ namespace Kunstharz
 					m2.RpcLaunch();
 
 					float maxDuration = Math.Max(m1.FlightDuration(target), m2.FlightDuration(target));
+
 					StartCoroutine(ReevaluatePlayerStatesLater(maxDuration));
 				}
 			} else {
@@ -156,6 +151,7 @@ namespace Kunstharz
 		}
 
 		IEnumerator ReevaluatePlayerStatesLater(float duration) {
+			StopCoroutine("CheckTimeouts");
 			yield return new WaitForSeconds(duration);
 			DeterminePlayerSelectionStates();
 		}
@@ -176,6 +172,8 @@ namespace Kunstharz
 				ctx.localPlayer.RpcVisualizeMotionSelectionReady();
 				ctx.remotePlayer.RpcVisualizeMotionSelectionReady();
 			}
+
+			StartCoroutine("CheckTimeouts");
 		}
 
 		private bool LineOfSightExists() {
@@ -199,43 +197,41 @@ namespace Kunstharz
 		}
 
 		private IEnumerator CheckTimeouts() {
-			print("Checking timeouts");
-			yield return new WaitForSeconds(timeout);
+			if(timeoutEnabled) {
+				yield return new WaitForSeconds(timeout);
 
-			var p1 = ctx.localPlayer;
-			var p2 = ctx.remotePlayer;
+				var p1 = ctx.localPlayer;
+				var p2 = ctx.remotePlayer;
 
-			bool p1WasInactive = p1.state == PlayerState.SelectingMotion ||
-			                     p1.state == PlayerState.SelectingShot;
+				bool p1Acted = p1.state != PlayerState.SelectingMotion &&
+				               p1.state != PlayerState.SelectingShot;
+				bool p2Acted = p2.state != PlayerState.SelectingMotion &&
+				               p2.state != PlayerState.SelectingShot;
 
-			
-			bool p2WasInactive = p2.state == PlayerState.SelectingMotion ||
-			                     p2.state == PlayerState.SelectingShot;
+				if(!p1Acted || !p2Acted) {
+					if(!p1Acted && !p2Acted) {
+						p1.state = PlayerState.Dead;
+						p2.state = PlayerState.Dead;
+						p1.deathReason = DeathReason.TimedOut;
+						p2.deathReason = DeathReason.TimedOut;
+						print("Both timed out");
+					} else if(!p1Acted) {
+						p1.state = PlayerState.Dead;
+						p1.deathReason = DeathReason.TimedOut;
+						p2.state = PlayerState.Victorious;
+						p2.CmdWon();
+						print("P1 timed out");
+					} else if(!p2Acted) {
+						p1.state = PlayerState.Victorious;
+						p2.state = PlayerState.Dead;
+						p2.deathReason = DeathReason.TimedOut;
+						p1.CmdWon();
+						print("P2 timed out");
+					}
 
-			if(p1WasInactive && p2WasInactive) {
-				p1.state = PlayerState.Dead;
-				p2.state = PlayerState.Dead;
-				p1.deathReason = DeathReason.TimedOut;
-				p2.deathReason = DeathReason.TimedOut;
-				print("Both timed out");
-			} else if(p1WasInactive) {
-				p1.state = PlayerState.Dead;
-				p1.deathReason = DeathReason.TimedOut;
-				p2.state = PlayerState.Victorious;
-				p2.CmdWon();
-				print("P1 timed out");
-			} else if(p2WasInactive) {
-				p1.state = PlayerState.Victorious;
-				p2.state = PlayerState.Dead;
-				p2.deathReason = DeathReason.TimedOut;
-				p1.CmdWon();
-				print("P2 timed out");
-			}
-
-			if(p1WasInactive || p2WasInactive) {
-				// If either player timed out, start next round later
-				print("Ending round in timeouts");
-				EndRound();
+					// If either player timed out, start next round later
+					EndRound();
+				}
 			}
 		}
 
@@ -245,6 +241,11 @@ namespace Kunstharz
 		}
 
 		private void EndRound() {
+			StartCoroutine(EndRoundAfterSomeTimeToEnsurePlayerIsSyncedToClient());
+		}
+
+		private IEnumerator EndRoundAfterSomeTimeToEnsurePlayerIsSyncedToClient() {
+			yield return new WaitForSecondsRealtime(0.02f);
 			if(ctx.localPlayer.wins >= roundsWinCount ||
 			   ctx.remotePlayer.wins >= roundsWinCount) {
 
