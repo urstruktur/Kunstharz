@@ -7,7 +7,7 @@ namespace Kunstharz
 {
 	public class Gui : MonoBehaviour {
 
-		public enum InstructionType {Move, Shoot, Scored, Erased, Win, Lose, PrepareGame}
+		public enum InstructionType {Move, Shoot, Scored, Erased, TimeOut, TimeOutNonLocal, TimeOutBoth, Win, Lose, PrepareGame}
 
 		public Text p1ScoreText;
 		public Text p2ScoreText;
@@ -22,7 +22,7 @@ namespace Kunstharz
 		public Image[] scoreImages = new Image [6];
 
 		public GameObject GUIAnchor;
-		public float speed = 5f;
+		private float speed = 1f;
 
 		public GameObject moveImage;
 
@@ -34,8 +34,8 @@ namespace Kunstharz
 
 		public GameObject[] instructions = new GameObject [6];
 
-		private Vector3 currentAngle;
-		private float currentVelocity;
+		private Quaternion currentAngle;
+		private Quaternion currentVelocity;
 
 		bool slug = true;
 
@@ -52,10 +52,10 @@ namespace Kunstharz
 		IEnumerator currentCR;
 
 		void Start() {
-			currentAngle = GUIAnchor.transform.eulerAngles;
+			currentAngle = GUIAnchor.transform.rotation;
 
 			//GUIAnchor.transform.position = Camera.main.transform.position;
-			GUIAnchor.transform.eulerAngles = Camera.main.transform.eulerAngles;
+			GUIAnchor.transform.rotation = Camera.main.transform.rotation;
 		}
 
 		public void UpdateScore(GameContext game) {
@@ -112,16 +112,19 @@ namespace Kunstharz
 
 		private void UISlug() {
 			if (Camera.main != null) {
-				Vector3 currentCameraAngle = Camera.main.transform.eulerAngles;
+				Quaternion currentCameraAngle = Camera.main.transform.rotation;
 
 				//GUIAnchor.transform.position = Camera.main.transform.position;
 
-				currentAngle = new Vector3 (
+				/*currentAngle = new Vector3 (
 					Mathf.SmoothDampAngle (currentAngle.x, currentCameraAngle.x, ref currentVelocity, Time.deltaTime * speed),
-					Mathf.SmoothDampAngle (currentAngle.y, currentCameraAngle.y, ref currentVelocity, Time.deltaTime * speed * 1.5f),
-					Mathf.SmoothDampAngle (currentAngle.z, currentCameraAngle.z, ref currentVelocity, Time.deltaTime * speed));
+					Mathf.SmoothDampAngle (currentAngle.y, currentCameraAngle.y, ref currentVelocity, Time.deltaTime * speed),
+					Mathf.SmoothDampAngle (currentAngle.z, currentCameraAngle.z, ref currentVelocity, Time.deltaTime * speed));*/
+
+				//currentAngle = Vector3.SmoothDamp(currentAngle, currentCameraAngle, ref currentVelocity, Time.deltaTime * speed);
 	
-				GUIAnchor.transform.eulerAngles = currentAngle;
+				//GUIAnchor.transform.rotation = currentAngle;
+				GUIAnchor.transform.rotation = Quaternion.Slerp(currentAngle, currentCameraAngle, Time.time * speed);
 			}
 		}
 

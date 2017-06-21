@@ -50,22 +50,21 @@ namespace Kunstharz
 
 			if(ctx.localPlayer.state == PlayerState.Dead && ctx.remotePlayer.state == PlayerState.Victorious) {
 				// Local player lost
-				gui.ShowInstruction(Gui.InstructionType.Erased, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
+				//gui.ShowInstruction(Gui.InstructionType.Erased, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
 				if(ctx.localPlayer.deathReason == DeathReason.Shot) {
-					// Lost because local player was shot
-				} else {
-					// Lost because local player was the only one to time out
+					gui.ShowInstruction(Gui.InstructionType.Erased, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
+				} else { 
+					gui.ShowInstruction(Gui.InstructionType.TimeOut, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
 				}
-			} else if(ctx.remotePlayer.state == PlayerState.Dead && ctx.localPlayer.state == PlayerState.Victorious) {
-				gui.ShowInstruction(Gui.InstructionType.Scored, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
+			} else if(ctx.localPlayer.state == PlayerState.Victorious && ctx.remotePlayer.state == PlayerState.Dead) {
 				if(ctx.remotePlayer.deathReason == DeathReason.Shot) {
-					// Won because remote player was shot
+					gui.ShowInstruction(Gui.InstructionType.Scored, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
 				} else {
-					// Won because remote player timed out
+					gui.ShowInstruction(Gui.InstructionType.TimeOutNonLocal, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
 				}
 			} else {
 				// Both died, can only be the case when both timed out
-				gui.ShowInstruction(Gui.InstructionType.Erased, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
+				gui.ShowInstruction(Gui.InstructionType.TimeOutBoth, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
 			}
 		}
 	}

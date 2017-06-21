@@ -79,7 +79,6 @@ public class LevelSwitcherLogic : MonoBehaviour {
 
 			if(OnLevelSwitch != null) OnLevelSwitch();
 
-			Debug.Log(skyBoxMaterials[futureSelectedLevelIdx].name + " selected");
 			RenderSettings.skybox = skyBoxMaterials[futureSelectedLevelIdx];
 
 		}
