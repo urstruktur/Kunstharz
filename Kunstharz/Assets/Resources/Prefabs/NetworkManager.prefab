@@ -55,26 +55,27 @@ MonoBehaviour:
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
   m_NetworkAddress: localhost
-  m_DontDestroyOnLoad: 1
+  m_DontDestroyOnLoad: 0
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1561821470740654, guid: 62ded4dfe9d20428cad22b929d49ec26,
-    type: 2}
-  m_AutoCreatePlayer: 1
+  m_PlayerPrefab: {fileID: 0}
+  m_AutoCreatePlayer: 0
   m_PlayerSpawnMethod: 1
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
+  - {fileID: 1561821470740654, guid: 62ded4dfe9d20428cad22b929d49ec26, type: 2}
+  - {fileID: 1797036882003670, guid: 89c3f4b3eae8d4ae99d548a535273ba9, type: 2}
   - {fileID: 1590592623865912, guid: d03c2130d96706a4083e0579e44e8920, type: 2}
   - {fileID: 1747042753494940, guid: c871cc45f92696a42bdd7ba00f714b73, type: 2}
   - {fileID: 1958421361866840, guid: 80581985da6e5a849b77c7650099b1d1, type: 2}
   - {fileID: 1749707237715474, guid: 8e535a1e2dc09a1458c1cc9d903d9235, type: 2}
   - {fileID: 1899998264948226, guid: 681e8089992315c4b9c8da99ac6cd4df, type: 2}
   - {fileID: 1053577588733448, guid: b82d333e3a1a36140b813ec559fa96f3, type: 2}
-  m_CustomConfig: 0
-  m_MaxConnections: 4
+  m_CustomConfig: 1
+  m_MaxConnections: 2
   m_ConnectionConfig:
     m_PacketSize: 1440
     m_FragmentSize: 500
@@ -128,4 +129,5 @@ MonoBehaviour:
   matchSize: 0
   isNetworkActive: 0
   matchMaker: {fileID: 0}
-  contextPrefab: {fileID: 0}
+  contextPrefab: {fileID: 1797036882003670, guid: 89c3f4b3eae8d4ae99d548a535273ba9,
+    type: 2}
