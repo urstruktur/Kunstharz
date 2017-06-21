@@ -18,6 +18,29 @@ public class ModularCrosshair : MonoBehaviour {
 	public CrosshairModes crosshairMode = CrosshairModes.Move;
 
 	CrosshairModes currentCrosshairMode = CrosshairModes.Move;
+
+	void Start() {
+		if (GameObject.Find("Level01_Geometry") != null) {
+			prepareTimer.GetComponent<Text>().color = CreateColor(201, 38, 38);
+			finishedTimer.GetComponent<Text>().color = CreateColor(201, 38, 38);
+		} else if (GameObject.Find("Level02_Geometry") != null) {
+			prepareTimer.GetComponent<Text>().color = CreateColor(133, 66, 191);
+			finishedTimer.GetComponent<Text>().color = CreateColor(133, 66, 191);
+		} else if (GameObject.Find("Level03_Geometry") != null) {
+			prepareTimer.GetComponent<Text>().color = CreateColor(255, 119, 45);
+			finishedTimer.GetComponent<Text>().color = CreateColor(255, 119, 45);
+		} else if (GameObject.Find("Level04_Geometry") != null) {
+			prepareTimer.GetComponent<Text>().color = CreateColor(26, 135, 163);
+			finishedTimer.GetComponent<Text>().color = CreateColor(26, 135, 163);
+		} else if (GameObject.Find("Level05_Geometry") != null) {
+			prepareTimer.GetComponent<Text>().color = CreateColor(232, 90, 116);
+			finishedTimer.GetComponent<Text>().color = CreateColor(232, 90, 116);
+		}
+	}
+
+	private Color CreateColor(int r, int g, int b) {
+		return new Color(r/255.0f, g/255.0f, b/255.0f);
+	}
 	
 	// Update is called once per frame
 	void Update () {
