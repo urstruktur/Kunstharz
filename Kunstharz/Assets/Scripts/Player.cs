@@ -19,6 +19,9 @@ namespace Kunstharz {
 		[SyncVar(hook = "OnWinsChange")]
 		public int wins = 0;
 
+		[SyncVar]
+		public bool approvesRematch = false;
+
 		private Vector3 spawnPosition;
 		private Quaternion spawnRotation;
 		private float remainingDeathTimeout = float.MaxValue;
@@ -238,15 +241,17 @@ namespace Kunstharz {
 			this.wins = wins;
 			SendMessageUpwards ("PlayerWon", this);
 
+			int roundsWinCount = GameContext.instance.GetComponent<GameStateRound>().roundsWinCount;
+
 			if (ctx.localPlayer.state == PlayerState.Victorious) {
-				if (this.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount || ctx.remotePlayer.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount) {
+				if (this.wins >= roundsWinCount || ctx.remotePlayer.wins >= roundsWinCount) {
 					gui.ShowInstruction(Gui.InstructionType.Win, GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout, true);
 					crosshair.ShowFinishedTimer(GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout);
 				} else {
 					gui.ShowInstruction(Gui.InstructionType.Scored, GameContext.instance.GetComponent<GameStateRoundTransition>().transitionTime, true);
 				}	
 			} else if (ctx.localPlayer.state == PlayerState.Dead) {
-				if (this.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount || ctx.remotePlayer.wins >= GameContext.instance.GetComponent<GameStateRoundTransition>().roundsWinCount) {
+				if (this.wins >= roundsWinCount || ctx.remotePlayer.wins >= roundsWinCount) {
 					gui.ShowInstruction(Gui.InstructionType.Lose, GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout, true);
 					crosshair.ShowFinishedTimer(GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout);
 				} else {

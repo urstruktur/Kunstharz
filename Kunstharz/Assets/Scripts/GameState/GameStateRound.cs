@@ -10,6 +10,11 @@ namespace Kunstharz
 	{
 		public const int IDX = 1;
 
+		/// <summary>
+		/// Determines how often you need to win a round to win the whole game.
+		/// </summary>
+		public int roundsWinCount = 3;
+
 		public bool timeoutEnabled = true;
 
 		/// <summary>
@@ -77,7 +82,7 @@ namespace Kunstharz
 						other.deathReason = DeathReason.Shot;
 						player.CmdWon();
 
-						ctx.currentStateIdx = GameStateRoundTransition.IDX;
+						EndRound();
 					} else {
 						// missed ):
 						player.RpcVisualizeShotMissed();
@@ -221,13 +226,25 @@ namespace Kunstharz
 
 			if(p1WasInactive || p2WasInactive) {
 				// If either player timed out, start next round later
-				ctx.currentStateIdx = GameStateRoundTransition.IDX;
+				EndRound();
 			}
 		}
 
 		private void ResetPlayerDeathReasons() {
 			ctx.localPlayer.deathReason = DeathReason.None;
 			ctx.remotePlayer.deathReason = DeathReason.None;
+		}
+
+		private void EndRound() {
+			if(ctx.localPlayer.wins >= roundsWinCount ||
+			   ctx.remotePlayer.wins >= roundsWinCount) {
+
+				// If someone won the game yet, go to finish
+				ctx.currentStateIdx = GameStateFinish.IDX;
+			} else {
+				// Otherwise, start a new round later
+				ctx.currentStateIdx = GameStateRoundTransition.IDX;
+			}
 		}
 	}
 }

@@ -10,24 +10,13 @@ namespace Kunstharz
 		public const int IDX = 2;
 		public float transitionTime = 3.0f;
 
-		/// <summary>
-		/// Determines how often you need to win a round to win the whole game.
-		/// </summary>
-		public int roundsWinCount = 3;
-
 		private GameContext ctx;
 
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
 
 			if(isServer) {
-				if(ctx.localPlayer.wins >= roundsWinCount ||
-				   ctx.remotePlayer.wins >= roundsWinCount) {
-
-					StartCoroutine(FinishGameLater());
-				} else {
-					StartCoroutine(StartNextRoundLater());
-				}
+				StartCoroutine(StartNextRoundLater());
 			}
         }
 
@@ -36,11 +25,6 @@ namespace Kunstharz
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {
         }
-
-		private IEnumerator FinishGameLater() {
-			yield return new WaitForEndOfFrame();
-			ctx.currentStateIdx = GameStateFinish.IDX;
-		}
 
 		private IEnumerator StartNextRoundLater() {
 			yield return new WaitForSeconds(transitionTime);

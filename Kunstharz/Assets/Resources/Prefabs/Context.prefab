@@ -164,4 +164,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4225f0726305846d9a4ee62312e3c5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionTime: 3
   roundsWinCount: 3

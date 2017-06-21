@@ -13,8 +13,6 @@ namespace Kunstharz
 		public float rematchTimeout = 10.0f;
 
 		private GameContext ctx;
-		private bool p1Approved;
-		private bool p2Approved;
 
 		bool IsStateActive() {
 			return ctx.currentStateIdx == IDX;
@@ -24,8 +22,10 @@ namespace Kunstharz
 			print("Enter finish");
 			this.ctx = ctx;
 
-			p1Approved = false;
-			p2Approved = false;
+			if(isServer) {
+				ctx.localPlayer.approvesRematch = false;
+				ctx.remotePlayer.approvesRematch = false;
+			}
 
 			StartCoroutine(StartMenuIfNoRematch());
         }
@@ -33,8 +33,12 @@ namespace Kunstharz
 		private IEnumerator StartMenuIfNoRematch() {
 			yield return new WaitForSeconds(rematchTimeout);
 
-			if(IsStateActive()) {
+			bool p1Approved = ctx.localPlayer.approvesRematch;
+			bool p2Approved = ctx.remotePlayer.approvesRematch;
+
+			if(!(p1Approved && p2Approved)) {
 				print("loading menu");
+				NetworkManager.Shutdown();
 				SceneManager.LoadScene(0);
 			} else {
 				print("Not loading menu");
@@ -47,18 +51,13 @@ namespace Kunstharz
         }
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {
-			print("Selected");
-			if(player == ctx.localPlayer) {
-				print("P1 approved");
-				p1Approved = true;
-			} else if(player == ctx.remotePlayer) {
-				print("P2 approved");
-				p2Approved = true;
-			}
+			player.approvesRematch = true;
+
+			bool p1Approved = ctx.localPlayer.approvesRematch;
+			bool p2Approved = ctx.remotePlayer.approvesRematch;
 
 			if(p1Approved && p2Approved) {
 				ctx.currentStateIdx = GameStateKickoff.IDX;
-				NetworkManager.Shutdown();
 			}
         }
 	}
