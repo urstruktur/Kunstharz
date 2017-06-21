@@ -77,7 +77,6 @@ namespace Kunstharz
 
 		[ClientRpc]
 		public void RpcLaunch() {
-			print("Launched");
 			enabled = true;
             LeanTween.move(this.gameObject, flyTargetPosition, 1.5f).setEase(LeanTweenType.easeOutQuart);
             LeanTween.rotate(this.gameObject, flyTargetOrientation.eulerAngles, 1.5f).setEase(LeanTweenType.easeOutQuart);
