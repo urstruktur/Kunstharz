@@ -25,11 +25,22 @@ public class MenuSounds : MonoBehaviour {
     [FMODUnity.EventRef]
     public string zoomOut = "event:/ui/click";
 
-	void Start () {
+    [FMODUnity.EventRef]
+    public string hostGame = "event:/ui/gameHosted";
+
+    void Start () {
 		LevelSwitcherLogic.OnLevelSwitch += PlayClickSound;
 	}
 
-	public void PlayHoverSound() {
+    public void PlayHostingSound()
+    {
+        if (Menu.canTurn)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(hostGame, Camera.main.transform.position);
+        }
+    }
+
+    public void PlayHoverSound() {
         if (Menu.canTurn) {
             FMODUnity.RuntimeManager.PlayOneShot(hover, Camera.main.transform.position);
         }   
