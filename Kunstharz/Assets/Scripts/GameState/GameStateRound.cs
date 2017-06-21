@@ -39,6 +39,7 @@ namespace Kunstharz
 			this.ctx = ctx;
 
 			if(isServer) {
+				ResetPlayerDeathReasons();
 				DeterminePlayerSelectionStates();
 
 				if(timeoutEnabled) {
@@ -73,6 +74,7 @@ namespace Kunstharz
 						player.RpcVisualizeShotHit();
 						player.state = PlayerState.Victorious;
 						other.state = PlayerState.Dead;
+						other.deathReason = DeathReason.Shot;
 						player.CmdWon();
 
 						ctx.currentStateIdx = GameStateRoundTransition.IDX;
@@ -200,15 +202,19 @@ namespace Kunstharz
 			if(p1WasInactive && p2WasInactive) {
 				p1.state = PlayerState.Dead;
 				p2.state = PlayerState.Dead;
+				p1.deathReason = DeathReason.TimedOut;
+				p2.deathReason = DeathReason.TimedOut;
 				print("Both timed out");
 			} else if(p1WasInactive) {
 				p1.state = PlayerState.Dead;
+				p1.deathReason = DeathReason.TimedOut;
 				p2.state = PlayerState.Victorious;
 				p2.CmdWon();
 				print("P1 timed out");
 			} else if(p2WasInactive) {
 				p1.state = PlayerState.Victorious;
 				p2.state = PlayerState.Dead;
+				p2.deathReason = DeathReason.TimedOut;
 				p1.CmdWon();
 				print("P2 timed out");
 			}
@@ -217,6 +223,11 @@ namespace Kunstharz
 				// If either player timed out, start next round later
 				ctx.currentStateIdx = GameStateRoundTransition.IDX;
 			}
+		}
+
+		private void ResetPlayerDeathReasons() {
+			ctx.localPlayer.deathReason = DeathReason.None;
+			ctx.remotePlayer.deathReason = DeathReason.None;
 		}
 	}
 }
