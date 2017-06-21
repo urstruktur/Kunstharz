@@ -184,7 +184,9 @@ namespace Kunstharz {
         // only executed locally
         public override void OnStartLocalPlayer()
         {
-            gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().materials[1].color = Color.green;
+            //gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().materials[1].color = Color.green;
+            // hide own player
+            gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = false;
         }
 
         void OnApplicationFocus(bool focus)
