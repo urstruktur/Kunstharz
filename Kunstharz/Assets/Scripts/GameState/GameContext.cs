@@ -19,8 +19,6 @@ namespace Kunstharz
 		public Player localPlayer;
 		public Player remotePlayer;
 
-		public string localPlayerName;
-
 		private IGameState current {
 			get {
 				return (currentStateIdx == -1)

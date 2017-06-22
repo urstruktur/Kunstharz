@@ -18,9 +18,6 @@ namespace Kunstharz
 
 			this.ctx = ctx;
 
-			FindPlayers(ctx);
-			AssignLocalPlayerName();
-			GiveCameraToPlayer(ctx.localPlayer);
 			SetKickoffUI();
 
 			if(isServer) {
@@ -42,29 +39,6 @@ namespace Kunstharz
 		private IEnumerator StartRoundLater() {
 			yield return new WaitForSeconds(kickoffDuration);
 			ctx.currentStateIdx = GameStateRound.IDX;
-		}
-
-		private void FindPlayers(GameContext ctx) {
-			foreach(var playerGO in GameObject.FindGameObjectsWithTag("Player")) {
-				Player player = playerGO.GetComponent<Player> ();
-				if(player.isLocalPlayer) {
-					ctx.localPlayer = player;
-				} else {
-					ctx.remotePlayer = player;
-				}
-			}
-		}
-
-		private void GiveCameraToPlayer(Player activePlayer) {
-			Transform camTransform = Camera.main.transform;
-
-			camTransform.parent = activePlayer.transform;
-			camTransform.localPosition = GetComponent<GameStateRound> ().camLocalPosition;
-			camTransform.GetComponent<Controls> ().enabled = true;
-		}
-
-		private void AssignLocalPlayerName() {
-			ctx.localPlayer.CmdSetPlayerName(ctx.localPlayerName);
 		}
 
 		private void SetKickoffUI() {

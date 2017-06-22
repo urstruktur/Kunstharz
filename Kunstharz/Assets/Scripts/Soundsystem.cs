@@ -26,6 +26,12 @@ namespace Kunstharz
         private string newGameInLobby = "event:/ui/newGameInLobby";
         [FMODUnity.EventRef]
         private string warning = "event:/ui/warning";
+        [FMODUnity.EventRef]
+        private string lineOfSight = "event:/ui/lineOfSight";
+        [FMODUnity.EventRef]
+        private string death = "event:/death";
+        [FMODUnity.EventRef]
+        private string startGame = "event:/ui/startGame";
 
         // Use this for initialization
         void Start () {
@@ -82,7 +88,12 @@ namespace Kunstharz
         {
             FMODUnity.RuntimeManager.PlayOneShot(warning);
         }
-    
+
+        public void playStartGame()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(startGame);
+        }
+
         // Update is called once per frame
         void Update () {
 		

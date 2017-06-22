@@ -187,6 +187,7 @@ namespace Kunstharz {
             //gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().materials[1].color = Color.green;
             // hide own player
             gameObject.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = false;
+            FindObjectOfType<Soundsystem>().playStartGame();
         }
 
         void OnApplicationFocus(bool focus)

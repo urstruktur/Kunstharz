@@ -17,7 +17,7 @@ public class MenuSounds : MonoBehaviour {
     public string select = "event:/ui/click";
 
     [FMODUnity.EventRef]
-    public string typing = "event:/ui/click";
+    public string typing = "event:/ui/type";
 
     [FMODUnity.EventRef]
     public string zoomIn = "event:/ui/click";
@@ -52,7 +52,15 @@ public class MenuSounds : MonoBehaviour {
         } 
 	}
 
-	void OnDestroy() {
+    public void PlayTypeSound()
+    {
+        if (Menu.canTurn)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(typing);
+        }
+    }
+
+    void OnDestroy() {
 		LevelSwitcherLogic.OnLevelSwitch -= PlayClickSound;
 	}
 

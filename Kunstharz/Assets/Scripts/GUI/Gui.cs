@@ -163,7 +163,7 @@ namespace Kunstharz
 			time.GetComponent<Image>().fillAmount = value;
 
             // play warning sound when round time is at 90%
-            if (!timeHidden && value < 0.1 && !warningPlayed)
+            if (!timeHidden && value < 0.25 && !warningPlayed)
             {
                 FindObjectOfType<Soundsystem>().playWarning();
                 warningPlayed = true;
