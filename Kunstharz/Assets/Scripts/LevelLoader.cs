@@ -77,38 +77,25 @@ namespace Kunstharz {
 
                 if (canLoad && !NetworkManager.singleton.isNetworkActive) {
                     canLoad = false;
-					GameObject.Find("Background Camera").GetComponent<MenuPostProcessing>().SetFadeOut(0.5f);
-					LeanTween.delayedCall(0.5f, Start);
+					NetworkControl control = (NetworkControl) NetworkManager.singleton;
+					//control.onlineScene = levelSceneName;
+					control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
+					control.maxConnections = 2;
+					control.StartHost();
+            		//DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
                 }
 
             //});
 		}
 
-		private void Start() {
-			NetworkControl control = (NetworkControl) NetworkManager.singleton;
-			//control.onlineScene = levelSceneName;
-			control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
-			control.maxConnections = 2;
-			control.StartHost();
-            //DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
-		}
-
-		string hostname;
-
 		public void JoinUgly(string hostname) {
 			if (canLoad && !NetworkManager.singleton.isNetworkActive) {
 				canLoad = false;
-				this.hostname = hostname;
-				GameObject.Find("Background Camera").GetComponent<MenuPostProcessing>().SetFadeOut(0.5f);
-				LeanTween.delayedCall(0.5f, Join).setOnCompleteParam(hostname);
+				print ("Connecting with " + hostname);
+				NetworkManager.singleton.networkAddress = hostname;
+				NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
+				NetworkManager.singleton.StartClient ();
 			}
-		}
-
-		private void Join() {
-			print ("Connecting with " + hostname);
-			NetworkManager.singleton.networkAddress = hostname;
-			NetworkManager.singleton.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
-			NetworkManager.singleton.StartClient ();
 		}
 	}
 }
