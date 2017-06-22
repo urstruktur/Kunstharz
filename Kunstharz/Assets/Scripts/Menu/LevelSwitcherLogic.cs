@@ -54,6 +54,7 @@ public class LevelSwitcherLogic : MonoBehaviour {
 
 	void StartLevelSwitchTo(int idx, bool moveUp) {
 		if (!isSwitchingLevel && idx != selectedLevelIdx) {
+			RenderSettings.skybox = skyBoxMaterials[idx];
 			futureSelectedLevelIdx = idx;
 
 			var oldLevel = transform.GetChild (selectedLevelIdx);
@@ -80,8 +81,6 @@ public class LevelSwitcherLogic : MonoBehaviour {
 			if(OnLevelSwitch != null) OnLevelSwitch();
 
 			LeanTween.value(gameObject, LerpSkybox, 0f, 1f, levelSwitchTime);
-
-			RenderSettings.skybox = skyBoxMaterials[futureSelectedLevelIdx];
 
 		}
 	}
