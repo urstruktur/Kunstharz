@@ -17,13 +17,15 @@ namespace Kunstharz
 
 		private GameContext ctx;
 
+		private string localPlayerName;
+
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
 			print("Entering load state");
 
-			ctx.localPlayerName = GetLocalPlayerNameFromMenu();
+			localPlayerName = GetLocalPlayerNameFromMenu();
 
-			HideMainMenu();
+			HideMainMenu(); 
 
 			if(isServer) {
 				//RegisterSpawnPrefabs();
@@ -34,6 +36,8 @@ namespace Kunstharz
 		}
 
 		IEnumerator ChangeToKickoffNextFrame() {
+			yield return new WaitForEndOfFrame();
+			RpcLocalSetup();
 			yield return new WaitForEndOfFrame();
 			ctx.currentStateIdx = GameStateKickoff.IDX;
 		}
@@ -70,8 +74,36 @@ namespace Kunstharz
 				Transform spawn = startPositions[idx].transform;
 				var player = playerGO.GetComponent<Player> ();
 				player.RpcInitPlayer (spawn.position, spawn.rotation);
+				player.RpcResetPosition();
 				++idx;
 			}
+		}
+
+		[ClientRpc]
+		private void RpcLocalSetup() {
+			print("Doing local setup");
+			FindPlayers(ctx);
+			GiveCameraToPlayer(ctx.localPlayer);
+			ctx.localPlayer.CmdSetPlayerName(localPlayerName);
+		}
+
+		private void FindPlayers(GameContext ctx) {
+			foreach(var playerGO in GameObject.FindGameObjectsWithTag("Player")) {
+				Player player = playerGO.GetComponent<Player> ();
+				if(player.isLocalPlayer) {
+					ctx.localPlayer = player;
+				} else {
+					ctx.remotePlayer = player;
+				}
+			}
+		}
+
+		private void GiveCameraToPlayer(Player camOwner) {
+			Transform camTransform = Camera.main.transform;
+
+			camTransform.parent = camOwner.transform;
+			camTransform.localPosition = GetComponent<GameStateRound> ().camLocalPosition;
+			camTransform.GetComponent<Controls> ().enabled = true;
 		}
 
 		string GetLocalPlayerNameFromMenu() {
