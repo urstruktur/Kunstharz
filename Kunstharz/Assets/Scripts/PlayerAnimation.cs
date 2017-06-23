@@ -46,7 +46,7 @@ public class PlayerAnimation : MonoBehaviour {
 	private void PerformTankMechanicAnimation () {
 		LeanTween.scale(tank, new Vector3(1.2f, 1f, 1.2f), 0.1f).setEase(LeanTweenType.easeOutBack).setOnComplete(() => {
 			LeanTween.rotateAround(tank, Vector3.up, 360f, 0.6f).setEase(LeanTweenType.easeInOutBack).setOnComplete(() => {
-				LeanTween.scale(tank, new Vector3(1f, 1f, 1f), 0.05f).setEase(LeanTweenType.easeOutBack);
+				LeanTween.scale(tank, new Vector3(1f, 1f, 1f), 0.1f).setEase(LeanTweenType.easeInBack);
 			});
 		});
 	}
