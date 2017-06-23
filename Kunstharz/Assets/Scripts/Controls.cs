@@ -15,8 +15,14 @@ namespace Kunstharz {
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
+		Vector3 initRotation;
+
+		bool canMove = false;
+
 		void Start () {
 			Cursor.lockState = CursorLockMode.Locked;
+			initRotation = transform.eulerAngles;
+			mouseAbsolute = new Vector2(initRotation.y, initRotation.x);
 		}
 
 		void Update () {
@@ -43,12 +49,12 @@ namespace Kunstharz {
 
 			mouseAbsolute += smoothMouse;
 
-			mouseAbsolute.y = Mathf.Clamp (-mouseAbsolute.y, -20.0f, 170.0f);
+			mouseAbsolute.y = Mathf.Clamp (-mouseAbsolute.y, -80.0f, 80.0f);
 
-			Quaternion leftRightRotation = Quaternion.AngleAxis (mouseAbsolute.x, Vector3.forward);
+			Quaternion leftRightRotation = Quaternion.AngleAxis (mouseAbsolute.x, Vector3.up);
 			Quaternion topDownRotation = Quaternion.AngleAxis (mouseAbsolute.y, Vector3.right);
 
-			transform.localRotation = leftRightRotation * topDownRotation;
+			transform.localRotation =  leftRightRotation * topDownRotation;
 
 			mouseAbsolute.y = -mouseAbsolute.y;
 
