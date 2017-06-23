@@ -118,6 +118,7 @@ namespace Kunstharz
 			GameObject.Destroy(GameObject.Find("General Canvas"));
 			GameObject.Destroy(GameObject.Find("Effect Canvas"));
 			GameObject.Destroy(GameObject.Find("NetworkDiscovery"));
+			Cursor.lockState = CursorLockMode.Locked;
 		}
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {

@@ -55,8 +55,6 @@ namespace Kunstharz
 
 		void Start() {
 			currentAngle = GUIAnchor.transform.rotation;
-
-			//GUIAnchor.transform.position = Camera.main.transform.position;
 			GUIAnchor.transform.rotation = Camera.main.transform.rotation;
 		}
 
@@ -103,32 +101,11 @@ namespace Kunstharz
 
 		void LateUpdate() {
 			UISlug();
-
-			if (Input.GetKeyDown(KeyCode.O)) {
-				ShowInstruction(InstructionType.Move, 0.5f, false);
-			}
-
-			if (Input.GetKeyDown(KeyCode.P)) {
-				ShowInstruction(InstructionType.Shoot, 0.5f, false);
-			}
-
 		}
 
 		private void UISlug() {
 			if (Camera.main != null) {
-				Quaternion currentCameraAngle = Camera.main.transform.rotation;
-
-				//GUIAnchor.transform.position = Camera.main.transform.position;
-
-				/*currentAngle = new Vector3 (
-					Mathf.SmoothDampAngle (currentAngle.x, currentCameraAngle.x, ref currentVelocity, Time.deltaTime * speed),
-					Mathf.SmoothDampAngle (currentAngle.y, currentCameraAngle.y, ref currentVelocity, Time.deltaTime * speed),
-					Mathf.SmoothDampAngle (currentAngle.z, currentCameraAngle.z, ref currentVelocity, Time.deltaTime * speed));*/
-
-				//currentAngle = Vector3.SmoothDamp(currentAngle, currentCameraAngle, ref currentVelocity, Time.deltaTime * speed);
-	
-				//GUIAnchor.transform.rotation = currentAngle;
-				GUIAnchor.transform.rotation = Quaternion.Slerp(currentAngle, currentCameraAngle, Time.time * speed);
+				GUIAnchor.transform.rotation = Quaternion.Slerp(GUIAnchor.transform.rotation, Camera.main.transform.rotation, 10.0f * Time.deltaTime);
 			}
 		}
 
