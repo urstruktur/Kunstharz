@@ -12,10 +12,13 @@ public class MenuPostProcessing : MonoBehaviour {
 
 	private int saturationID;
 
+	private Colorful.Glitch glitch;
+
 	void OnEnable() {
 		PostProcessingBehaviour behaviour = GetComponent<PostProcessingBehaviour> ();
 		profile = Instantiate(behaviour.profile);
         behaviour.profile = profile;
+		glitch = GetComponent<Colorful.Glitch>();
 	}
 
 	public void SetSaturation(float value, float duration) {
@@ -33,20 +36,20 @@ public class MenuPostProcessing : MonoBehaviour {
 	}
 
 	public void SetFadeOut(float duration) {
-		LeanTween.value (gameObject, UpdateWhiteLevel, 5.3f, 0.1f, duration).setEaseInOutSine();
-		LeanTween.value (gameObject, UpdateWhiteClip, 10f, 1f, duration/2).setEaseInOutSine();
+		glitch.RandomActivation = false;
+		glitch.SettingsTearing.MaxDisplacement = 0.5f;
+		LeanTween.value (gameObject, UpdateExposure, 0f, 14f, duration/2).setEaseInOutSine().setDelay(duration/2);
+		LeanTween.value (gameObject, UpdateGlitch, 0f, 1f, duration).setEaseInOutSine();
 	}
 
-	private void UpdateWhiteClip(float value) {
+	private void UpdateExposure(float value) {
 		ColorGradingModel.Settings colorGrading = profile.colorGrading.settings;
-		colorGrading.tonemapping.neutralWhiteClip = value;
+		colorGrading.basic.postExposure = value;
 		profile.colorGrading.settings = colorGrading;
 	}
 
-	private void UpdateWhiteLevel(float value) {
-		ColorGradingModel.Settings colorGrading = profile.colorGrading.settings;
-		colorGrading.tonemapping.neutralWhiteLevel = value;
-		profile.colorGrading.settings = colorGrading;
+	private void UpdateGlitch(float value) {
+		glitch.SettingsTearing.Intensity = value;
 	}
 
 }

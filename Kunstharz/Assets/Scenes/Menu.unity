@@ -1751,7 +1751,9 @@ GameObject:
   - component: {fileID: 422200676}
   - component: {fileID: 422200681}
   - component: {fileID: 422200682}
+  - component: {fileID: 422200685}
   - component: {fileID: 422200683}
+  - component: {fileID: 422200684}
   m_Layer: 0
   m_Name: Background Camera
   m_TagString: MainCamera
@@ -1879,8 +1881,52 @@ MonoBehaviour:
     MaxDisplacement: 4
   SettingsTearing:
     Speed: 1
-    Intensity: 0.336
+    Intensity: 0.263
     MaxDisplacement: 0.05
+    AllowFlipping: 1
+    YuvColorBleeding: 0
+    YuvOffset: 0.5
+--- !u!95 &422200684
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 422200675}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7d0d5a7717e9475287beb6fa6289a3e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &422200685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 422200675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e75ef5ee858bd4bab281c187d027f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Shader: {fileID: 4800000, guid: aa077ae19c4093844b27e3a70f542644, type: 3}
+  RandomActivation: 0
+  RandomEvery: {x: 1, y: 2}
+  RandomDuration: {x: 1, y: 2}
+  Mode: 1
+  SettingsInterferences:
+    Speed: 10
+    Density: 8
+    MaxDisplacement: 2
+  SettingsTearing:
+    Speed: 1
+    Intensity: 0
+    MaxDisplacement: 0
     AllowFlipping: 1
     YuvColorBleeding: 0
     YuvOffset: 0.5

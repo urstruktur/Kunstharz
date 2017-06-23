@@ -25,6 +25,11 @@ namespace Kunstharz
 
 			localPlayerName = GetLocalPlayerNameFromMenu();
 
+			GameObject.Find("Background Camera").GetComponent<MenuPostProcessing>().SetFadeOut(1f);
+			LeanTween.delayedCall(1.5f, StartInitProcess);
+		}
+
+		private void StartInitProcess() {
 			HideMainMenu(); 
 
 			if(isServer) {

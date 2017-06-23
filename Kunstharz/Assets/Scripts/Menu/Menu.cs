@@ -42,10 +42,13 @@ public class Menu : MonoBehaviour {
 
 	public static int tweenBlurId = -1;
 
+	GameObject bgCamera;
+
 	void Start() {
 		blur = GameObject.Find("Blur");
 		Cursor.lockState = CursorLockMode.Confined;
 		Cursor.visible = true;
+		bgCamera = GameObject.Find("Background Camera");
 	}
 
 	public void SetPlayerName(string gameName) {
@@ -55,6 +58,7 @@ public class Menu : MonoBehaviour {
 	void Update() {
 		TurnGameWorld ();
 		UpdateBeacon ();
+		if (Input.GetKeyDown(KeyCode.L)) bgCamera.GetComponent<MenuPostProcessing>().SetFadeOut(2f);
 	}
 
 	private void UpdateBeacon() {
