@@ -7,8 +7,8 @@ public class PlayerAnimation : MonoBehaviour {
 	public GameObject diamond;
 	public GameObject tank;
 
-	private const float D_TIMER = 4f;
-	private const float T_TIMER = 6f;
+	private const float D_TIMER = 8f;
+	private const float T_TIMER = 12f;
 
 	private float diamondTimer = D_TIMER;
 	private float tankTimer = T_TIMER;
@@ -30,7 +30,7 @@ public class PlayerAnimation : MonoBehaviour {
 
 	private void PerformPulseAnimation () {
 		LeanTween.rotateAround(diamond, Vector3.up, 360f, 0.05f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => {
-			LeanTween.rotateZ(diamond, 1f, 0.05f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => {
+			LeanTween.rotateZ(diamond, 5f, 0.05f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => {
 				LeanTween.rotateZ(diamond, -5f, 0.05f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() => {
 					LeanTween.rotateZ(diamond, 0f, 0.05f).setEase(LeanTweenType.easeInOutQuad);
 				}).setLoopPingPong(7);
