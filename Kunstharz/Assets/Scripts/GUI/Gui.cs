@@ -9,6 +9,8 @@ namespace Kunstharz
 
 		public enum InstructionType {Move, Shoot, Scored, Erased, TimeOut, TimeOutNonLocal, TimeOutBoth, Win, Lose, PrepareGame}
 
+		public Camera gameCam;
+
 		public Text p1ScoreText;
 		public Text p2ScoreText;
 		public Text generalScore;
@@ -56,8 +58,8 @@ namespace Kunstharz
 		void Start() {
 			currentAngle = GUIAnchor.transform.rotation;
 
-			//GUIAnchor.transform.position = Camera.main.transform.position;
-			GUIAnchor.transform.rotation = Camera.main.transform.rotation;
+			//GUIAnchor.transform.position = gameCam.transform.position;
+			GUIAnchor.transform.rotation = gameCam.transform.rotation;
 		}
 
 		public void UpdateScore(GameContext game) {
@@ -115,10 +117,10 @@ namespace Kunstharz
 		}
 
 		private void UISlug() {
-			if (Camera.main != null) {
-				Quaternion currentCameraAngle = Camera.main.transform.rotation;
+			if (gameCam != null) {
+				Quaternion currentCameraAngle = gameCam.transform.rotation;
 
-				//GUIAnchor.transform.position = Camera.main.transform.position;
+				//GUIAnchor.transform.position = gameCam.transform.position;
 
 				/*currentAngle = new Vector3 (
 					Mathf.SmoothDampAngle (currentAngle.x, currentCameraAngle.x, ref currentVelocity, Time.deltaTime * speed),
