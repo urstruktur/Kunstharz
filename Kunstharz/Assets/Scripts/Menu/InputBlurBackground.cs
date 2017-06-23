@@ -21,15 +21,19 @@ public class InputBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointer
 		effectCanvas = GameObject.Find("Effect Canvas");
 	}
 
+	bool pointerInside = false;
+
 	public void OnPointerEnter(PointerEventData eventData) {
 		SetBlurPosition();
 		SetBlurSize(currentText, true);
 		blur.GetComponent<RawImage>().enabled = true;
+		pointerInside = true;
 	}
 
 	public void OnPointerExit(PointerEventData eventData) {
 		GetComponentInChildren<TMP_InputField> ().DeactivateInputField();
 		blur.GetComponent<RawImage>().enabled = false;
+		pointerInside = false;
 	}
 
 
@@ -48,24 +52,19 @@ public class InputBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointer
 
 
 	public void OnValueChangeInputFieldGameStart(string s) {
-		SetBlurSize(s, false);
+		ActivateButton (s);
+		//if (pointerInside)
+		if (pointerInside) SetBlurSize(s, false);
 	}
 
 	private void SetBlurSize(string s, bool enter) {
 
-		if (enter) {
-			LeanTween.cancel(Menu.tweenBlurId);
+		if (s == "") {
+			s = "TYPE YOUR NAME";
 		}
 
-		currentText = s.ToUpper();
-
-		if (s == "") {
-			startGameStartGameButton.SetActive(false);
-			placeholderText.SetActive(false);
-			s = "TYPE YOUR NAME";
-		} else {
-			startGameStartGameButton.SetActive(true);
-			placeholderText.SetActive(true);
+		if (enter) {
+			LeanTween.cancel(Menu.tweenBlurId);
 		}
 
 		float width = content.GetComponent<TextMeshProUGUI>().GetPreferredValues(s).x + Menu.blurSpace;
@@ -77,6 +76,20 @@ public class InputBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointer
 		
 		Menu.tweenBlurId = LeanTween.size (blur.GetComponent<RectTransform> (), new Vector2(width,height), 0.25f).setEase(LeanTweenType.easeInOutQuint).id;
 	
+	}
+
+	private void ActivateButton (string s) {
+
+		currentText = s.ToUpper();
+
+		if (s == "") {
+			startGameStartGameButton.SetActive(false);
+			placeholderText.SetActive(false);
+			s = "TYPE YOUR NAME";
+		} else {
+			startGameStartGameButton.SetActive(true);
+			placeholderText.SetActive(true);
+		}
 	}
 
 }

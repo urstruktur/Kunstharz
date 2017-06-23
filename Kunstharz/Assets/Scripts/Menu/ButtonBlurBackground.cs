@@ -13,6 +13,8 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 
 	string text = "";
 
+	bool pointerInside = false;
+
 	void Start() {
 		blur = GameObject.Find("Blur");
 		effectCanvas = GameObject.Find("Effect Canvas");
@@ -23,7 +25,6 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 		} else {
 			text = "";
 		}
-
 	}
 
 	void Update() {
@@ -37,13 +38,21 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 	}
 
 	public void OnPointerEnter(PointerEventData eventData) {
+		pointerInside = true;
 		SetBlurPosition();
 		SetBlurSize();
 		blur.GetComponent<RawImage>().enabled = true;
 	}
 
 	public void OnPointerExit(PointerEventData eventData) {
+		pointerInside = false;
 		blur.GetComponent<RawImage>().enabled = false;
+	}
+
+	void OnDisable() {
+		if (pointerInside) {
+			blur.GetComponent<RawImage>().enabled = false;
+		}
 	}
 
 

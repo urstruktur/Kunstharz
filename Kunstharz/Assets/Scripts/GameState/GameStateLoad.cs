@@ -29,7 +29,7 @@ namespace Kunstharz
 
 			localPlayerName = GetLocalPlayerNameFromMenu();
 
-			GameObject.Find("Background Camera").GetComponent<PostProcessingControls>().SetFadeOut(0.5f);
+			GameObject.Find("Background Camera").GetComponent<PostProcessingControls>().SetFadeOut(transitionDuration);
 
 			if(isServer) {
 				StartCoroutine(SetupGame());
@@ -37,12 +37,11 @@ namespace Kunstharz
 		}
 
 		IEnumerator SetupGame() {
-			yield return new WaitForSeconds(0.5f);
 			//RegisterSpawnPrefabs();
 			SpawnEnvironment();
 			SpawnPlayers();
-			// Wait for a frame to ensure players are synced first
-			yield return new WaitForEndOfFrame();
+			// Wait for a frame to ensure players are synced and menu fadout has completed
+			yield return new WaitForSeconds(transitionDuration);
 			// Then hide the main menu, and set up context variables on server and client
 			RpcLocalSetup();
 			// Wait again to ensure this is finished
@@ -147,7 +146,7 @@ namespace Kunstharz
 
 		private void ActivateGameCamera() {
 			gameCamera.enabled = true;
-			GameObject.Find("Game Camera").GetComponent<PostProcessingControls>().SetFadeIn(0.5f);
+			GameObject.Find("Game Camera").GetComponent<PostProcessingControls>().SetFadeIn(transitionDuration);
         }
 
 		string GetLocalPlayerNameFromMenu() {

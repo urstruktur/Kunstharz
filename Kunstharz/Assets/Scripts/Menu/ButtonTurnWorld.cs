@@ -100,7 +100,6 @@ public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExit
 			if (saturation) backgroundCamera.GetComponent<PostProcessingControls>().SetSaturation(1f, 0.25f);
 
 		}
-
 		activeLevel.transform.localEulerAngles = currentRotation + new Vector3((Input.mousePosition.y - firstY) * 0.5f, (Input.mousePosition.x - firstX) * 0.5f,0);
 	}
 
