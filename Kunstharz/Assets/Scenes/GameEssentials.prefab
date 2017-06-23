@@ -397,7 +397,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4115561721009510}
-  - component: {fileID: 114753936242176966}
+  - component: {fileID: 114553320757559728}
   m_Layer: 0
   m_Name: GameEssentials
   m_TagString: Untagged
@@ -666,7 +666,9 @@ GameObject:
   - component: {fileID: 114227087168056102}
   - component: {fileID: 114961959912850752}
   - component: {fileID: 95644128193952636}
+  - component: {fileID: 114109239516189916}
   - component: {fileID: 114288581139287756}
+  - component: {fileID: 114998459313626200}
   m_Layer: 0
   m_Name: Game Camera
   m_TagString: MainCamera
@@ -1259,6 +1261,33 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!114 &114109239516189916
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1773207360293230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e75ef5ee858bd4bab281c187d027f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Shader: {fileID: 4800000, guid: aa077ae19c4093844b27e3a70f542644, type: 3}
+  RandomActivation: 0
+  RandomEvery: {x: 1, y: 2}
+  RandomDuration: {x: 1, y: 2}
+  Mode: 1
+  SettingsInterferences:
+    Speed: 10
+    Density: 8
+    MaxDisplacement: 2
+  SettingsTearing:
+    Speed: 1
+    Intensity: 1
+    MaxDisplacement: 0.5
+    AllowFlipping: 0
+    YuvColorBleeding: 0
+    YuvOffset: 0.5
 --- !u!114 &114135335640482822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1888,6 +1917,38 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0:0
+--- !u!114 &114553320757559728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590592623865912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 208
+    i1: 60
+    i2: 33
+    i3: 48
+    i4: 217
+    i5: 103
+    i6: 6
+    i7: 164
+    i8: 8
+    i9: 62
+    i10: 5
+    i11: 121
+    i12: 228
+    i13: 78
+    i14: 137
+    i15: 32
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114565730179380720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2247,38 +2308,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114753936242176966
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1590592623865912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 208
-    i1: 60
-    i2: 33
-    i3: 48
-    i4: 217
-    i5: 103
-    i6: 6
-    i7: 164
-    i8: 8
-    i9: 62
-    i10: 5
-    i11: 121
-    i12: 228
-    i13: 78
-    i14: 137
-    i15: 32
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
 --- !u!114 &114774339993712768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2671,7 +2700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66426645e0a5b4049a5163f26c5bc86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameCam: {fileID: 20512541397342578}
+  gameCamera: {fileID: 20512541397342578}
   p1ScoreText: {fileID: 114916298022705112}
   p2ScoreText: {fileID: 114997864575893146}
   generalScore: {fileID: 114546942357858650}
@@ -2749,6 +2778,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
+--- !u!114 &114998459313626200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1773207360293230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6120d17a099654a1cb47a2c5b380d459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &124926234423557954
 Behaviour:
   m_ObjectHideFlags: 1
@@ -3376,7 +3416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 576.77234, y: 0}
+  m_AnchoredPosition: {x: 576.6424, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224545139307823344
@@ -3760,7 +3800,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 171.40392, y: 0}
+  m_AnchoredPosition: {x: 171.03973, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224935031561514770

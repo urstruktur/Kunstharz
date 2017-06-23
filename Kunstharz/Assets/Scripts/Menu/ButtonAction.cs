@@ -58,7 +58,7 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 				Menu.menuRotationDirection = 1;
 			}
 
-			backgroundCamera.GetComponent<MenuPostProcessing>().SetSaturation(menuSaturation, 0.5f);
+			backgroundCamera.GetComponent<PostProcessingControls>().SetSaturation(menuSaturation, 0.5f);
 
 			moveToMenu.SetActive (true);
 			transform.parent.gameObject.GetComponent<MenuRotate>().RotateOut();

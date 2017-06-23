@@ -15,17 +15,8 @@ namespace Kunstharz {
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
-
-		bool canMove = false;
-
 		void Start () {
-			
-			#if UNITY_EDITOR
-			Cursor.lockState = CursorLockMode.Locked;
-			#endif
-
 			mouseAbsolute = ToNegativeAngle (new Vector2(transform.eulerAngles.y, transform.eulerAngles.x));
-			LeanTween.delayedCall(1f, CanMove);
 		}
 
 		Vector2 ToNegativeAngle(Vector2 angleTotal) {
@@ -37,12 +28,8 @@ namespace Kunstharz {
 			return number;
 		}
 
-		private void CanMove() {
-			canMove = true;
-		}
-
 		void Update () {
-			if (canMove) SmoothMove ();
+			SmoothMove ();
 			HandleTargetInput ();
 		}
 

@@ -97,7 +97,7 @@ public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
 			SetButtonActive(false);
 
-			if (saturation) backgroundCamera.GetComponent<MenuPostProcessing>().SetSaturation(1f, 0.25f);
+			if (saturation) backgroundCamera.GetComponent<PostProcessingControls>().SetSaturation(1f, 0.25f);
 
 		}
 
@@ -110,7 +110,7 @@ public class ButtonTurnWorld : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		fadeID = LeanTween.value(gameObject, updateColorOpacity, 0f, 0.274f, duration).setEase(LeanTweenType.easeInOutQuint).id;
 		rotateID = LeanTween.rotate(activeLevel, initialRotation, duration).setEaseOutBounce().setOnComplete(AnimationStop).id;
 		SetButtonActive(true);
-		if (saturation) backgroundCamera.GetComponent<MenuPostProcessing>().SetSaturation(0f, 0.25f);
+		if (saturation) backgroundCamera.GetComponent<PostProcessingControls>().SetSaturation(0f, 0.25f);
 	}
 
 	private void AnimationStop() {

@@ -21,13 +21,15 @@ namespace Kunstharz
 
 		private Camera gameCamera;
 
+		private float transitionDuration = 0.5f;
+
 		public void Enter(GameContext ctx) {
 			this.ctx = ctx;
 			print("Entering load state");
 
 			localPlayerName = GetLocalPlayerNameFromMenu();
 
-			GameObject.Find("Background Camera").GetComponent<MenuPostProcessing>().SetFadeOut(1f);
+			GameObject.Find("Background Camera").GetComponent<PostProcessingControls>().SetFadeOut(0.5f);
 
 			if(isServer) {
 				StartCoroutine(SetupGame());
@@ -35,7 +37,7 @@ namespace Kunstharz
 		}
 
 		IEnumerator SetupGame() {
-			yield return new WaitForSeconds(1.5f);
+			yield return new WaitForSeconds(0.5f);
 			//RegisterSpawnPrefabs();
 			SpawnEnvironment();
 			SpawnPlayers();
@@ -145,6 +147,7 @@ namespace Kunstharz
 
 		private void ActivateGameCamera() {
 			gameCamera.enabled = true;
+			GameObject.Find("Game Camera").GetComponent<PostProcessingControls>().SetFadeIn(0.5f);
         }
 
 		string GetLocalPlayerNameFromMenu() {
