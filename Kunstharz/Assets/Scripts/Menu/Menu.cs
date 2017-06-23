@@ -58,7 +58,6 @@ public class Menu : MonoBehaviour {
 	void Update() {
 		TurnGameWorld ();
 		UpdateBeacon ();
-		//if (Input.GetKeyDown(KeyCode.L)) bgCamera.GetComponent<PostProcessingControls>().SetFadeOut(2f);
 	}
 
 	private void UpdateBeacon() {

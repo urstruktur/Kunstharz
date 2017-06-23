@@ -64,7 +64,7 @@ namespace Kunstharz
 			flyTargetPosition = target.position;
   
 			flyStartOrientation = transform.rotation;
-			flyTargetOrientation = Quaternion.FromToRotation(Vector3.forward, target.normal);
+			flyTargetOrientation = Quaternion.FromToRotation(Vector3.up, target.normal);
 
 			float flyDistance = Vector3.Distance(flyTargetPosition, flyStartPosition);
 		}

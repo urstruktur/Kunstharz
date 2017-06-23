@@ -60,9 +60,15 @@ namespace Kunstharz {
 			if (isLocalPlayer) {
 				crosshair.ShowMoveCrosshair();
 				gui.ShowInstruction(Gui.InstructionType.Move, 0.5f, false);
-				gui.ShowTime(GameContext.instance.GetComponent<GameStateRound>().timeout);
 			}
 		}
+
+		[ClientRpc]
+		public void RpcVisualizeTimeout(float timeout) {
+			if(isLocalPlayer) {
+				gui.ShowTime(timeout);
+			}
+		} 
 
 		[ClientRpc]
 		public void RpcVisualizeMotionSelected(Target target) {
