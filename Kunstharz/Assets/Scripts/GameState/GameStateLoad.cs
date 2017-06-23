@@ -35,12 +35,11 @@ namespace Kunstharz
 		}
 
 		IEnumerator SetupGame() {
-			yield return new WaitForSeconds(1.5f);
 			//RegisterSpawnPrefabs();
 			SpawnEnvironment();
 			SpawnPlayers();
-			// Wait for a frame to ensure players are synced first
-			yield return new WaitForEndOfFrame();
+			// Wait for a frame to ensure players are synced and menu fadout has completed
+			yield return new WaitForSeconds(1.5f);
 			// Then hide the main menu, and set up context variables on server and client
 			RpcLocalSetup();
 			// Wait again to ensure this is finished
