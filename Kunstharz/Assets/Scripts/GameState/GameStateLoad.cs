@@ -27,12 +27,15 @@ namespace Kunstharz
 
 			localPlayerName = GetLocalPlayerNameFromMenu();
 
+			GameObject.Find("Background Camera").GetComponent<MenuPostProcessing>().SetFadeOut(1f);
+
 			if(isServer) {
 				StartCoroutine(SetupGame());
 			}
 		}
 
 		IEnumerator SetupGame() {
+			yield return new WaitForSeconds(1.5f);
 			//RegisterSpawnPrefabs();
 			SpawnEnvironment();
 			SpawnPlayers();
