@@ -114,6 +114,7 @@ namespace Kunstharz
         private void ShowPrepareGUI() {
 			var gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 			gui.ShowInstruction(Gui.InstructionType.PrepareGame, GameContext.instance.GetComponent<GameStateKickoff>().kickoffDuration, true);
+			Canvas.ForceUpdateCanvases();
 		}
 
 		private void FindPlayers(GameContext ctx) {
@@ -154,6 +155,7 @@ namespace Kunstharz
 			GameObject.Destroy(GameObject.Find("General Canvas"));
 			GameObject.Destroy(GameObject.Find("Effect Canvas"));
 			GameObject.Destroy(GameObject.Find("NetworkDiscovery"));
+			Cursor.lockState = CursorLockMode.Locked;
 		}
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {

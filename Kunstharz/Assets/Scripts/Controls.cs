@@ -15,18 +15,34 @@ namespace Kunstharz {
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
 
-		Vector3 initRotation;
 
 		bool canMove = false;
 
 		void Start () {
+			
+			#if UNITY_EDITOR
 			Cursor.lockState = CursorLockMode.Locked;
-			initRotation = transform.eulerAngles;
-			mouseAbsolute = new Vector2(initRotation.y, initRotation.x);
+			#endif
+
+			mouseAbsolute = ToNegativeAngle (new Vector2(transform.eulerAngles.y, transform.eulerAngles.x));
+			LeanTween.delayedCall(1f, CanMove);
+		}
+
+		Vector2 ToNegativeAngle(Vector2 angleTotal) {
+			return new Vector3(ToPositive(angleTotal.x), ToPositive(angleTotal.y));
+		}
+
+		float ToPositive(float number) {
+			if (number > 180) return number - 360f;
+			return number;
+		}
+
+		private void CanMove() {
+			canMove = true;
 		}
 
 		void Update () {
-			SmoothMove ();
+			if (canMove) SmoothMove ();
 			HandleTargetInput ();
 		}
 
@@ -38,25 +54,22 @@ namespace Kunstharz {
 
 		void SmoothMove () {
 
-			Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+			Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-			// Scale input against the sensitivity setting and multiply that against the smoothing value.
 			mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
 
-			// Interpolate mouse movement over time to apply smoothing delta.
 			smoothMouse.x = Mathf.Lerp(smoothMouse.x, mouseDelta.x, 1f / smoothing.x);
 			smoothMouse.y = Mathf.Lerp(smoothMouse.y, mouseDelta.y, 1f / smoothing.y);
 
-			mouseAbsolute += smoothMouse;
+			mouseAbsolute.x += smoothMouse.x;
+			mouseAbsolute.y -= smoothMouse.y;
 
-			mouseAbsolute.y = Mathf.Clamp (-mouseAbsolute.y, -80.0f, 80.0f);
+			mouseAbsolute.y = Mathf.Clamp (mouseAbsolute.y, -80.0f, 80.0f);
 
 			Quaternion leftRightRotation = Quaternion.AngleAxis (mouseAbsolute.x, Vector3.up);
 			Quaternion topDownRotation = Quaternion.AngleAxis (mouseAbsolute.y, Vector3.right);
 
-			transform.localRotation =  leftRightRotation * topDownRotation;
-
-			mouseAbsolute.y = -mouseAbsolute.y;
+			transform.localRotation = leftRightRotation * topDownRotation;
 
 		}
 

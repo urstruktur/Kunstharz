@@ -9,7 +9,7 @@ namespace Kunstharz
 
 		public enum InstructionType {Move, Shoot, Scored, Erased, TimeOut, TimeOutNonLocal, TimeOutBoth, Win, Lose, PrepareGame}
 
-		public Camera gameCam;
+		public Camera gameCamera;
 
 		public Text p1ScoreText;
 		public Text p2ScoreText;
@@ -57,9 +57,7 @@ namespace Kunstharz
 
 		void Start() {
 			currentAngle = GUIAnchor.transform.rotation;
-
-			//GUIAnchor.transform.position = gameCam.transform.position;
-			GUIAnchor.transform.rotation = gameCam.transform.rotation;
+			GUIAnchor.transform.rotation = gameCamera.transform.rotation;
 		}
 
 		public void UpdateScore(GameContext game) {
@@ -105,32 +103,11 @@ namespace Kunstharz
 
 		void LateUpdate() {
 			UISlug();
-
-			if (Input.GetKeyDown(KeyCode.O)) {
-				ShowInstruction(InstructionType.Move, 0.5f, false);
-			}
-
-			if (Input.GetKeyDown(KeyCode.P)) {
-				ShowInstruction(InstructionType.Shoot, 0.5f, false);
-			}
-
 		}
 
 		private void UISlug() {
-			if (gameCam != null) {
-				Quaternion currentCameraAngle = gameCam.transform.rotation;
-
-				//GUIAnchor.transform.position = gameCam.transform.position;
-
-				/*currentAngle = new Vector3 (
-					Mathf.SmoothDampAngle (currentAngle.x, currentCameraAngle.x, ref currentVelocity, Time.deltaTime * speed),
-					Mathf.SmoothDampAngle (currentAngle.y, currentCameraAngle.y, ref currentVelocity, Time.deltaTime * speed),
-					Mathf.SmoothDampAngle (currentAngle.z, currentCameraAngle.z, ref currentVelocity, Time.deltaTime * speed));*/
-
-				//currentAngle = Vector3.SmoothDamp(currentAngle, currentCameraAngle, ref currentVelocity, Time.deltaTime * speed);
-	
-				//GUIAnchor.transform.rotation = currentAngle;
-				GUIAnchor.transform.rotation = Quaternion.Slerp(currentAngle, currentCameraAngle, Time.time * speed);
+			if (gameCamera != null) {
+				GUIAnchor.transform.rotation = Quaternion.Slerp(GUIAnchor.transform.rotation, gameCamera.transform.rotation, 10.0f * Time.deltaTime);
 			}
 		}
 
