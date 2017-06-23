@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 114943750952925434}
   - component: {fileID: 114703334953902176}
   - component: {fileID: 65300075023381416}
+  - component: {fileID: 114424489121491702}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player
@@ -134,7 +135,7 @@ Transform:
   m_GameObject: {fileID: 1697201150455112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children:
   - {fileID: 4114579689323450}
   - {fileID: 4933110568703846}
@@ -338,12 +339,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be524a38d249484bbbd15e68f13723c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathTimeout: 80000000
   playerName: 
   state: 0
   deathReason: 0
   wins: 0
   approvesRematch: 0
+--- !u!114 &114424489121491702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1697201150455112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c08c7c013a4340ccaa2a23e74b590f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diamond: {fileID: 1193171877304658}
+  tank: {fileID: 1075863001673432}
 --- !u!114 &114703334953902176
 MonoBehaviour:
   m_ObjectHideFlags: 1
