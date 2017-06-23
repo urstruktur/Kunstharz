@@ -57,10 +57,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936d81c90eac643959ea6afeeeec210e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roundsWinCount: 3
   timeoutEnabled: 1
   timeout: 7
   synchronizedMotion: 1
-  camLocalPosition: {x: 0, y: 0, z: 1}
+  camLocalPosition: {x: 0, y: 1, z: 0}
 --- !u!114 &114251101008836714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -75,7 +76,6 @@ MonoBehaviour:
   currentStateIdx: -1
   localPlayer: {fileID: 0}
   remotePlayer: {fileID: 0}
-  localPlayerName: 
 --- !u!114 &114397344312672138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,4 +165,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionTime: 3
-  roundsWinCount: 3

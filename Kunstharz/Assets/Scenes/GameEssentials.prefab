@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 95644128193952636}
   - component: {fileID: 114288581139287756}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Game Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1043,7 +1043,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1773207360293230}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
@@ -2671,6 +2671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66426645e0a5b4049a5163f26c5bc86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCam: {fileID: 20512541397342578}
   p1ScoreText: {fileID: 114916298022705112}
   p2ScoreText: {fileID: 114997864575893146}
   generalScore: {fileID: 114546942357858650}

@@ -9,6 +9,8 @@ namespace Kunstharz
 
 		public enum InstructionType {Move, Shoot, Scored, Erased, TimeOut, TimeOutNonLocal, TimeOutBoth, Win, Lose, PrepareGame}
 
+		public Camera gameCamera;
+
 		public Text p1ScoreText;
 		public Text p2ScoreText;
 		public Text generalScore;
@@ -55,7 +57,7 @@ namespace Kunstharz
 
 		void Start() {
 			currentAngle = GUIAnchor.transform.rotation;
-			GUIAnchor.transform.rotation = Camera.main.transform.rotation;
+			GUIAnchor.transform.rotation = gameCamera.transform.rotation;
 		}
 
 		public void UpdateScore(GameContext game) {
@@ -104,8 +106,8 @@ namespace Kunstharz
 		}
 
 		private void UISlug() {
-			if (Camera.main != null) {
-				GUIAnchor.transform.rotation = Quaternion.Slerp(GUIAnchor.transform.rotation, Camera.main.transform.rotation, 10.0f * Time.deltaTime);
+			if (gameCamera != null) {
+				GUIAnchor.transform.rotation = Quaternion.Slerp(GUIAnchor.transform.rotation, gameCamera.transform.rotation, 10.0f * Time.deltaTime);
 			}
 		}
 

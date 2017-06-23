@@ -5,8 +5,6 @@ using UnityEngine.Networking;
 
 namespace Kunstharz {
 	public class Player : NetworkBehaviour {
-		public float deathTimeout = 8.0f;
-
 		[SyncVar(hook = "OnNameChange")]
 		public string playerName;
 
@@ -48,17 +46,6 @@ namespace Kunstharz {
 			transform.rotation = spawnRotation;
 			crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			gui = GameObject.Find ("GUI").GetComponent<Gui> ();
-		}
-
-		void Update() {
-			if (remainingDeathTimeout != float.MaxValue) {
-				remainingDeathTimeout -= Time.deltaTime;
-
-				if (remainingDeathTimeout <= 0) {
-					print ("Died after timing out");
-					CmdSetState (PlayerState.TimedOut);
-				}
-			}
 		}
 
 		[ClientRpc]
@@ -162,13 +149,6 @@ namespace Kunstharz {
 		}
 
 		void OnStateChange(PlayerState state) {
-			if (state == PlayerState.SelectingMotion && isLocalPlayer) {
-				remainingDeathTimeout = deathTimeout;
-			} else {
-				remainingDeathTimeout = float.MaxValue;
-			}
-
-			PlayerState oldState = this.state;
 			this.state = state;
 
 			gui.UpdatePlayerStates (GameContext.instance);

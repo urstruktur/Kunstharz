@@ -29,7 +29,7 @@ namespace Kunstharz
 		/// </summary>
 		public bool synchronizedMotion = true;
 
-		public Vector3 camLocalPosition = new Vector3(1.0f, 0.0f, 0.0f);
+		public Vector3 camLocalPosition = new Vector3(0.0f, 1.0f, 0.0f);
 
 		private GameContext ctx;
 
