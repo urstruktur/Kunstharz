@@ -17,11 +17,24 @@ namespace Kunstharz
 
 		public bool timeoutEnabled = true;
 
+		public bool generousTimeoutAtGameStart = true;
+
+		public bool generousTimeoutAtRoundStart = false;
+
+		/// <summary>
+		/// Time in seconds of inactivity after entering a selection state
+		/// that kills a player.
+		///
+		/// Note that depending on the settings, either this or generousTimeout
+		/// is used.
+		/// </summary>
+		public float standardTimeout = 7.0f;
+
 		/// <summary>
 		/// Time in seconds of inactivity after round start that causes a
 		/// player to die.
 		/// </summary>
-		public float timeout = 7.0f;
+		public float generousTimeout = 12.0f;
 
 		/// <summary>
 		/// If <code>true</code>, players move when both selected a target,
@@ -31,9 +44,26 @@ namespace Kunstharz
 
 		public Vector3 camLocalPosition = new Vector3(0.0f, 1.0f, 0.0f);
 
+		/// <summary>
+		/// Index of the last started round or -1 if no round has been started yet.
+		/// This is not synced to the client and should only be used on the server.
+		/// </summary>
+		private int roundIdx = -1;
+
+		/// <summary>
+		/// Number of actions that have been started in this round. Every time both
+		/// players start to move, this is increased by one.
+		///
+		/// This is not synced to the client and should only be used on the server.
+		/// </summary>
+		private int roundMoveCount = 0;
+
 		private GameContext ctx;
 
 		void Start() {
+			roundIdx = -1;
+			roundMoveCount = 0;
+
 			if(timeoutEnabled && !synchronizedMotion) {
 				Debug.LogError("Timeout can only be enabled when motion is synchronized, disabling timeout…");
 				timeoutEnabled = false;
@@ -44,6 +74,9 @@ namespace Kunstharz
 			this.ctx = ctx;
 
 			if(isServer) {
+				++roundIdx;
+				roundMoveCount = 0;
+
 				StopAllCoroutines();
 
 				ResetPlayerDeathReasons();
@@ -121,6 +154,7 @@ namespace Kunstharz
 					
 					m1.RpcLaunch();
 					m2.RpcLaunch();
+					++roundMoveCount;
 
 					float maxDuration = Math.Max(m1.FlightDuration(target), m2.FlightDuration(target));
 
@@ -129,6 +163,7 @@ namespace Kunstharz
 			} else {
 				player.state = PlayerState.ExecutingMotion;
 				motion.RpcLaunch();
+				++roundMoveCount;
 				float duration = motion.FlightDuration(target);
 				StartCoroutine(ReevaluatePlayerStatesLater(duration));
 			}
@@ -198,6 +233,13 @@ namespace Kunstharz
 
 		private IEnumerator CheckTimeouts() {
 			if(timeoutEnabled) {
+				bool generous = (generousTimeoutAtRoundStart && roundMoveCount == 0) ||
+				                (generousTimeoutAtGameStart && roundIdx == 0 && roundMoveCount == 0);
+
+				float timeout = generous ? generousTimeout : standardTimeout;
+				ctx.localPlayer.RpcVisualizeTimeout(timeout);
+				ctx.remotePlayer.RpcVisualizeTimeout(timeout);
+
 				yield return new WaitForSeconds(timeout);
 
 				var p1 = ctx.localPlayer;
