@@ -121,15 +121,43 @@ namespace Kunstharz
 						// missed ):
 						player.RpcVisualizeShotMissed();
 					}
-				}
+
+                    // spawn particlesystem
+                    if (!player.isLocalPlayer)
+                    {
+                        spawnShotVis(player, direction);
+                    }
+                }
 			} else {
 				if(player.state == PlayerState.SelectingShot) {
 					player.RpcVisualizeShotMissed();
-				} else {
+
+                    // spawn particlesystem
+                    if (!player.isLocalPlayer)
+                    {
+                        spawnShotVis(player, direction);
+                    }
+                } else {
 					player.RpcVisualizeMotionMissed();
 				}
 			}
 		}
+
+        private void spawnShotVis(Player player, Vector3 direction)
+        {
+            // spawn particlesystem
+            try
+            {
+                GameObject particles = Instantiate(FindObjectOfType<Game>().shotParticles);
+                particles.transform.position = player.transform.position + player.transform.up/2;
+                particles.transform.rotation = Quaternion.LookRotation(direction);
+                Destroy(particles, 5);
+            }
+            catch
+            {
+                Debug.LogError("Could not instantiate shot particles.");
+            }
+        }
 
 		private void SelectMotionTarget(Player player, Target target) {
 			var motion = player.GetComponent<Motion> ();

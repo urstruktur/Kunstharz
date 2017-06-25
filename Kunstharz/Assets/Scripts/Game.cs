@@ -9,6 +9,7 @@ namespace Kunstharz
 	{
 		public Gui gui;
 		public ModularCrosshair crosshair;
+        public GameObject shotParticles;
 
 		private List<Player> players = new List<Player> ();
 			

@@ -934,7 +934,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1590592623865912}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5.9, y: 0, z: -8.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4148510065389558}
@@ -1239,6 +1239,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gui: {fileID: 114970470355939284}
   crosshair: {fileID: 114270645412850730}
+  shotParticles: {fileID: 1405414190845338, guid: 6355b4b166c10794682fab0f4935f230,
+    type: 2}
 --- !u!114 &114099844021700264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2687,8 +2689,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentShader: {fileID: 4800000, guid: dda924d974278de41bae07ff8f49078b, type: 3}
   origin: {x: 0, y: 0, z: 0}
+  origin_enemy: {x: 0, y: 0, z: 0}
   actionnessTransitionTime: 0.5
   progress: 0
+  progressEnemy: 0
 --- !u!114 &114970470355939284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3688,10 +3692,10 @@ RectTransform:
   m_Father: {fileID: 224108932570219426}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 860, y: -106.14251}
-  m_SizeDelta: {x: 320, y: 212.28502}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 320, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224811332364080170
 RectTransform:

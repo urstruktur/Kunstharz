@@ -9,13 +9,17 @@ public class ImageEffectShockwave : MonoBehaviour
     protected Shader currentShader;
 
     public Vector3 origin = Vector3.zero;
+    public Vector3 origin_enemy = Vector3.zero;
 
-	public float actionnessTransitionTime = 0.5f;
+    public float actionnessTransitionTime = 0.5f;
 
     [Range(0.0f, 1.0f)]
     public float progress = 0f;
 
-	private float actionness = 0.0f;
+    [Range(0.0f, 1.0f)]
+    public float progressEnemy = 0f;
+
+    private float actionness = 0.0f;
 
     private Camera cam;
 
@@ -60,11 +64,20 @@ public class ImageEffectShockwave : MonoBehaviour
     public void Shock(Vector3 origin)
     {
         this.origin = origin;
+        LeanTween.value(0, 1, 1f).setOnUpdate(value => progress = value).setEaseOutQuint().setOnComplete(() => progress = 0);
+        /*
         Animator animator = GetComponent<Animator>();
         if (animator != null)
         {
             animator.Play("Shockwave");
         }
+        */
+    }
+
+    public void ShockEnemy(Vector3 origin)
+    {
+        this.origin_enemy = origin;
+        LeanTween.value(0, 1, 1f).setOnUpdate(value => progressEnemy = value).setEaseOutQuint();
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -72,8 +85,9 @@ public class ImageEffectShockwave : MonoBehaviour
         if (currentShader != null)
         {
             material.SetVector("_Origin", origin);
+            material.SetVector("_OriginEnemy", origin_enemy);
             material.SetFloat("_Progress", progress);
-			material.SetFloat("_Actionness", actionness);
+            material.SetFloat("_ProgressEnemy", progressEnemy);
             //Matrix4x4 viewProjInverse = (cam.projectionMatrix * cam.worldToCameraMatrix).inverse;
             Matrix4x4 viewProjInverse = cam.cameraToWorldMatrix;
             material.SetMatrix("_ViewProjectInverse", viewProjInverse);

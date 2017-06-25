@@ -1,14 +1,14 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Hidden/Shockwave"
 {
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_Origin("Origin", Vector) = (0,0,0)
+		_OriginEnemy("OriginEnemy", Vector) = (0,0,0)
 		_Progress("Progress", Float) = 0
+		_ProgressEnemy("ProgressEnemy", Float) = 0
 	}
 	SubShader
 	{
@@ -52,7 +52,9 @@ Shader "Hidden/Shockwave"
 			sampler2D _MainTex;
 			uniform sampler2D _CameraDepthTexture;
 			half _Progress;
+			half _ProgressEnemy;
 			float4 _Origin;
+			float4 _OriginEnemy;
 			float4x4 _ViewProjectInverse;
 			float _Actionness;
 
@@ -115,13 +117,22 @@ Shader "Hidden/Shockwave"
 
 				// shockwave
 				float dist = distance(wpos, _Origin);
+				float distEnemy = distance(wpos, _OriginEnemy);
 
 				fixed4 c = tex2D(_MainTex, i.uv);
 
-				float progress = _Progress * 10;
+				
+				//c += fixed4(1 / dist, 1 / dist, 1/dist, 1.0);
+				float progress = _Progress + 1;
 
-				if (dist < _Progress * 8 && dist > _Progress*_Progress * 20) {
+				if (dist < progress && dist > progress*progress * 0.5) {
 					c = fixed4(1.0,1.0,1.0,1.0);
+				}
+
+				progress = _ProgressEnemy + 1;
+
+				if (distEnemy < progress && distEnemy > progress*progress * 0.5) {
+					c = 1 - c;
 				}
 
 				/*float3 hsv = RGBtoHSV(c.xyz);
