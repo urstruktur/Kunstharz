@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 2e92971acef88d44ca4aaee09efa389e, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d99ff59346d71844c861db6092436763, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1540,6 +1540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66426645e0a5b4049a5163f26c5bc86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCamera: {fileID: 0}
   p1ScoreText: {fileID: 540754256}
   p2ScoreText: {fileID: 579747298}
   generalScore: {fileID: 28435659}
@@ -2208,8 +2209,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentShader: {fileID: 4800000, guid: dda924d974278de41bae07ff8f49078b, type: 3}
   origin: {x: 0, y: 0, z: 0}
+  origin_enemy: {x: 0, y: 0, z: 0}
   actionnessTransitionTime: 0.5
   progress: 0
+  progressEnemy: 0
 --- !u!114 &1457889488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3221,6 +3224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gui: {fileID: 825289850}
   crosshair: {fileID: 301737236}
+  shotParticles: {fileID: 0}
 --- !u!1 &2108878926
 GameObject:
   m_ObjectHideFlags: 0

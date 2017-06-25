@@ -77,18 +77,18 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AmbientColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - _BackBottomColor: {r: 0.90588236, g: 0, b: 1, a: 1}
-    - _BackTopColor: {r: 0.90588236, g: 0, b: 1, a: 1}
-    - _BottomColor: {r: 0.90588236, g: 0, b: 1, a: 1}
+    - _BackBottomColor: {r: 0.04368512, g: 0.22308868, b: 0.74264705, a: 1}
+    - _BackTopColor: {r: 0.04368512, g: 0.22308868, b: 0.74264705, a: 1}
+    - _BottomColor: {r: 0.039215688, g: 0.18431373, b: 0.59607846, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FrontBottomColor: {r: 0.6862745, g: 0, b: 0.75686276, a: 1}
-    - _FrontTopColor: {r: 0.6862745, g: 0, b: 0.75686276, a: 1}
-    - _LeftBottomColor: {r: 0.68607265, g: 0, b: 0.75735295, a: 1}
-    - _LeftTopColor: {r: 0.68607265, g: 0, b: 0.75735295, a: 1}
+    - _FrontBottomColor: {r: 0.15100564, g: 0.21986148, b: 0.97794116, a: 1}
+    - _FrontTopColor: {r: 0.15100564, g: 0.21986148, b: 0.97794116, a: 1}
+    - _LeftBottomColor: {r: 0.1395209, g: 0.07255624, b: 0.89705884, a: 1}
+    - _LeftTopColor: {r: 0.1395209, g: 0.07255624, b: 0.89705884, a: 1}
     - _LightTint: {r: 1, g: 1, b: 1, a: 0}
     - _LightmapColor: {r: 1, g: 1, b: 1, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _RightBottomColor: {r: 0.6862745, g: 0, b: 0.75686276, a: 1}
-    - _RightTopColor: {r: 0.6862745, g: 0, b: 0.75686276, a: 1}
-    - _TopColor: {r: 0.6862745, g: 0, b: 0.75686276, a: 1}
+    - _RightBottomColor: {r: 0.039215688, g: 0.16862746, b: 0.5294118, a: 1}
+    - _RightTopColor: {r: 0.039215688, g: 0.16862746, b: 0.5294118, a: 1}
+    - _TopColor: {r: 0.16717128, g: 0.09558821, b: 1, a: 1}
