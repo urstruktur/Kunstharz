@@ -243,7 +243,7 @@ namespace Kunstharz
 		private Vector3 Middle(Player player) {
 			var bottom = player.transform.position;
 			var halfHeight = 0.5f * player.GetComponent<BoxCollider> ().size.y;
-			var middle = bottom + new Vector3(0.0f, halfHeight, 0.0f);
+			var middle = bottom + player.transform.up * halfHeight;
 			return middle;
 		}
 
