@@ -125,7 +125,7 @@ namespace Kunstharz
                     // spawn particlesystem
                     if (!player.isLocalPlayer)
                     {
-                        spawnShotVis(player, direction);
+                        RpcSpawnShotVis(player.transform.position, player.transform.up, direction);
                     }
                 }
 			} else {
@@ -135,7 +135,7 @@ namespace Kunstharz
                     // spawn particlesystem
                     if (!player.isLocalPlayer)
                     {
-                        spawnShotVis(player, direction);
+                        RpcSpawnShotVis(player.transform.position, player.transform.up, direction);
                     }
                 } else {
 					player.RpcVisualizeMotionMissed();
@@ -143,13 +143,14 @@ namespace Kunstharz
 			}
 		}
 
-        private void spawnShotVis(Player player, Vector3 direction)
+		[ClientRpc]
+        private void RpcSpawnShotVis(Vector3 playerPos, Vector3 playerUp, Vector3 direction)
         {
             // spawn particlesystem
             try
             {
                 GameObject particles = Instantiate(FindObjectOfType<Game>().shotParticles);
-                particles.transform.position = player.transform.position + player.transform.up/2;
+                particles.transform.position = playerPos + playerUp/2;
                 particles.transform.rotation = Quaternion.LookRotation(direction);
                 Destroy(particles, 5);
             }
