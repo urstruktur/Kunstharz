@@ -240,33 +240,34 @@ namespace Kunstharz
 			StartCoroutine("CheckTimeouts");
 		}
 
-		private Vector3 Middle(Player player) {
-			var bottom = player.transform.position;
-			var halfHeight = 0.5f * player.GetComponent<BoxCollider> ().size.y;
-			var middle = bottom + player.transform.up * halfHeight;
-			return middle;
-		}
-
 		private bool LineOfSightExists() {
 			Player p1 = ctx.localPlayer;
 			Player p2 = ctx.remotePlayer;
 
-			Vector3 p1Pos = p1.transform.TransformPoint(camLocalPosition);
-			Vector3 p2Pos = Middle(p2);//p2.transform.TransformPoint(camLocalPosition);
+			const int raycastCount = 5;
 
-			Debug.DrawLine(p1Pos, p2Pos, Color.green, 10.0f);
+			Vector3 shooterPos = p1.transform.TransformPoint(camLocalPosition);
+			var shooteeColl = p2.GetComponent<BoxCollider> ();
+			Vector3 shooteePosMin = shooteeColl.bounds.min;
+			Vector3 shooteePosMax = shooteeColl.bounds.max;
 
-			Vector3 dir = p2Pos - p1Pos;
-			Vector3 start = p1Pos;
-			RaycastHit hit;
+			for(int raycastIdx = 0; raycastIdx < raycastCount; ++raycastIdx) {
+				float alpha = raycastIdx / (raycastCount - 1);
+				Vector3 shooteePos = Vector3.Lerp(shooteePosMin, shooteePosMax, alpha);
 
-			if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
-				Debug.DrawRay (start, dir, Color.red);
-				return true;
-			} else {
-				Debug.DrawRay (start, dir, Color.blue);
-				return false;
+				Vector3 dir = shooteePos - shooterPos;
+				Vector3 start = shooterPos;
+				RaycastHit hit;
+
+				if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
+					Debug.DrawRay (start, dir, Color.red);
+					return true;
+				} else {
+					Debug.DrawRay (start, dir, Color.green);
+				}
 			}
+
+			return false;
 		}
 
 		private IEnumerator CheckTimeouts() {
