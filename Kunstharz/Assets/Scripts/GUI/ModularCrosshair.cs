@@ -24,8 +24,8 @@ public class ModularCrosshair : MonoBehaviour {
 			prepareTimer.GetComponent<Text>().color = CreateColor(201, 38, 38);
 			finishedTimer.GetComponent<Text>().color = CreateColor(201, 38, 38);
 		} else if (GameObject.Find("Level02_Geometry(Clone)") != null) {
-			prepareTimer.GetComponent<Text>().color = CreateColor(133, 66, 191);
-			finishedTimer.GetComponent<Text>().color = CreateColor(133, 66, 191);
+			prepareTimer.GetComponent<Text>().color = CreateColor(16, 57, 141);
+			finishedTimer.GetComponent<Text>().color = CreateColor(16, 57, 141);
 		} else if (GameObject.Find("Level03_Geometry(Clone)") != null) {
 			prepareTimer.GetComponent<Text>().color = CreateColor(255, 119, 45);
 			finishedTimer.GetComponent<Text>().color = CreateColor(255, 119, 45);
