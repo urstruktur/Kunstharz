@@ -260,10 +260,10 @@ namespace Kunstharz
 				RaycastHit hit;
 
 				if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
-					Debug.DrawRay (start, dir, Color.red);
+					Debug.DrawRay (start, dir, Color.red, 1.0f);
 					return true;
 				} else {
-					Debug.DrawRay (start, dir, Color.green);
+					Debug.DrawRay (start, dir, Color.green, 1.0f);
 				}
 			}
 
