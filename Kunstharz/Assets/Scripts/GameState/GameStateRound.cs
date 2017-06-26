@@ -125,7 +125,7 @@ namespace Kunstharz
                     // spawn particlesystem
                     if (!player.isLocalPlayer)
                     {
-                        spawnShotVis(player, direction);
+                        RpcSpawnShotVis(player.transform.position, player.transform.up, direction);
                     }
                 }
 			} else {
@@ -135,7 +135,7 @@ namespace Kunstharz
                     // spawn particlesystem
                     if (!player.isLocalPlayer)
                     {
-                        spawnShotVis(player, direction);
+                        RpcSpawnShotVis(player.transform.position, player.transform.up, direction);
                     }
                 } else {
 					player.RpcVisualizeMotionMissed();
@@ -143,13 +143,14 @@ namespace Kunstharz
 			}
 		}
 
-        private void spawnShotVis(Player player, Vector3 direction)
+		[ClientRpc]
+        private void RpcSpawnShotVis(Vector3 playerPos, Vector3 playerUp, Vector3 direction)
         {
             // spawn particlesystem
             try
             {
                 GameObject particles = Instantiate(FindObjectOfType<Game>().shotParticles);
-                particles.transform.position = player.transform.position + player.transform.up/2;
+                particles.transform.position = playerPos + playerUp/2;
                 particles.transform.rotation = Quaternion.LookRotation(direction);
                 Destroy(particles, 5);
             }
@@ -239,12 +240,21 @@ namespace Kunstharz
 			StartCoroutine("CheckTimeouts");
 		}
 
+		private Vector3 Middle(Player player) {
+			var bottom = player.transform.position;
+			var halfHeight = 0.5f * player.GetComponent<BoxCollider> ().size.y;
+			var middle = bottom + new Vector3(0.0f, halfHeight, 0.0f);
+			return middle;
+		}
+
 		private bool LineOfSightExists() {
 			Player p1 = ctx.localPlayer;
 			Player p2 = ctx.remotePlayer;
 
 			Vector3 p1Pos = p1.transform.TransformPoint(camLocalPosition);
-			Vector3 p2Pos = p2.transform.TransformPoint(camLocalPosition);
+			Vector3 p2Pos = Middle(p2);//p2.transform.TransformPoint(camLocalPosition);
+
+			Debug.DrawLine(p1Pos, p2Pos, Color.green, 10.0f);
 
 			Vector3 dir = p2Pos - p1Pos;
 			Vector3 start = p1Pos;

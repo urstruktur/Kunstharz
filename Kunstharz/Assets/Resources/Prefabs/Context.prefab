@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   essentialsPrefab: {fileID: 1590592623865912, guid: d03c2130d96706a4083e0579e44e8920,
     type: 2}
-  playerPrefab: {fileID: 1561821470740654, guid: 62ded4dfe9d20428cad22b929d49ec26,
+  playerPrefab: {fileID: 1697201150455112, guid: 6b001eee2c9884906bffced7c0366561,
     type: 2}
   levelPrefabs:
   - {fileID: 1747042753494940, guid: c871cc45f92696a42bdd7ba00f714b73, type: 2}
