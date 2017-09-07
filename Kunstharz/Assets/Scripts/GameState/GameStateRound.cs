@@ -92,7 +92,7 @@ namespace Kunstharz
 
 		public void Selected(GameContext ctx, Player player, Vector3 direction) {
 			Vector3 origin = player.transform.TransformPoint(camLocalPosition) + 0.1f*direction;
-			Debug.DrawRay(origin, direction*10, Color.magenta, 100.0f);
+			//Debug.DrawRay(origin, direction*10, Color.magenta, 100.0f);
 			RaycastHit hit;
 			if (Physics.Raycast (origin, direction, out hit)) {
 				if(player.state == PlayerState.SelectingMotion ||
@@ -243,15 +243,18 @@ namespace Kunstharz
 		private bool LineOfSightExists() {
 			Player p1 = ctx.localPlayer;
 			Player p2 = ctx.remotePlayer;
+			return LineOfSightExists(p1, p2) || LineOfSightExists(p2, p1);
+		}
 
-			const int raycastCount = 5;
+		private bool LineOfSightExists(Player p1, Player p2) {
+			const int raycastCount = 10;
 
 			Vector3 shooterPos = p1.transform.TransformPoint(camLocalPosition);
 			var shooteeColl = p2.GetComponent<BoxCollider> ();
 			Vector3 shooteePosMin = shooteeColl.bounds.min;
 			Vector3 shooteePosMax = shooteeColl.bounds.max;
 
-			for(int raycastIdx = 0; raycastIdx < raycastCount; ++raycastIdx) {
+			for(float raycastIdx = 0; raycastIdx < raycastCount; ++raycastIdx) {
 				float alpha = raycastIdx / (raycastCount - 1);
 				Vector3 shooteePos = Vector3.Lerp(shooteePosMin, shooteePosMax, alpha);
 
@@ -260,10 +263,10 @@ namespace Kunstharz
 				RaycastHit hit;
 
 				if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
-					Debug.DrawRay (start, dir, Color.red, 1.0f);
+					Debug.DrawRay (start, dir, Color.red, 10.0f);
 					return true;
 				} else {
-					Debug.DrawRay (start, dir, Color.green, 1.0f);
+					Debug.DrawRay (start, dir, Color.green, 10.0f);
 				}
 			}
 
@@ -326,7 +329,7 @@ namespace Kunstharz
 		}
 
 		private IEnumerator EndRoundAfterSomeTimeToEnsurePlayerIsSyncedToClient() {
-			yield return new WaitForSecondsRealtime(0.02f);
+			yield return new WaitForSecondsRealtime(0.05f);
 			if(ctx.localPlayer.wins >= roundsWinCount ||
 			   ctx.remotePlayer.wins >= roundsWinCount) {
 
