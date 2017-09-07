@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 public class VRInputModule : StandaloneInputModule {
  
     private Vector2 m_cursorPos;
+
+	private InputMode m_CurrentInputMode = InputMode.Buttons;
  
     // Hand this function your fake mouse position (in screen coords)
     public void UpdateCursorPosition( Vector2 a_pos )
@@ -79,5 +81,20 @@ public class VRInputModule : StandaloneInputModule {
  
         return m_MouseState;
     }
+
+	private bool SendSubmitEventToSelectedObject()
+        {
+
+            if (eventSystem.currentSelectedGameObject == null || m_CurrentInputMode != InputMode.Buttons)
+                return false;
+ 
+            var data = GetBaseEventData ();
+            if (Input.GetButtonDown ("Submit"))
+                ExecuteEvents.Execute (eventSystem.currentSelectedGameObject, data, ExecuteEvents.submitHandler);
+ 
+            if (Input.GetButtonDown ("Cancel"))
+                ExecuteEvents.Execute (eventSystem.currentSelectedGameObject, data, ExecuteEvents.cancelHandler);
+            return data.used;
+        }
  
 }
