@@ -873,7 +873,6 @@ GameObject:
   - component: {fileID: 114088794966288998}
   - component: {fileID: 114834205574110176}
   - component: {fileID: 114606557463433168}
-  - component: {fileID: 114405283748180024}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -1766,17 +1765,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114405283748180024
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1966932560935630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104795bff307c479ebe0eede6ed6d4c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114453098674639654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2703,7 +2691,6 @@ MonoBehaviour:
   origin: {x: 0, y: 0, z: 0}
   origin_enemy: {x: 0, y: 0, z: 0}
   actionnessTransitionTime: 0.5
-  inverted: 0
   progress: 0
   progressEnemy: 0
 --- !u!114 &114970470355939284
