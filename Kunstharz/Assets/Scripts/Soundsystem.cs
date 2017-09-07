@@ -94,6 +94,12 @@ namespace Kunstharz
             FMODUnity.RuntimeManager.PlayOneShot(startGame);
         }
 
+        public void playLineOfSight()
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(lineOfSight);
+        }
+
+
         // Update is called once per frame
         void Update () {
 		

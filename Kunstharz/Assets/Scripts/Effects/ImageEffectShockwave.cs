@@ -63,13 +63,20 @@ public class ImageEffectShockwave : MonoBehaviour
         }
     }
 
+    int tweenId;
     public void InvertImage()
     {
-        inverted = true; 
+        inverted = true;
+        LTDescr invertTween = LeanTween.value(0, 1, 0.5f).setOnUpdate(v => inverted = v < 0.1 ? false : true).setEaseInBounce();
+        tweenId = invertTween.id;
+        /*LeanTween.delayedCall(0.2f, () => inverted = false).setOnComplete(() => {
+            LeanTween.delayedCall(0.2f, () => inverted = true);
+        });*/
     }
 
     public void NormalizeImage()
     {
+        LeanTween.cancel(tweenId);
         inverted = false;
     }
 
