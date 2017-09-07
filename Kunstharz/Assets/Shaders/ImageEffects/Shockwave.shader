@@ -9,6 +9,7 @@ Shader "Hidden/Shockwave"
 		_OriginEnemy("OriginEnemy", Vector) = (0,0,0)
 		_Progress("Progress", Float) = 0
 		_ProgressEnemy("ProgressEnemy", Float) = 0
+		_Invert("Invert", Float) = 0
 	}
 	SubShader
 	{
@@ -57,6 +58,7 @@ Shader "Hidden/Shockwave"
 			float4 _OriginEnemy;
 			float4x4 _ViewProjectInverse;
 			float _Actionness;
+			float _Invert;
 
 			float3 Hue(float H)
 			{
@@ -135,6 +137,7 @@ Shader "Hidden/Shockwave"
 					c = 1 - c;
 				}
 
+				c = abs(_Invert - c);
 				/*float3 hsv = RGBtoHSV(c.xyz);
 				hsv.y = lerp(hsv.y * 0.75, hsv.y * 1.0, _Actionness);
 				c = float4(HSVtoRGB(hsv), 1.0);*/

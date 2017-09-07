@@ -96,7 +96,8 @@ namespace Kunstharz {
 		public void RpcVisualizeShotReady() {
 			if (isLocalPlayer) {
 				gui.ShowInstruction(Gui.InstructionType.Shoot, 0.5f, false);
-				crosshair.ShowShootCrosshair();
+                Camera.main.GetComponent<ImageEffectShockwave>().InvertImage();
+                crosshair.ShowShootCrosshair();
 			}
 		}
 
@@ -105,8 +106,9 @@ namespace Kunstharz {
 			if (isLocalPlayer) {
 				Camera.main.GetComponent<ImageEffectSuperformula>().Shoot();
 				crosshair.ShowShotFiredCrosshair();
-			}
+            }
 
+            Camera.main.GetComponent<ImageEffectShockwave>().NormalizeImage();
             Soundsystem ss = FindObjectOfType<Soundsystem>();
             if (ss != null)
             {

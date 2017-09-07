@@ -13,6 +13,8 @@ public class ImageEffectShockwave : MonoBehaviour
 
     public float actionnessTransitionTime = 0.5f;
 
+    public bool inverted = false;
+
     [Range(0.0f, 1.0f)]
     public float progress = 0f;
 
@@ -61,6 +63,16 @@ public class ImageEffectShockwave : MonoBehaviour
         }
     }
 
+    public void InvertImage()
+    {
+        inverted = true; 
+    }
+
+    public void NormalizeImage()
+    {
+        inverted = false;
+    }
+
     public void Shock(Vector3 origin)
     {
         this.origin = origin;
@@ -88,6 +100,12 @@ public class ImageEffectShockwave : MonoBehaviour
             material.SetVector("_OriginEnemy", origin_enemy);
             material.SetFloat("_Progress", progress);
             material.SetFloat("_ProgressEnemy", progressEnemy);
+
+            if (inverted)
+                material.SetFloat("_Invert", 1);
+            else
+                material.SetFloat("_Invert", 0);
+
             //Matrix4x4 viewProjInverse = (cam.projectionMatrix * cam.worldToCameraMatrix).inverse;
             Matrix4x4 viewProjInverse = cam.cameraToWorldMatrix;
             material.SetMatrix("_ViewProjectInverse", viewProjInverse);
