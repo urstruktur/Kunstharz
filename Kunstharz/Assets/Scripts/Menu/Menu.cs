@@ -51,8 +51,8 @@ public class Menu : MonoBehaviour {
 
 	void Start() {
 		blur = GameObject.Find("Blur");
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.visible = true;
 		bgCamera = GameObject.Find("Background Camera");
 		
 		SetMousePosition(new Vector2(cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.x/2, cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.y/2));
@@ -112,10 +112,6 @@ public class Menu : MonoBehaviour {
 			cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.y/2 * Input.GetAxis("Vertical"));
 		cursor.GetComponent<RectTransform>().anchoredPosition = new Vector2(position.x, position.y);
 		vrInputModule.UpdateCursorPosition(position);
-	}
-
-	public void HandlePointerEnterAndExit() {
-
 	}
 
 }
