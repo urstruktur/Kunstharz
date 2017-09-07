@@ -45,17 +45,11 @@ public class Menu : MonoBehaviour {
 
 	GameObject bgCamera;
 
-	public VRInputModule vrInputModule;
-
-	public GameObject cursor;
-
 	void Start() {
 		blur = GameObject.Find("Blur");
 		Cursor.lockState = CursorLockMode.Confined;
 		Cursor.visible = true;
 		bgCamera = GameObject.Find("Background Camera");
-		
-		SetMousePosition(new Vector2(cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.x/2, cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.y/2));
 	}
 
 	public void SetPlayerName(string gameName) {
@@ -65,7 +59,6 @@ public class Menu : MonoBehaviour {
 	void Update() {
 		TurnGameWorld ();
 		UpdateBeacon ();
-		SetMousePosition();
 	}
 
 	private void UpdateBeacon() {
@@ -97,21 +90,6 @@ public class Menu : MonoBehaviour {
 
 	private float mouseYN() {
 		return Input.mousePosition.y / (float) Screen.height * 2f - 1f;
-	}
-
-	private void SetMousePosition(Vector2 position) {
-		cursor.GetComponent<RectTransform>().anchoredPosition = new Vector2(position.x, position.y);
-		vrInputModule.UpdateCursorPosition(position);
-	}
-
-	private void SetMousePosition() {
-		Vector2 position = new Vector2(
-			cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.x/2 + 
-			cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.x/2 * Input.GetAxis("Horizontal"),
-			cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.y/2 +
-			cursor.gameObject.transform.parent.GetComponent<RectTransform>().rect.size.y/2 * Input.GetAxis("Vertical"));
-		cursor.GetComponent<RectTransform>().anchoredPosition = new Vector2(position.x, position.y);
-		vrInputModule.UpdateCursorPosition(position);
 	}
 
 }
