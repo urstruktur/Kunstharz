@@ -97,6 +97,13 @@ namespace Kunstharz {
 			if (isLocalPlayer) {
 				gui.ShowInstruction(Gui.InstructionType.Shoot, 0.5f, false);
                 Camera.main.GetComponent<ImageEffectShockwave>().InvertImage();
+
+                Soundsystem ss = FindObjectOfType<Soundsystem>();
+                if (ss != null)
+                {
+                    ss.playLineOfSight();
+                }
+
                 crosshair.ShowShootCrosshair();
 			}
 		}
