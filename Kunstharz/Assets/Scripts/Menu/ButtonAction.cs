@@ -36,6 +36,10 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 
 	public bool joinGame = false;
 
+	public bool resetInput = false;
+
+	public NameChanger nameChanger;
+
 	void Start() {
 		blur = GameObject.Find("Blur");
 		backgroundCamera = GameObject.Find("Background Camera");
@@ -96,6 +100,10 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 		if (joinGame) {
 			LevelSwitcherLogic lsw = levelSwitcherLogic.GetComponent<LevelSwitcherLogic>();
 			levelLoader.GetComponent<Kunstharz.LevelLoader>().JoinUgly(lsw.entries[lsw.selectedGameIdx].hostname);
+		}
+
+		if (resetInput) {
+			nameChanger.ResetNameChanger();
 		}
 	}
 

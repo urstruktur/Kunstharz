@@ -12,9 +12,10 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 	GameObject textChild;
 
 	string text = "";
+	int textLength;
 
 	bool pointerInside = false;
-
+	
 	void Start() {
 		blur = GameObject.Find("Blur");
 		effectCanvas = GameObject.Find("Effect Canvas");
@@ -22,6 +23,7 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 
 		if (textChild.transform.GetComponent<Text>() != null) {
 			text = textChild.transform.GetComponent<Text>().text;
+			textLength = textChild.transform.GetComponent<Text>().text.Length;
 		} else {
 			text = "";
 		}
@@ -29,10 +31,10 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 
 	void Update() {
 		if (textChild.transform.GetComponent<Text>() != null) {
-			if (text != textChild.transform.GetComponent<Text>().text) {
+			if (textLength != textChild.transform.GetComponent<Text>().text.Length && pointerInside) {
 				Debug.Log("Setting blur size");
-				text = textChild.transform.GetComponent<Text>().text;
-				SetBlurSize();
+				textLength = textChild.transform.GetComponent<Text>().text.Length;
+				SetBlurSize(false);
 			}
 		}
 	}
@@ -40,7 +42,7 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 	public void OnPointerEnter(PointerEventData eventData) {
 		pointerInside = true;
 		SetBlurPosition();
-		SetBlurSize();
+		SetBlurSize(true);
 		blur.GetComponent<RawImage>().enabled = true;
 	}
 
@@ -69,13 +71,18 @@ public class ButtonBlurBackground : MonoBehaviour, IPointerEnterHandler, IPointe
 
 	}
 
-	private void SetBlurSize() {
-		LeanTween.cancel(Menu.tweenBlurId);
+	private void SetBlurSize(bool enter) {
+
+		if (enter) {
+			LeanTween.cancel(Menu.tweenBlurId);
+		}
 
 		float width = GetContent().GetComponent<RectTransform>().rect.size.x + Menu.blurSpace;
 		float height = GetContent().GetComponent<RectTransform>().rect.size.y + Menu.blurSpace / 4.0f;
 
-		blur.GetComponent<RectTransform>().sizeDelta = new Vector2(0, height);
+		if (enter) {
+			blur.GetComponent<RectTransform>().sizeDelta = new Vector2(0, height);
+		}
 
 		Vector2 size = new Vector2(width, height);
 
