@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 
-	public enum Actions { MoveTo, Exit, None }
+	public enum Actions { MoveTo, Exit, None, CenterMouse }
 
 	public Actions action = Actions.MoveTo;
 
@@ -66,14 +66,16 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 
 			moveToMenu.SetActive (true);
 			transform.parent.gameObject.GetComponent<MenuRotate>().RotateOut();
-		}
-
-		if (action == Actions.Exit) {
+		} else if (action == Actions.Exit) {
 			Application.Quit();
 
 			#if UNITY_EDITOR
 			UnityEditor.EditorApplication.isPlaying = false;
 			#endif
+		} else if(action == Actions.CenterMouse) {
+			CursorLockMode oldMode = Cursor.lockState;
+			Cursor.lockState = CursorLockMode.Locked;
+			StartCoroutine(SetCursorLockModeNextFrame(oldMode));
 		}
 
 		if (enableFinder) {
@@ -105,6 +107,11 @@ public class ButtonAction : MonoBehaviour, IPointerClickHandler {
 		if (resetInput) {
 			nameChanger.ResetNameChanger();
 		}
+	}
+
+	private IEnumerator SetCursorLockModeNextFrame(CursorLockMode mode) {
+		yield return new WaitForEndOfFrame();
+		Cursor.lockState = mode;
 	}
 
 }
