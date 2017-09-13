@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Menu Text
   - Context
+  - PlayerCollider
   layers:
   - Default
   - TransparentFX

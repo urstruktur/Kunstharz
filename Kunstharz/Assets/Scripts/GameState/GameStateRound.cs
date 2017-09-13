@@ -106,9 +106,9 @@ namespace Kunstharz
 				}
 
 				if(player.state == PlayerState.SelectingShot) {
-					if (hit.collider.CompareTag ("Player")) {
+					if (hit.collider.CompareTag ("PlayerCollider")) {
 						// WIN
-						var other = hit.collider.GetComponent<Player> ();
+						var other = hit.collider.GetComponentInParent<Player> ();
 
 						player.RpcVisualizeShotHit();
 						player.state = PlayerState.Victorious;
@@ -250,23 +250,26 @@ namespace Kunstharz
 			const int raycastCount = 10;
 
 			Vector3 shooterPos = p1.transform.TransformPoint(camLocalPosition);
-			var shooteeColl = p2.GetComponent<BoxCollider> ();
-			Vector3 shooteePosMin = shooteeColl.bounds.min;
-			Vector3 shooteePosMax = shooteeColl.bounds.max;
+			var shooteeColliders = p2.GetComponentsInChildren<Collider> ();
 
-			for(float raycastIdx = 0; raycastIdx < raycastCount; ++raycastIdx) {
-				float alpha = raycastIdx / (raycastCount - 1);
-				Vector3 shooteePos = Vector3.Lerp(shooteePosMin, shooteePosMax, alpha);
+			foreach(var shooteeColl in shooteeColliders) {
+				Vector3 shooteePosMin = shooteeColl.bounds.min;
+				Vector3 shooteePosMax = shooteeColl.bounds.max;
 
-				Vector3 dir = shooteePos - shooterPos;
-				Vector3 start = shooterPos;
-				RaycastHit hit;
+				for(float raycastIdx = 0; raycastIdx < raycastCount; ++raycastIdx) {
+					float alpha = raycastIdx / (raycastCount - 1);
+					Vector3 shooteePos = Vector3.Lerp(shooteePosMin, shooteePosMax, alpha);
 
-				if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponent<Player> () == p2) {
-					Debug.DrawRay (start, dir, Color.red, 10.0f);
-					return true;
-				} else {
-					Debug.DrawRay (start, dir, Color.green, 10.0f);
+					Vector3 dir = shooteePos - shooterPos;
+					Vector3 start = shooterPos;
+					RaycastHit hit;
+
+					if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponentInParent<Player> () == p2) {
+						Debug.DrawRay (start, dir, Color.red, 10.0f);
+						return true;
+					} else {
+						Debug.DrawRay (start, dir, Color.green, 10.0f);
+					}
 				}
 			}
 
