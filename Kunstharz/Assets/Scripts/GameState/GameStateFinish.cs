@@ -37,7 +37,13 @@ namespace Kunstharz
 			bool p1Approved = ctx.localPlayer.approvesRematch;
 			bool p2Approved = ctx.remotePlayer.approvesRematch;
 
-			if(!(p1Approved && p2Approved)) {
+            Soundsystem ss = FindObjectOfType<Soundsystem>();
+            if (ss != null)
+            {
+                ss.StopAllSounds();
+            }
+
+            if (!(p1Approved && p2Approved)) {
 				print("loading menu");
 				NetworkManager.Shutdown();
 				SceneManager.LoadScene(0);

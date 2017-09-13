@@ -33,6 +33,8 @@ namespace Kunstharz
         [FMODUnity.EventRef]
         private string startGame = "event:/ui/startGame";
 
+        
+
         // Use this for initialization
         void Start () {
             eventEmitterRef = GetComponent<FMODUnity.StudioEventEmitter>();
@@ -71,6 +73,11 @@ namespace Kunstharz
                             break;
                 }
                 }
+        }
+
+        public void StopAllSounds()
+        {
+            FMODUnity.RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
         public void playShot(GameObject player)
