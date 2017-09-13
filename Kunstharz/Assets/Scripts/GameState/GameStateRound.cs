@@ -329,6 +329,7 @@ namespace Kunstharz
 		}
 
 		private IEnumerator EndRoundAfterSomeTimeToEnsurePlayerIsSyncedToClient() {
+			StopCoroutine("CheckTimeouts");
 			yield return new WaitForSecondsRealtime(0.05f);
 			if(ctx.localPlayer.wins >= roundsWinCount ||
 			   ctx.remotePlayer.wins >= roundsWinCount) {
