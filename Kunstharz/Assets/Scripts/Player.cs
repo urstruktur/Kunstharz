@@ -58,6 +58,7 @@ namespace Kunstharz {
 		[ClientRpc]
 		public void RpcVisualizeMotionSelectionReady() {
 			if (isLocalPlayer) {
+				Camera.main.GetComponent<ImageEffectShockwave>().NormalizeImage();
 				crosshair.ShowMoveCrosshair();
 				gui.ShowInstruction(Gui.InstructionType.Move, 0.5f, false);
 			}
