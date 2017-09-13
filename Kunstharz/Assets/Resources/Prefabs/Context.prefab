@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18d00a513f86475d8c205fb9e7cc121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rematchTimeout: 10
+  rematchTimeout: 5
 --- !u!114 &114734017817992300
 MonoBehaviour:
   m_ObjectHideFlags: 1
