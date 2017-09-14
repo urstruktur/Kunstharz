@@ -14,20 +14,27 @@ public class NameChanger : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 	public Menu menu;
 	public GameObject placeholder;
 
-	void Start () {
-	}
-
 	void ChangeLastLetter() {
-		if (originalText.Length > 0) {
-			gameObject.transform.GetChild(0).GetComponent<Text>().text = originalText + " + " + alphabet[currentAlphabetIndex];
-		} else {
-			gameObject.transform.GetChild(0).GetComponent<Text>().text = "" + alphabet[currentAlphabetIndex];
-		}
+		if (originalText.Length == 10) {
 
-		currentAlphabetIndex += 1;
-		if (currentAlphabetIndex == 26) {
-			currentAlphabetIndex = 0;
+			gameObject.transform.GetChild(0).GetComponent<Text>().text = originalText;
+
+		} else {
+
+			if (originalText.Length > 0) {
+				gameObject.transform.GetChild(0).GetComponent<Text>().text = originalText + " + " + alphabet[currentAlphabetIndex];
+			} else {
+				gameObject.transform.GetChild(0).GetComponent<Text>().text = "" + alphabet[currentAlphabetIndex];
+			}
+
+			currentAlphabetIndex += 1;
+
+			if (currentAlphabetIndex == 26) {
+				currentAlphabetIndex = 0;
+			}
+
 		}
+		
 	}
 
     public void OnPointerClick(PointerEventData eventData) {
@@ -36,7 +43,10 @@ public class NameChanger : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 			placeholder.SetActive(true);
 			InvokeRepeating("ChangeLastLetter", 0f, 0.1f);
 		} else {
-			originalText += alphabet[currentAlphabetIndex];
+
+			if (originalText.Length <= 9) {
+				originalText += alphabet[currentAlphabetIndex];
+			}
 
 			if (originalText=="SSS") {
 				originalText = "ARNOLD SCHWARZENEGGER";
@@ -74,4 +84,5 @@ public class NameChanger : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 			placeholder.SetActive(true);
 		}
     }
+
 }
