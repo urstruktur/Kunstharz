@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 /// <summary>
 /// Responsible for preparing a level to be played.
-/// </summary> 
+/// </summary>
 
 namespace Kunstharz {
 	public class LevelLoader : MonoBehaviour {
@@ -18,7 +18,7 @@ namespace Kunstharz {
 		public string[] levelSceneNames;
 
 		private bool canLoad = true;
-        
+
 	    /// <summary>
 	    /// Parameter being the level geometry to be prepared for playing.
 	    /// </summary>
@@ -49,7 +49,7 @@ namespace Kunstharz {
 	        {
 	            spawnLocation = parent.transform.GetChild(0).gameObject;
             }
-	        
+
 	        if (spawnLocation != null)
 	        {
 	            // tweens camera to spawnLocation
@@ -71,25 +71,38 @@ namespace Kunstharz {
 			StartUgly();
 		}
 
+		void ResetNetwork() {
+			if(NetworkManager.singleton.isNetworkActive) {
+				NetworkManager.singleton.StopClient();
+				NetworkManager.singleton.StopServer();
+			}
+		}
+
 		public void StartUgly() {
             /*LoadLevel(testLevelGeometry);
             LeanTween.delayedCall(3f, () => {*/
 
-                if (canLoad && !NetworkManager.singleton.isNetworkActive) {
-                    canLoad = false;
-					NetworkControl control = (NetworkControl) NetworkManager.singleton;
-					//control.onlineScene = levelSceneName;
-					control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
-					control.maxConnections = 2;
-					control.StartHost();
-            		//DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
-                }
+			ResetNetwork();
+
+			if (canLoad) {
+				canLoad = false;
+				NetworkControl control = (NetworkControl) NetworkManager.singleton;
+				//control.onlineScene = levelSceneName;
+				control.networkPort = Kunstharz.NetworkSpecs.GAME_HOST_PORT;
+				control.maxConnections = 2;
+				control.StartHost();
+
+				print("Started host");
+				//DontDestroyOnLoad(GameObject.Find("NetworkDiscovery"));
+			}
 
             //});
 		}
 
 		public void JoinUgly(string hostname) {
-			if (canLoad && !NetworkManager.singleton.isNetworkActive) {
+			ResetNetwork();
+
+			if (canLoad) {
 				canLoad = false;
 				print ("Connecting with " + hostname);
 				NetworkManager.singleton.networkAddress = hostname;
