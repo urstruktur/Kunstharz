@@ -11,6 +11,7 @@ namespace Kunstharz {
 
 		public Vector2 sensitivity = new Vector2(3, 3);
 		public Vector2 smoothing = new Vector2(2, 2);
+		public float topDownAngleRange = 180;
 
 		private float leftRightAngle = 0;
 		private float topDownAngle = 0;
@@ -61,7 +62,9 @@ namespace Kunstharz {
 			mouseAbsolute.x += smoothMouse.x;
 			mouseAbsolute.y -= smoothMouse.y;
 
-			mouseAbsolute.y = Mathf.Clamp (mouseAbsolute.y, -80.0f, 80.0f);
+			if(topDownAngleRange < 180) {
+				mouseAbsolute.y = Mathf.Clamp (mouseAbsolute.y, -topDownAngleRange, topDownAngleRange);
+			}
 
 			Quaternion leftRightRotation = Quaternion.AngleAxis (mouseAbsolute.x, Vector3.up);
 			Quaternion topDownRotation = Quaternion.AngleAxis (mouseAbsolute.y, Vector3.right);

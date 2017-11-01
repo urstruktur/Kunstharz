@@ -2626,6 +2626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivity: {x: 4, y: 4}
   smoothing: {x: 2, y: 2}
+  topDownAngleRange: 180
 --- !u!114 &114951606277886962
 MonoBehaviour:
   m_ObjectHideFlags: 1
