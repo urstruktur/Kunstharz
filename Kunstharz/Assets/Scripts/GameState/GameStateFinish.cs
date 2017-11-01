@@ -10,19 +10,25 @@ namespace Kunstharz
 	{
 		public const int IDX = 3;
 
+		public float minimumFinishGuiShowTime = 3.0f;
+
 		public float rematchTimeout = 10.0f;
 
 		private GameContext ctx;
+
+		private float enterTime;
 
 		bool IsStateActive() {
 			return ctx.currentStateIdx == IDX;
 		}
 
 		public void Enter(GameContext ctx) {
+
 			print("Enter finish");
 			this.ctx = ctx;
 
 			if(isServer) {
+				enterTime = Time.time;
 				ctx.localPlayer.approvesRematch = false;
 				ctx.remotePlayer.approvesRematch = false;
 			}
@@ -65,14 +71,23 @@ namespace Kunstharz
 			bool p1Approved = ctx.localPlayer.approvesRematch;
 			bool p2Approved = ctx.remotePlayer.approvesRematch;
 
-			if(p1Approved && p2Approved) {
-				ctx.currentStateIdx = GameStateKickoff.IDX;
+			if (p1Approved && p2Approved) {
+				StartCoroutine(StartRematch());
 			}
         }
 
-		private void ShowFinishUI() {
-			int roundsWinCount = GameContext.instance.GetComponent<GameStateRound>().roundsWinCount;
+		private IEnumerator StartRematch() {
+			float showTime = Time.time - enterTime;
 
+			// Ensure win and lose text are shown for a little bit so both players understood who won
+			if (showTime < minimumFinishGuiShowTime) {
+				yield return new WaitForSeconds(minimumFinishGuiShowTime - showTime);
+			}
+
+			ctx.currentStateIdx = GameStateKickoff.IDX;
+		}
+
+		private void ShowFinishUI() {
 			var crosshair = GameObject.Find("Crosshair").GetComponent<ModularCrosshair>();
 			var gui = GameObject.Find ("GUI").GetComponent<Gui> ();
 
@@ -82,8 +97,6 @@ namespace Kunstharz
 			} else if (ctx.localPlayer.state == PlayerState.Dead) {
 				gui.ShowInstruction(Gui.InstructionType.Lose, GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout, true);
 				crosshair.ShowFinishedTimer(GameContext.instance.GetComponent<GameStateFinish>().rematchTimeout);
-			} else {
-				Debug.LogError("In finish state but wins < roundWinCount? What is this?");
 			}
 		}
 
