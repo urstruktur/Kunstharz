@@ -20,6 +20,8 @@ namespace Kunstharz
 		public bool generousTimeoutAtGameStart = true;
 
 		public bool generousTimeoutAtRoundStart = false;
+		public int visibilityCheckRaycastCount = 20;
+		public int visibilityCheckMinimumRaycastHitsNecessary = 5;
 
 		/// <summary>
 		/// Time in seconds of inactivity after entering a selection state
@@ -247,17 +249,17 @@ namespace Kunstharz
 		}
 
 		private bool LineOfSightExists(Player p1, Player p2) {
-			const int raycastCount = 10;
 
 			Vector3 shooterPos = p1.transform.TransformPoint(camLocalPosition);
 			var shooteeColliders = p2.GetComponentsInChildren<Collider> ();
+			int hits = 0;
 
 			foreach(var shooteeColl in shooteeColliders) {
 				Vector3 shooteePosMin = shooteeColl.bounds.min;
 				Vector3 shooteePosMax = shooteeColl.bounds.max;
 
-				for(float raycastIdx = 0; raycastIdx < raycastCount; ++raycastIdx) {
-					float alpha = raycastIdx / (raycastCount - 1);
+				for(int raycastIdx = 0; raycastIdx < visibilityCheckRaycastCount; ++raycastIdx) {
+					float alpha = raycastIdx / (visibilityCheckRaycastCount - 1.0f);
 					Vector3 shooteePos = Vector3.Lerp(shooteePosMin, shooteePosMax, alpha);
 
 					Vector3 dir = shooteePos - shooterPos;
@@ -266,7 +268,11 @@ namespace Kunstharz
 
 					if (Physics.Raycast (start, dir, out hit, dir.magnitude) && hit.collider.GetComponentInParent<Player> () == p2) {
 						Debug.DrawRay (start, dir, Color.red, 10.0f);
-						return true;
+						
+						++hits;
+						if (hits == visibilityCheckMinimumRaycastHitsNecessary) {
+							return true;
+						}
 					} else {
 						Debug.DrawRay (start, dir, Color.green, 10.0f);
 					}
