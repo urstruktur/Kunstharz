@@ -45,7 +45,8 @@ Shader "Hidden/Shockwave"
 				//UNITY_TRANSFER_DEPTH(o.depth);
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv.xy = ComputeScreenPos(o.vertex);
+				o.uv.xy= ComputeScreenPos(o.vertex);
+				o.uv.zw = float2(0.0, 0.0);
 
 				return o;
 			}
