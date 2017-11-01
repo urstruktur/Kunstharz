@@ -1,6 +1,6 @@
 using UnityEngine;
-using InControl;
+//using InControl;
 
-public class MouseController : InputDevice {
+public class MouseController /*: InputDevice*/ {
     
 }

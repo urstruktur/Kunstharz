@@ -1,6 +1,6 @@
 using UnityEngine;
-using InControl;
+//using InControl;
 
-public class GamePadController : InputDevice {
+public class GamePadController/* : InputDevice*/ {
     
 }

@@ -1,5 +1,5 @@
 using UnityEngine;
-using InControl;
+//using InControl;
 
 namespace Kunstharz {
 	public class InControlTestScript : MonoBehaviour {
@@ -9,7 +9,7 @@ namespace Kunstharz {
         }
 
         void Update() {
-
+            /*
             // get active device
             InputDevice device = InputManager.ActiveDevice; 
             
@@ -25,6 +25,7 @@ namespace Kunstharz {
             InputManager.OnDeviceAttached += inputDevice => Debug.Log( "Attached: " + inputDevice.Name );
             InputManager.OnDeviceDetached += inputDevice => Debug.Log( "Detached: " + inputDevice.Name );
             InputManager.OnActiveDeviceChanged += inputDevice => Debug.Log( "Switched: " + inputDevice.Name );
+            */
         }
 
     }
