@@ -61,6 +61,8 @@ MonoBehaviour:
   timeoutEnabled: 1
   generousTimeoutAtGameStart: 1
   generousTimeoutAtRoundStart: 0
+  visibilityCheckRaycastCount: 20
+  visibilityCheckMinimumRaycastHitsNecessary: 5
   standardTimeout: 7
   generousTimeout: 12
   synchronizedMotion: 1
@@ -98,7 +100,7 @@ MonoBehaviour:
   - {fileID: 1747042753494940, guid: c871cc45f92696a42bdd7ba00f714b73, type: 2}
   - {fileID: 1958421361866840, guid: 80581985da6e5a849b77c7650099b1d1, type: 2}
   - {fileID: 1749707237715474, guid: 8e535a1e2dc09a1458c1cc9d903d9235, type: 2}
-  - {fileID: 1899998264948226, guid: 681e8089992315c4b9c8da99ac6cd4df, type: 2}
+  - {fileID: 1053577588733448, guid: b82d333e3a1a36140b813ec559fa96f3, type: 2}
   - {fileID: 1053577588733448, guid: b82d333e3a1a36140b813ec559fa96f3, type: 2}
 --- !u!114 &114549164083938434
 MonoBehaviour:
@@ -123,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18d00a513f86475d8c205fb9e7cc121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minimumFinishGuiShowTime: 3
   rematchTimeout: 5
 --- !u!114 &114734017817992300
 MonoBehaviour:
